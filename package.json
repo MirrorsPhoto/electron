@@ -2,10 +2,13 @@
   "name": "electron-mirrors-photo-app",
   "version": "0.0.1",
   "main": "main.js",
+  "productName": "Mirror's Photo App",
   "scripts": {
-    "start": "./node_modules/.bin/electron ."
+    "start": "./node_modules/.bin/electron .",
+    "build": "electron-packager . --overwrite --platform=darwin --arch=x64 --app-version=$npm_package_version --out=build --ignore=build --prune"
   },
   "dependencies": {
+    "electron-packager": "^8.7.2",
     "electron-prebuilt": "^1.4.13"
   }
 }

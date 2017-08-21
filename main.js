@@ -16,7 +16,7 @@ app.on('ready', function() {
     });
 
     // и загружаем файл index.html нашего веб приложения.
-    mainWindow.loadURL('file://' + __dirname + '/index.html');
+    mainWindow.loadURL('file://' + __dirname + '/app/index.html');
 
 
     // Этот метод будет выполнен когда генерируется событие закрытия окна.

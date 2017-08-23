@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form>
+        <form action="">
             <img src="../../assets/logo.svg"/>
             <field
                 placeholder="Логин"

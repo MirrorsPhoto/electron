@@ -50,7 +50,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../configs/styles_config.sass"
+@import "../../../styles_config.sass"
 div
   position: relative
   height: 40px
@@ -59,7 +59,7 @@ div
 input
   border: none
   box-shadow: none
-  border-bottom: 1px solid $medium
+  border-bottom: 1px solid #fff
   outline: none
   width: 100%
   background: transparent
@@ -71,14 +71,14 @@ input
     padding: 17px 0 6px
     border-bottom: 2px solid $primary-color
   &:disabled
-    color: $hard
+    color: #fff
     & + label
       opacity: .5
       cursor: default
 label
   top: 16px
   line-height: 16px
-  color: $hard
+  color: #fff
   position: absolute
   left: 0
   cursor: text

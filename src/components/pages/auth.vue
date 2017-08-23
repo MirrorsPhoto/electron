@@ -35,5 +35,11 @@
 <style lang="sass">
     div 
         background: url(../../assets/bg.jpg)
-        
+        display: flex
+        align-items: center
+
+    form 
+        width: 300px
+        padding: 30px
+
 </style>

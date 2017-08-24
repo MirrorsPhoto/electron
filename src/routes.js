@@ -1,8 +1,14 @@
 import Auth from './components/pages/auth.vue'
+import Index from './components/pages/index.vue'
 
 export const routes = [
     {
-        path: '/',
+        path: '/login',
         component: Auth
+    },
+    {
+        path: '/',
+        component: Index,
+        meta: { private: true }
     }
 ]

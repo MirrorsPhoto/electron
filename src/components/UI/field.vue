@@ -8,6 +8,7 @@
     :type="type"
     :value="value || ''"
     @input="$emit('input', $event.target.value)"
+    autocomplete="off"
   >
 
   <label
@@ -41,6 +42,10 @@ export default {
     value: {
       type: [Number, String],
       default: ''
+    },
+    autofocus: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -51,15 +56,17 @@ export default {
 
 <style lang="sass" scoped>
 @import "../../styles_config.sass"
+
 div
   position: relative
   height: 40px
   line-height: 40px
   display: inline-block
+
 input
   border: none
   box-shadow: none
-  border-bottom: 1px solid #fff
+  border-bottom: 1px solid $medium
   outline: none
   width: 100%
   background: transparent
@@ -67,27 +74,33 @@ input
   height: 40px
   transition: all .3s ease
   text-overflow: ellipsis
+
   &:focus
     padding: 17px 0 6px
     border-bottom: 2px solid $primary-color
+
   &:disabled
-    color: #fff
+    color: $hard
     & + label
       opacity: .5
       cursor: default
+
 label
   top: 16px
   line-height: 16px
-  color: #fff
+  color: $hard
   position: absolute
   left: 0
   cursor: text
   transition: .2s ease-out
+
 input:focus + label
   color: $primary-color
+
 input:focus + label, .active
-  font-size: 11px
+  font-size: .8em
   position: absolute
   top: -2px
   cursor: text
+
 </style>

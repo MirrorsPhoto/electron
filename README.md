@@ -1,30 +1,45 @@
-# mirrors
+# np-online
 
-> A Vue.js project
+Клиентская сторона приложения построена на основе компонентной модели.  
+Фреймворк - [Vue.js](https://ru.vuejs.org) v2.2.6.  
+Среда разработки - [vue-webpack-boilerplate](https://github.com/vuejs-templates/webpack).
 
-## Build Setup
+# Начало работы
 
 ``` bash
-# install dependencies
+# Установка зависимостей
 npm install
+# или
+yarn
 
-# serve with hot reload at localhost:8080
+# Сборка для разработки с hot-reload
 npm run dev
+# или
+yarn dev
 
-# build for production with minification
+# Сборка для продакшена с минификацией
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+# или
+yarn build
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# Структура проекта
+
+``` bash
+├── build/                      # Настройки Webpack для dev и prod сборок
+├── config/                     # Настройки проекта для Webpack
+├── src/
+│   ├── assets/                 # Статика (img/, fonts/, css/)
+│   ├── components/             # Компоненты .vue
+│   │   ├── pages/              # Компоненты-страницы для роутера
+│   │   └── UI/                 # Независимые UI-элементы
+│   ├── plugins/                # Плагины
+│   ├── App.vue                 # Главный компонент
+│   ├── main.js                 # Точка входа в приложение
+│   └── routes.js               # Маршруты для роутера
+├── static/                     # Статические файлы вне сборки Webpack (папка будет скопирована на продакшен)
+├── .babelrc                    # Настройка Babel
+├── index.html                  # index.html (сюда будет вставлен весь код при продакшен-сборке)
+├── package.json                # Зависимости и скрипты для сборок
+└── yarn.lock                   # Добавочный файл Yarn
+```

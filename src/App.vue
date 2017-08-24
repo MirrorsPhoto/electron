@@ -1,21 +1,14 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.svg">
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
-<script>
-export default {
-  name: 'app'
-}
-</script>
-
-<style>
-#app {
-  font-family: Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #333;
-}
+<style lang="sass">
+* 
+  font-family: Helvetica, Arial, sans-serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  color: #333
+  margin: 0
+  padding: 0
+  box-sizing: border-box
 </style>

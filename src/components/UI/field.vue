@@ -50,7 +50,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../../styles_config.sass"
+@import "../../styles_config.sass"
 div
   position: relative
   height: 40px

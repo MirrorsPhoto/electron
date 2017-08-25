@@ -43,7 +43,14 @@
         },
         computed: {
             isValid() {
-                return !!this.user.login && !!this.user.password;
+                if (!this.user.login || !this.user.password) {
+                    this.error = true;
+                    this.errorText = 'Заполните все поля формы';
+
+                    return false
+                }
+
+                return true;
             }
         },
         methods: {
@@ -67,10 +74,6 @@
                         }
                     });
 
-                }
-                else {
-                    this.error = true;
-                    this.errorText = 'Заполните все поля формы';
                 }
             }
         },

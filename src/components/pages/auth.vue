@@ -92,16 +92,16 @@
 
 form 
     width: 350px
-    padding: 70px 50px
+    padding: 50px 50px 70px
     position: relative
     color: #fff
     background: #fff
     box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
 
     & img 
-        width: 180px
+        width: 350px
         display: block
-        margin: 0 auto 10px
+        margin: 0 -50px
 
     & div
         margin-top: 25px

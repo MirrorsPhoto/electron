@@ -42,19 +42,10 @@
             }
         },
         methods: {
-            validate() {
-                if (!this.user.login || !this.user.password) {
-                    this.error = true;
-                    this.errorText = 'Заполните все поля формы';
-                    return false;
-                }
-                return true;
-            },
             auth() {
-                const isValid = this.validate();
-                if (isValid) {
-                    const { login, password } = this.user;
+                const { login, password } = this.user;
 
+                if (login && password) {
                     this.ajax({
                         url: 'login',
                         method: 'post',
@@ -70,8 +61,12 @@
                             this.errorText = message;
                         }
                     });
-
                 }
+                else {
+                    this.error = true;
+                    this.errorText = 'Заполните все поля формы';
+                }
+
             }
         },
         components: {

@@ -79,7 +79,7 @@
         },
         beforeRouteEnter(to, from, next) {
             const token = localStorage.getItem('token');
-            (token) ? next({ path: '/' }) : next()
+            (token) ? next({ path: '/' }) : next();
         }
     }
 </script>

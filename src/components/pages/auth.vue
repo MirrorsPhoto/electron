@@ -83,7 +83,7 @@
 @import '../../styles_config.sass'
 
 .bg
-    background: url(../../assets/bg.jpg) center center no-repeat
+    background: url(../../assets/DSC_6015.jpg) center center no-repeat
     background-size: cover
     height: 100vh
     display: flex

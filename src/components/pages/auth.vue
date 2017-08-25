@@ -1,5 +1,5 @@
 <template>
-    <div class="bg">
+    <div class="bg" ref="parallax" @mousemove="move($event)">
         <form :class="{ error }" action="" @submit.prevent="auth()">
             <img src="../../assets/logo.svg"/>
             <field
@@ -42,6 +42,18 @@
             }
         },
         methods: {
+             move(e) {
+                const
+                    movementStrength = 25,
+                    height = movementStrength / window.screen.height,
+                    width = movementStrength / window.screen.width,
+                    pageX = e.pageX - (window.screen.width / 2),
+                    pageY = e.pageY - (window.screen.height / 2),
+                    newvalueX = width * pageX * -1 - 25,
+                    newvalueY = height * pageY * -1 - 50;
+
+                this.$refs.parallax.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
+            },
             auth() {
                 const { login, password } = this.user;
 
@@ -83,8 +95,8 @@
 @import '../../styles_config.sass'
 
 .bg
-    background: url(../../assets/DSC_6015.jpg) center center no-repeat
-    background-size: cover
+    background: url(../../assets/DSC_6015.jpg) bottom center no-repeat
+    background-size: 110%
     height: 100vh
     display: flex
     align-items: center

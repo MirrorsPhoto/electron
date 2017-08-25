@@ -20,75 +20,75 @@
 </template>
 
 <script>
-    import field from '../UI/field.vue';
+import field from '../UI/field.vue';
 
-    export default {
-        data() {
-            return {
-                user: {
-                    login: '',
-                    password: ''
-                },
-                error: false,
-                errorText: ''
-            }
-        },
-        watch: {
+export default {
+    data() {
+        return {
             user: {
-                handler() {
-                    this.error = false;
-                },
-                deep: true
-            }
-        },
-        methods: {
-             move(e) {
-                const
-                    movementStrength = 25,
-                    height = movementStrength / window.screen.height,
-                    width = movementStrength / window.screen.width,
-                    pageX = e.pageX - (window.screen.width / 2),
-                    pageY = e.pageY - (window.screen.height / 2),
-                    newvalueX = width * pageX * -1 - 25,
-                    newvalueY = height * pageY * -1 - 50;
-
-                this.$refs.parallax.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
+                login: '',
+                password: ''
             },
-            auth() {
-                const { login, password } = this.user;
-
-                if (login && password) {
-                    this.ajax({
-                        url: 'login',
-                        method: 'post',
-                        data: { login, password },
-                        success: response => {
-                            const token = response.data.response.token;
-                            localStorage.setItem('token', token);
-                            this.$router.push('/');
-                        },
-                        error: error => {
-                            const message = JSON.parse(error.request.responseText).message;
-                            this.error = true;
-                            this.errorText = message;
-                        }
-                    });
-                }
-                else {
-                    this.error = true;
-                    this.errorText = 'Заполните все поля формы';
-                }
-
-            }
-        },
-        components: {
-            field
-        },
-        beforeRouteEnter(to, from, next) {
-            const token = localStorage.getItem('token');
-            (token) ? next({ path: '/' }) : next();
+            error: false,
+            errorText: ''
         }
+    },
+    watch: {
+        user: {
+            handler() {
+                this.error = false;
+            },
+            deep: true
+        }
+    },
+    methods: {
+            move(e) {
+            const
+                movementStrength = 25,
+                height = movementStrength / window.screen.height,
+                width = movementStrength / window.screen.width,
+                pageX = e.pageX - (window.screen.width / 2),
+                pageY = e.pageY - (window.screen.height / 2),
+                newvalueX = width * pageX * -1 - 25,
+                newvalueY = height * pageY * -1 - 50;
+
+            this.$refs.parallax.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
+        },
+        auth() {
+            const { login, password } = this.user;
+
+            if (login && password) {
+                this.ajax({
+                    url: 'login',
+                    method: 'post',
+                    data: { login, password },
+                    success: response => {
+                        const token = response.data.response.token;
+                        localStorage.setItem('token', token);
+                        this.$router.push('/');
+                    },
+                    error: error => {
+                        const message = JSON.parse(error.request.responseText).message;
+                        this.error = true;
+                        this.errorText = message;
+                    }
+                });
+            }
+            else {
+                this.error = true;
+                this.errorText = 'Заполните все поля формы';
+            }
+
+        }
+    },
+    components: {
+        field
+    },
+    beforeRouteEnter(to, from, next) {
+        const token = localStorage.getItem('token');
+        (token) ? next({ path: '/' }) : next();
     }
+}
 </script>
 
 <style lang="sass">

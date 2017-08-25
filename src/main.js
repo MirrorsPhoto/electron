@@ -16,20 +16,21 @@ import App from './App';
 import { routes } from './routes.js';
 
 const router = new VueRouter({
-  mode: 'history',
-  routes
+    mode: 'history',
+    routes
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.private)) {
-    const token = localStorage.getItem('token');
-    (!token) ? next({ path: '/login' }) : next();
-  } else next();
+    if (to.matched.some(record => record.meta.private)) {
+        const token = localStorage.getItem('token');
+        (!token) ? next({ path: '/login' }) : next();
+    }
+    else next();
 });
 
 new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: { App }
 });

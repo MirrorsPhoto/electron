@@ -6,10 +6,8 @@ export default {
             return res;
         },
         ajax(params) {
-            const baseUrl = 'http://jonkofee.ru/';
-
             this.$http[params.method](
-                baseUrl + params.url,
+                params.url,
                 this.serialize(params.data)
             )
             .then(response => params.success(response))

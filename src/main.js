@@ -4,7 +4,17 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import mixins from './mixins';
 
-Vue.use(VueAxios, axios);
+var instanceAxios = axios.create({
+    baseURL: 'http://jonkofee.ru',
+    onDownloadProgress: progressEvent => {
+        if (progressEvent.currentTarget.status === 401) {
+            localStorage.removeItem('token');
+            this.$router.push('/login');
+        }
+    }
+});
+
+Vue.use(VueAxios, instanceAxios);
 Vue.use(VueRouter);
 Vue.mixin(mixins);
 

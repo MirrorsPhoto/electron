@@ -41,21 +41,18 @@
                 deep: true
             }
         },
-        computed: {
+        methods: {
             validate() {
                 if (!this.user.login || !this.user.password) {
                     this.error = true;
                     this.errorText = 'Заполните все поля формы';
-
-                    return false
+                    return false;
                 }
-
                 return true;
-            }
-        },
-        methods: {
+            },
             auth() {
-                if (this.validate) {
+                const isValid = this.validate();
+                if (isValid) {
                     const { login, password } = this.user;
 
                     this.ajax({

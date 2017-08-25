@@ -42,7 +42,7 @@
             }
         },
         computed: {
-            isValid() {
+            validate() {
                 if (!this.user.login || !this.user.password) {
                     this.error = true;
                     this.errorText = 'Заполните все поля формы';
@@ -55,7 +55,7 @@
         },
         methods: {
             auth() {
-                if (this.isValid) {
+                if (this.validate) {
                     const { login, password } = this.user;
 
                     this.ajax({

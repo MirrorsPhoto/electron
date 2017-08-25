@@ -5,13 +5,7 @@ import VueAxios from 'vue-axios';
 import mixins from './mixins';
 
 var instanceAxios = axios.create({
-    baseURL: 'http://jonkofee.ru',
-    onDownloadProgress: progressEvent => {
-        if (progressEvent.currentTarget.status === 401) {
-            localStorage.removeItem('token');
-            this.$router.push('/login');
-        }
-    }
+    baseURL: 'http://jonkofee.ru'
 });
 
 Vue.use(VueAxios, instanceAxios);

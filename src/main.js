@@ -28,7 +28,28 @@ Vue.prototype.$http = Axios.create({
     }
 });
 
-new Vue({
+Vue.prototype.$http.interceptors.request.use(
+    response => {
+        const token = localStorage.getItem('token');
+        if (token) response.headers['Authorization'] = 'Bearer ' + token;
+        return response;
+    },
+    error => Promise.reject(error)
+);
+
+Vue.prototype.$http.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.request.status === 401) {
+            if (localStorage.getItem('token')) localStorage.removeItem('token');
+            vm.$router.push('/login');
+        }
+        console.log(error.request);
+        return Promise.reject(error);
+    }
+);
+
+const vm = new Vue({
     el: '#app',
     router,
     template: '<App/>',

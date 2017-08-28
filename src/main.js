@@ -44,7 +44,6 @@ Vue.prototype.$http.interceptors.response.use(
             if (localStorage.getItem('token')) localStorage.removeItem('token');
             vm.$router.push('/login');
         }
-        console.log(error.request);
         return Promise.reject(error);
     }
 );

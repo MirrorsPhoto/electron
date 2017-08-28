@@ -1,31 +1,31 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
-import mixins from './mixins';
+import Axios from 'axios';
 
-var instanceAxios = axios.create({
-    baseURL: 'http://jonkofee.ru'
-});
-
-Vue.use(VueAxios, instanceAxios);
-Vue.use(VueRouter);
-Vue.mixin(mixins);
+import routes from './routes';
 
 import App from './App';
-import { routes } from './routes.js';
 
-const router = new VueRouter({
-    mode: 'history',
-    routes
-});
 
+//  Vue-Router
+Vue.use(VueRouter);
+const router = new VueRouter({ routes });
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.private)) {
         const token = localStorage.getItem('token');
         (!token) ? next({ path: '/login' }) : next();
     }
     else next();
+});
+
+//  Axios
+Vue.prototype.$http = Axios.create({
+    baseURL: 'http://jonkofee.ru',
+    transformRequest: data => {
+        let res = '';
+        Object.keys(data).forEach(key => res += key + '=' + data[key] + '&');
+        return res;
+    }
 });
 
 new Vue({

@@ -20,12 +20,7 @@ router.beforeEach((to, from, next) => {
 
 //  Axios
 Vue.prototype.$http = Axios.create({
-    baseURL: 'http://jonkofee.ru',
-    transformRequest: data => {
-        let res = '';
-        Object.keys(data).forEach(key => res += key + '=' + data[key] + '&');
-        return res;
-    }
+    baseURL: 'http://mirrors.local'
 });
 
 Vue.prototype.$http.interceptors.request.use(

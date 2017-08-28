@@ -1,6 +1,6 @@
 <template>
     <div class="bg" ref="parallax" @mousemove="move($event)">
-        <form :class="{ error }" action="" @submit.prevent="auth()">
+        <form :class="{ error }" @submit.prevent="auth()">
             <img src="../../assets/logo.svg"/>
             <field
                 placeholder="Логин"
@@ -42,7 +42,7 @@ export default {
         }
     },
     methods: {
-            move(e) {
+        move(e) {
             const
                 movementStrength = 25,
                 height = movementStrength / window.screen.height,
@@ -58,27 +58,24 @@ export default {
             const { login, password } = this.user;
 
             if (login && password) {
-                this.ajax({
-                    url: 'login',
+                this.$http({
                     method: 'post',
-                    data: { login, password },
-                    success: response => {
-                        const token = response.data.response.token;
-                        localStorage.setItem('token', token);
-                        this.$router.push('/');
-                    },
-                    error: error => {
-                        const message = JSON.parse(error.request.responseText).message;
-                        this.error = true;
-                        this.errorText = message;
-                    }
+                    url: 'login',
+                    data: { login, password }
+                }).then(response => {
+                    const token = response.data.response.token;
+                    localStorage.setItem('token', token);
+                    this.$router.push('/');
+                }).catch(error => {
+                    const message = JSON.parse(error.request.responseText).message;
+                    this.error = true;
+                    this.errorText = message;
                 });
             }
             else {
                 this.error = true;
                 this.errorText = 'Заполните все поля формы';
             }
-
         }
     },
     components: {
@@ -130,18 +127,18 @@ form
         color: $primary-color
 
     &.error
-      animation: shake 0.2s ease-in-out 0s 2
+        animation: shake 0.2s ease-in-out 0s 2
     
 
 @keyframes shake 
-  0% 
-    margin-left: 0rem
-  25% 
-    margin-left: 0.5rem
-  75%
-    margin-left: -0.5rem
-  100% 
-    margin-left: 0rem
+    0% 
+        margin-left: 0rem
+    25% 
+        margin-left: 0.5rem
+    75%
+        margin-left: -0.5rem
+    100% 
+        margin-left: 0rem
 
 
 </style>

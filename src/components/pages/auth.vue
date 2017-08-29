@@ -68,8 +68,7 @@ export default {
                     localStorage.setItem('token', token);
                     this.$router.push('/');
                 }).catch(error => {
-                    const messages = JSON.parse(error.request.responseText).message;
-                    this.errorMessages = this.errorMessages.concat(messages);
+                    this.errorMessages = JSON.parse(error.request.responseText).message;
                 });
             }
             else this.errorMessages.splice(0, 1, 'Заполните все поля формы');

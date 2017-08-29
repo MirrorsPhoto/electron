@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
 
 //  Axios
 Vue.prototype.$http = Axios.create({
-    baseURL: 'http://mirrors.local'
+    baseURL: 'http://api.jonkofee.ru'
 });
 
 Vue.prototype.$http.interceptors.request.use(

@@ -1,6 +1,6 @@
 <template>
     <div class="bg" ref="parallax" @mousemove="move($event)">
-        <form :class="{ error }" @submit.prevent="auth()">
+        <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
             <img src="../../assets/logo.svg"/>
             <field
                 placeholder="Логин"
@@ -14,7 +14,9 @@
             ></field>
             <input type="submit">
 
-            <p v-if="error">{{ errorText }}</p>
+            <p>
+                <span v-for="message in errorMessages" :key="message">{{ message }}<br></span>
+            </p>
         </form>
     </div>
 </template>
@@ -29,14 +31,13 @@ export default {
                 login: '',
                 password: ''
             },
-            error: false,
-            errorText: ''
+            errorMessages: []
         }
     },
     watch: {
         user: {
             handler() {
-                this.error = false;
+                this.errorMessages.splice(0);
             },
             deep: true
         }
@@ -67,15 +68,11 @@ export default {
                     localStorage.setItem('token', token);
                     this.$router.push('/');
                 }).catch(error => {
-                    const message = JSON.parse(error.request.responseText).message;
-                    this.error = true;
-                    this.errorText = message;
+                    const messages = JSON.parse(error.request.responseText).message;
+                    this.errorMessages = this.errorMessages.concat(messages);
                 });
             }
-            else {
-                this.error = true;
-                this.errorText = 'Заполните все поля формы';
-            }
+            else this.errorMessages.splice(0, 1, 'Заполните все поля формы');
         }
     },
     components: {
@@ -123,8 +120,11 @@ form
         position: absolute
         left: 0
         right: 0
-        bottom: 30px
+        top: 410px
         color: $primary-color
+
+        & span 
+            color: inherit
 
     &.error
         animation: shake 0.2s ease-in-out 0s 2

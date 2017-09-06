@@ -6,7 +6,7 @@
     "go": "npm run build_vue && npm run start",
     "start": "electron .",
     "build_vue" : "cd ./app && node build/build.js && cd ../",
-    "postinstall": "cd .app && npm install && cd ../"
+    "postinstall": "cd ./app && npm install && cd ../"
   },
   "repository": "https://github.com/MirrorsPhoto/electron",
   "author": "jonkofee & klimash",

@@ -1,16 +1,18 @@
 Клиентская сторона приложения построена на основе компонентной модели.
 Фреймворк - [Vue.js](https://ru.vuejs.org) v2.2.6.  
-Среда разработки - [vue-webpack-boilerplate](https://github.com/vuejs-templates/webpack).
 
 # Начало работы
 
 ``` bash
 # Установка зависимостей
-npm install
+yarn
 
 # Сборка для разработки с hot-reload
-npm run dev
+yarn dev
 
-# Сборка для продакшена с минификацией
-npm run build
+# Сборка для продакшена
+yarn build
+
+# Запуск Desktop приложения
+yarn go
 ```

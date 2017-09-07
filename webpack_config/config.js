@@ -1,11 +1,12 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
+var merge = require('webpack-merge')
 
 module.exports = {
   build: {
-    env: require('./prod.env'),
-    index: path.resolve(__dirname, '../../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../../dist'),
+    env: { NODE_ENV: '"production"' },
+    index: path.resolve(__dirname, '../dist/index.html'),
+    assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
@@ -21,7 +22,7 @@ module.exports = {
     bundleAnalyzerReport: process.env.npm_config_report
   },
   dev: {
-    env: require('./dev.env'),
+    env: merge({ NODE_ENV: '"production"' }, { NODE_ENV: '"development"' }),
     port: 8082,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',

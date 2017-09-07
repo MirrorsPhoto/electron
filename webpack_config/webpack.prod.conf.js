@@ -1,7 +1,7 @@
 var path = require('path')
 var utils = require('./utils')
 var webpack = require('webpack')
-var config = require('../config')
+var config = require('./config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -28,12 +28,6 @@ var webpackConfig = merge(baseWebpackConfig, {
         // http://vuejs.github.io/vue-loader/en/workflow/production.html
         new webpack.DefinePlugin({
             'process.env': env
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            sourceMap: true
         }),
         // extract css into its own file
         new ExtractTextPlugin({
@@ -85,7 +79,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         }),
         // copy custom static assets
         new CopyWebpackPlugin([{
-            from: path.resolve(__dirname, '../static'),
+            from: path.resolve(__dirname, '../src/static'),
             to: config.build.assetsSubDirectory,
             ignore: ['.*']
         }])

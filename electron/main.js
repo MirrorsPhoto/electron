@@ -13,7 +13,7 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : url.format({
-        pathname: path.resolve(__dirname, '../index.ejs'),
+        pathname: path.resolve(__dirname, './index.html'),
         protocol: 'file:',
         slashes: true
     })

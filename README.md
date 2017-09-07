@@ -12,7 +12,4 @@ yarn dev
 
 # Сборка для продакшена
 yarn build
-
-# Запуск Desktop приложения
-yarn go
 ```

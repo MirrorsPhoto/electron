@@ -14,4 +14,9 @@
 
 body
   font-size: 16px
+  -webkit-app-region: drag
+
+input, button, textarea
+  -webkit-app-region: no-drag
+
 </style>

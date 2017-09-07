@@ -1,5 +1,5 @@
 <template>
-    <div class="bg" ref="parallax" @mousemove="move($event)">
+    <div class="bg">
         <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
             <img src="../../assets/logo.svg"/>
             <field
@@ -43,18 +43,6 @@ export default {
         }
     },
     methods: {
-        move(e) {
-            const
-                movementStrength = 25,
-                height = movementStrength / window.screen.height,
-                width = movementStrength / window.screen.width,
-                pageX = e.pageX - (window.screen.width / 2),
-                pageY = e.pageY - (window.screen.height / 2),
-                newvalueX = width * pageX * -1 - 25,
-                newvalueY = height * pageY * -1 - 50;
-
-            this.$refs.parallax.style.backgroundPosition = newvalueX + "px " + newvalueY + "px";
-        },
         auth() {
             const { login, password } = this.user;
 

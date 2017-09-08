@@ -57,10 +57,6 @@
     },
     "linux": {
       "icon": "electron/icons"
-    },
-    "publish": {
-      "provider": "github",
-      "token": "9312e9bb0946f1df98a71595c2407a1802ea1eb1"
     }
   },
   "dependencies": {

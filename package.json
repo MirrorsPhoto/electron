@@ -46,13 +46,20 @@
     },
     "mac": {
       "category": "public.app-category.business",
-      "icon": "electron/icons/icon.icns"
+      "icon": "electron/icons/icon.icns",
+      "target": [
+        "zip"
+      ]
     },
     "win": {
       "icon": "electron/icons/icon.ico"
     },
     "linux": {
       "icon": "electron/icons"
+    },
+    "publish": {
+      "provider": "github",
+      "token": "9312e9bb0946f1df98a71595c2407a1802ea1eb1"
     }
   },
   "dependencies": {

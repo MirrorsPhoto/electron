@@ -12,4 +12,7 @@ yarn dev
 
 # Сборка для продакшена
 yarn build
+
+# Релиз новой версии
+yarn release
 ```

@@ -41,6 +41,7 @@
       ]
     },
     "mac": {
+      "category": "public.app-category.business",
       "icon": "electron/icons/icon.icns"
     },
     "win": {

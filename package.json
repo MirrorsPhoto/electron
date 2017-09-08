@@ -18,7 +18,7 @@
   },
   "build": {
     "productName": "Mirror's Photo",
-    "appId": "org.simulatedgreg.electron-vue",
+    "appId": "org.mirrors-photo.electron-vue",
     "directories": {
       "output": "build"
     },

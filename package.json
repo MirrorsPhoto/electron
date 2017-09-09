@@ -1,6 +1,6 @@
 {
-  "name": "mirrors-photo-electron",
-  "version": "v0.1.0",
+  "name": "Mirrors",
+  "version": "v0.1.1",
   "author": "jonkofee <jonkofee@icloud.com>",
   "description": "Vue.js SPA for Mirror's Photo",
   "license": null,

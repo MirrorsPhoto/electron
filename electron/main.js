@@ -1,6 +1,7 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog } from 'electron'
 import path from 'path'
 import url from 'url'
+import htmlToText from 'html-to-text'
 
 /**
  * Set `__static` path to static files in production
@@ -59,14 +60,46 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
+
 import { autoUpdater } from 'electron-updater'
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
+autoUpdater.on('error', (error) => {
+    dialog.showMessageBox({
+        type: "error",
+        title: "Ошибка 😞",
+        message: JSON.stringify(error)
+    })
+});
+
+autoUpdater.on('update-downloaded', (response) => {
+    const version = response.version,
+        releaseNote = response.releaseNotes !== 'No content.' ? response.releaseNotes : undefined;
+
+    dialog.showMessageBox({
+        type: "question",
+        title: "Вышла новая обнова 🤗",
+        message: "Доступна новая версия " + version,
+        detail: htmlToText.fromString(releaseNote),
+        buttons: [
+            'Установить и перезагрузить',
+            'Позже'
+        ],
+        defaultId: 0,
+        cancelId: 1
+    }, (buttonId) => {
+        if (buttonId === 1) return;
+
+        autoUpdater.quitAndInstall();
+    });
+});
 
 app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
+    autoUpdater.setFeedURL({
+        provider: 'github',
+        owner: 'MirrorsPhoto',
+        repo: 'electron'
+    });
+
+    if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+});
+

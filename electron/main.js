@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog } from 'electron'
+import { app, BrowserWindow, dialog, Menu } from 'electron'
 import path from 'path'
 import url from 'url'
 import htmlToText from 'html-to-text'
@@ -10,6 +10,27 @@ import htmlToText from 'html-to-text'
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
+
+
+const template = [
+    {
+        label: app.getName(),
+        submenu: [
+            {role: 'about'},
+            {type: 'separator'},
+            {
+                role: 'update',
+                label: 'Проверить наличие обновлений',
+                click () {
+                    if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+                }
+            },
+            {type: 'separator'},
+            {role: 'quit'}
+        ]
+    },
+];
+
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -99,6 +120,9 @@ app.on('ready', () => {
         owner: 'MirrorsPhoto',
         repo: 'electron'
     });
+
+    const menu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menu)
 
     if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 });

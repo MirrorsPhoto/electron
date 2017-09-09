@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, Menu } from 'electron'
+import { app, BrowserWindow, dialog, Menu, ipcMain } from 'electron'
 import path from 'path'
 import url from 'url'
 import htmlToText from 'html-to-text'
@@ -92,9 +92,9 @@ autoUpdater.on('error', (error) => {
     })
 });
 
-autoUpdater.on('update-downloaded', (response) => {
-    const version = response.version,
-        releaseNote = response.releaseNotes !== 'No content.' ? response.releaseNotes : undefined;
+autoUpdater.on('update-available', (info) => {
+    const version = info.version,
+        releaseNote = info.releaseNotes !== 'No content.' ? info.releaseNotes : undefined;
 
     dialog.showMessageBox({
         type: "question",
@@ -110,9 +110,17 @@ autoUpdater.on('update-downloaded', (response) => {
     }, (buttonId) => {
         if (buttonId === 1) return;
 
-        autoUpdater.quitAndInstall();
+        autoUpdater.downloadUpdate();
     });
+})
+
+autoUpdater.on('update-downloaded', () => {
+    autoUpdater.quitAndInstall();
 });
+
+autoUpdater.on('download-progress', (progress) => {
+    mainWindow.webContents.send('au-download-progress', progress)
+})
 
 app.on('ready', () => {
     autoUpdater.setFeedURL({
@@ -121,9 +129,12 @@ app.on('ready', () => {
         repo: 'electron'
     });
 
+    autoUpdater.autoDownload = false;
+
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 
-    if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+    // if (process.env.NODE_ENV === 'production')
+        autoUpdater.checkForUpdates()
 });
 

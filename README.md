@@ -16,3 +16,8 @@ yarn build
 # Релиз новой версии
 yarn release
 ```
+
+Для релиза необходим токен. Получить его можно [тут](https://github.com/settings/tokens/new) и далее установить
+``` bash
+export GH_TOKEN=полученный токен
+```

@@ -1,5 +1,7 @@
 <template>
-  <router-view></router-view>
+  <div class="bg">
+    <router-view></router-view>
+  </div>
 </template>
 
 <style lang="sass">
@@ -13,10 +15,18 @@
     box-sizing: border-box
 
   body
-    font-size: 16px
+    font-size: 14px
     -webkit-app-region: drag
 
   input, button, textarea
     -webkit-app-region: no-drag
+
+  .bg
+    background: url(./assets/DSC_6015.jpg) bottom center no-repeat
+    background-size: cover
+    height: 100vh
+    display: flex
+    align-items: center
+    justify-content: center
 
 </style>

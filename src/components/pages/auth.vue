@@ -1,24 +1,22 @@
 <template>
-    <div class="bg">
-        <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
-            <img src="../../assets/logo.svg"/>
-            <field
-                placeholder="Логин"
-                v-model="user.login"
-                autofocus
-            ></field>
-            <field
-                placeholder="Пароль"
-                type="password"
-                v-model="user.password"
-            ></field>
-            <input type="submit">
+    <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
+        <img src="../../assets/logo.svg"/>
+        <field
+            placeholder="Логин"
+            v-model="user.login"
+            autofocus
+        ></field>
+        <field
+            placeholder="Пароль"
+            type="password"
+            v-model="user.password"
+        ></field>
+        <input type="submit">
 
-            <p>
-                <span v-for="message in errorMessages" :key="message">{{ message }}<br></span>
-            </p>
-        </form>
-    </div>
+        <p>
+            <span v-for="message in errorMessages" :key="message">{{ message }}<br></span>
+        </p>
+    </form>
 </template>
 
 <script>
@@ -74,14 +72,6 @@ export default {
 
 <style lang="sass">
 @import '../../styles_config.sass'
-
-.bg
-    background: url(../../assets/DSC_6015.jpg) bottom center no-repeat
-    background-size: 110%
-    height: 100vh
-    display: flex
-    align-items: center
-    justify-content: center
 
 form 
     width: 350px

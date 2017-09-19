@@ -4,7 +4,10 @@ Vue.use(Router);
 
 import routes from './routes';
 
-const vueRouter = new Router({ routes });
+const vueRouter = new Router({
+    routes,
+    linkActiveClass: 'active'
+});
 
 vueRouter.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.private)) {

@@ -1,8 +1,8 @@
 <template>
   <div class="main_wrap">
         <div>
-            <h2>{{ dateTime.time }}</h2>
-            <p>{{ dateTime.date }}</p>
+            <h2>{{ time.hours }}<span class="separator">:</span>{{ time.minutes }}</h2>
+            <p>{{ date }}</p>
         </div>
       <div></div>
       <div></div>
@@ -12,30 +12,40 @@
 
 <script>
 export default {
-    computed: {
-        dateTime() {
-            const
-                date = new Date(),
-                monthsList = ['января', 'февраля', 'марта',  'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'],
-                week = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-        
-            let hours   = date.getHours(),
-                minutes = date.getMinutes(),
-                month   = monthsList[date.getMonth()],
-                day     = date.getDate(),
-                weekDay = week[date.getDay()]
-
-            if (hours < 10) hours = '0' + hours
-            if (minutes < 10) minutes = '0' + minutes
-
-            return {
-                time: `${hours}:${minutes}`,
-                date: `${day} ${month}, ${weekDay}`
-            } 
-        },
-        date() {
-
+    data() {
+        return {
+            time: {
+                hours: '',
+                minutes: ''
+            }
         }
+    },
+    computed: {
+        date() {
+            const
+                date    = new Date(),
+                day     = date.getDate(),
+                weekDay = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'][date.getDay()],
+                month   = ['января', 'февраля', 'марта',  'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'][date.getMonth()]
+
+            return `${day} ${month}, ${weekDay}`
+        }
+    },
+    methods: {
+        updateTime() {
+            const
+                date       = new Date(),
+                getHours   = date.getHours(),
+                getMinutes = date.getMinutes(),
+                hours      = getHours >= 10 ? getHours : `0${getHours}`,
+                minutes    = getMinutes >= 10 ? getMinutes : `0${getMinutes}`
+               
+            this.time = { hours, minutes }
+        }
+    },
+    mounted() {
+        this.updateTime()
+        setInterval(() => this.updateTime(), 1000 * 60)
     }
 }
 </script>
@@ -53,13 +63,30 @@ export default {
 
     & div
         background: #fff
+        display: table-cell
+        vertical-align: middle
         text-align: center
+        padding: 30px
         
         & h2
             font-size: 48px
             font-weight: normal
 
+            & .separator
+                position: relative
+                top: -4px
+                animation: separator 2s linear infinite
+
         & p
             color: $hard
+
+@keyframes separator
+    50%
+        color: rgb(51, 51, 51)
+    51%
+        color: rgba(51, 51, 51, 0)
+    100%
+        color: rgba(51, 51, 51, 0)
+
 </style>
 

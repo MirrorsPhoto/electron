@@ -3,9 +3,9 @@
         <aside>
             <img src="../../assets/logo.svg">
 
-            <div class="user_photo" :style="'background-image: url(' + user.img + ')'"></div>
-            <h4>{{ user.name }}</h4>
-            <p>{{ user.role }}</p>
+            <!-- <div class="user_photo" :style="'background-image: url(' + user.avatar + ')'"></div>
+            <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
+            <p>{{ user.role_name.toLowerCase() }}</p> -->
 
             <nav>
                 <router-link to="/"><span></span>Главный экран</router-link>
@@ -32,11 +32,7 @@ import timeBar from '../modules/timeBar'
 export default {
     data() {
         return {
-            user: {
-                name: 'Дымченко Алина',
-                role: 'администратор',
-                img: 'https://www.trickscity.com/wp-content/uploads/2016/11/41873_orig.jpg'
-            }
+            user: this.$store.getters.userData
         }
     },
     methods: {
@@ -131,6 +127,7 @@ export default {
         margin: 40px
         display: grid
         grid-template-columns: 1fr 1fr
+        grid-template-rows: 270px 1fr
         grid-gap: 30px
 
         & div

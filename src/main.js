@@ -1,19 +1,19 @@
 import Vue from 'vue'
+import VueElectron from 'vue-electron'
 import Axios from './plugins/axios'
 
-import router from './plugins/router'
-import store from './plugins/store'
+import store from './store'
 
-import App from './App'
 
+Vue.use(VueElectron)
 Vue.prototype.$http = Axios
 Vue.config.productionTip = false
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
+Vue.config.performance = true
+
 
 const vm = new Vue({
     el: '#app',
-    router,
     store,
     template: '<App/>',
-    components: { App }
-});
+    components: { App: require('./App') }
+})

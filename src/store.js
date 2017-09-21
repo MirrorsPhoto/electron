@@ -12,7 +12,7 @@ export default new Vuex.Store({
         userData: state => state.token ? jwtDecode(state.token) : null
     },
     mutations: {
-        getToken: state => state.token = localStorage.getItem('token'),
+        setToken: (state, token) => state.token = token,
         clearToken: state => state.token = ''
     }
 })

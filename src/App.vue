@@ -1,8 +1,42 @@
 <template>
   <div class="bg">
-    <router-view></router-view>
+    <component
+      :is="page"
+      @log-in="logIn($event)"
+      @log-out="logOut()"
+    ></component>
   </div>
 </template>
+
+<script>
+import auth from './components/pages/auth'
+import index from './components/pages/index'
+
+export default {
+  data() {
+    return {
+      page: ''
+    }
+  },
+  methods: {
+    logIn(token) {
+      localStorage.setItem('token', token)
+      this.$store.commit('setToken', token)
+      this.page = 'index'
+    },
+    logOut() {
+      localStorage.removeItem('token')
+      this.$store.commit('clearToken')
+      this.page = 'auth'
+    }
+  },
+  created() {
+    this.page = localStorage.getItem('token') ? 'index' : 'auth'
+  },
+  components: { auth, index }
+}
+</script>
+
 
 <style lang="sass">
   *

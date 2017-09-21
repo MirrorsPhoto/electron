@@ -49,24 +49,14 @@ export default {
                     method: 'post',
                     url: 'login',
                     data: { login, password }
-                }).then(response => {
-                    const token = response.data.response.token;
-                    localStorage.setItem('token', token);
-                    this.$router.push('/');
-                }).catch(error => {
-                    this.errorMessages = JSON.parse(error.request.responseText).message;
-                });
+                })
+                .then(response => this.$emit('logIn', response.data.response.token))
+                .catch(error => this.errorMessages = JSON.parse(error.request.responseText).message)
             }
             else this.errorMessages.splice(0, 1, 'Заполните все поля формы');
         }
     },
-    components: {
-        field
-    },
-    beforeRouteEnter(to, from, next) {
-        const token = localStorage.getItem('token');
-        (token) ? next({ path: '/' }) : next();
-    }
+    components: { field }
 }
 </script>
 

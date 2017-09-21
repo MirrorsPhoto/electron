@@ -2,8 +2,8 @@
   <div class="bg">
     <component
       :is="page"
-      @log-in="logIn($event)"
-      @log-out="logOut()"
+      @logIn="logIn($event)"
+      @logOut="logOut()"
     ></component>
   </div>
 </template>

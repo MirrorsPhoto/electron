@@ -1,5 +1,5 @@
 <template>
-  <div class="main_wrap">
+  <div class="widget_wrap">
         <div>
             <h2>{{ time.hours }}<span class="separator">:</span>{{ time.minutes }}</h2>
             <p>{{ date }}</p>
@@ -54,7 +54,7 @@ export default {
 <style lang="sass" scoped>
 @import '../../styles_config.sass'
 
-.main_wrap
+.widget_wrap
     background: $light
     display: grid
     grid-template-columns: 1fr 1fr
@@ -63,8 +63,6 @@ export default {
 
     & div
         background: #fff
-        display: table-cell
-        vertical-align: middle
         text-align: center
         padding: 30px
         

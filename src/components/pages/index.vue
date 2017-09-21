@@ -18,10 +18,15 @@
         </aside>
 
         <div class="content">
-            <div></div>
+            <pie-bar></pie-bar>
             <time-bar></time-bar>
-            <div></div>
-            <div></div>
+            <div class="widgets_bar">
+                <widget></widget>
+                <widget></widget>
+                <widget></widget>
+                <widget></widget>
+            </div>
+            <check></check>
         </div>
  
     </div>
@@ -29,6 +34,10 @@
 
 <script>
 import timeBar from '../modules/timeBar'
+import pieBar from '../modules/pieBar'
+import widget from '../modules/widget'
+import check from '../modules/check'
+
 export default {
     data() {
         return {
@@ -42,7 +51,16 @@ export default {
         }
     },
     components: {
-        timeBar
+        timeBar,
+        pieBar,
+        widget,
+        check
+    },
+    created() {
+        this.$store.commit('getToken')
+    },
+    destroyed() {
+        this.$store.commit('clearToken')
     }
 }
 </script>
@@ -130,9 +148,7 @@ export default {
         grid-template-rows: 270px 1fr
         grid-gap: 30px
 
-        & div
+        & .widget_wrap
             box-shadow: 2px 2px 5px rgba(0, 0, 0, .2)
-
-
 
 </style>

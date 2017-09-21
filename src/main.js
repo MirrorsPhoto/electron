@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import electron from 'vue-electron'
 import Axios from './plugins/axios'
 
 import router from './plugins/router'
@@ -8,7 +9,7 @@ import App from './App'
 
 Vue.prototype.$http = Axios
 Vue.config.productionTip = false
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
+Vue.use(electron)
 
 const vm = new Vue({
     el: '#app',

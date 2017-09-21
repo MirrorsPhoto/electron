@@ -3,9 +3,9 @@
         <aside>
             <img src="../../assets/logo.svg">
 
-            <!-- <div class="user_photo" :style="'background-image: url(' + user.avatar + ')'"></div>
+            <div class="user_photo" :style="'background-image: url(' + user.avatar + ')'"></div>
             <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
-            <p>{{ user.role_name.toLowerCase() }}</p> -->
+            <p>{{ user.role_name.toLowerCase() }}</p>
 
             <nav>
                 <router-link to="/"><span></span>Главный экран</router-link>

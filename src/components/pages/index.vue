@@ -5,7 +5,7 @@
 
             <div class="user_photo" :style="'background-image: url(' + user.avatar + ')'"></div>
             <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
-            <p>{{ user.role_name.toLowerCase() }}</p>
+            <p>{{ user.role_name }}</p>
 
             <nav>
                 <a click.prevent="page = 'home'"><span></span>Главный экран</a>
@@ -74,6 +74,7 @@ export default {
         & p 
             text-align: center
             color: $hard
+            text-transform: lowercase
 
         & a
             display: block

@@ -1,6 +1,6 @@
 <template>
     <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
-        <img src="../../assets/logo.svg"/>
+        <logo class="logo"></logo>
         <field
             placeholder="Логин"
             v-model="user.login"
@@ -21,6 +21,7 @@
 
 <script>
 import field from '../UI/field.vue';
+import logo from '../UI/logo.vue';
 
 export default {
     data() {
@@ -56,7 +57,7 @@ export default {
             else this.errorMessages.splice(0, 1, 'Заполните все поля формы');
         }
     },
-    components: { field }
+    components: { field, logo }
 }
 </script>
 
@@ -71,8 +72,9 @@ form
     background: #fff
     box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
 
-    & img 
+    & .logo
         width: 350px
+        height: 200px
         display: block
         margin: 0 -50px
 

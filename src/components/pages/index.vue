@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <aside>
-            <img src="../../assets/logo.svg">
+            <logo class="logo"></logo>
 
             <div class="user_photo" :style="'background-image: url(' + user.avatar + ')'"></div>
             <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
@@ -24,6 +24,7 @@
 
 <script>
 import home from './home'
+import logo from '../UI/logo.vue';
 
 export default {
     data() {
@@ -32,7 +33,7 @@ export default {
             user: this.$store.getters.userData
         }
     },
-    components: { home }
+    components: { home, logo }
 }
 </script>
 
@@ -53,8 +54,9 @@ export default {
         padding: 30px 0
         box-shadow: 5px 5px 32px rgba(0, 0, 0, .2)
 
-        & img
+        & .logo
             display: block
+            height: 143px
             width: 100%
             margin-bottom: 20px
 

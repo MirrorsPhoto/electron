@@ -18,12 +18,18 @@
                 percent: 0,
             }
         },
+        methods: {
+            addPercents(value) {
+               setInterval(() => {
+                   this.percent += 1
+                   if (this.percent === value) clearInterval(this.addPercents)
+               }, 17) 
+            }
+        },
         mounted() {
             this.$electron.ipcRenderer.on('au-download-progress', (data, listener) => {
-                const add = setInterval(() => {
-                    this.percent += 1
-                    if (this.percent === listener.percent) clearInterval(add)
-                }, 17)
+                clearInterval(this.addPercents)
+                this.addPercents(listener.percent)
             })
         },
         destroyed(){

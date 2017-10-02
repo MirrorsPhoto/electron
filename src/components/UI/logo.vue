@@ -22,9 +22,6 @@
             this.$electron.ipcRenderer.on('au-download-progress', (data, listener) => {
                 this.percent = listener.percent;
             })
-        },
-        destroyed(){
-            this.$electron.ipcRenderer.removeListener('au-download-progress', () => {});
         }
     }
 </script>

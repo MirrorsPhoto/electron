@@ -9,7 +9,7 @@ const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
+const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin')
 let webConfig = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
@@ -48,7 +48,7 @@ let webConfig = {
         }
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         use: {
           loader: 'url-loader',
           query: {
@@ -57,6 +57,7 @@ let webConfig = {
           }
         }
       },
+     
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         use: {
@@ -70,6 +71,11 @@ let webConfig = {
     ]
   },
   plugins: [
+    new SVGSpritemapPlugin({
+      src: 'src/assets/icons/*.svg',
+      prefix: '',
+      filename: 'sprite.svg'
+    }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
       filename: 'index.html',

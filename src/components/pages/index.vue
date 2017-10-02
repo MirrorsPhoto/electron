@@ -1,67 +1,39 @@
 <template>
     <div class="wrap">
         <aside>
-            <img src="../../assets/logo.svg">
+            <logo class="logo"></logo>
 
             <div class="user_photo" :style="'background-image: url(' + user.avatar + ')'"></div>
             <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
-            <p>{{ user.role_name.toLowerCase() }}</p>
+            <p>{{ user.role_name }}</p>
 
             <nav>
-                <router-link to="/"><span></span>Главный экран</router-link>
-                <router-link to="/items"><span></span>Товары</router-link>
-                <router-link to="/stat"><span></span>Статистика</router-link>
-                <router-link to="/settings"><span></span>Настройки</router-link>
+                <a click.prevent="page = 'home'"><span></span>Главный экран</a>
+                <a click.prevent="page = 'items'"><span></span>Товары</a>
+                <a click.prevent="page = 'stat'"><span></span>Статистика</a>
+                <a click.prevent="page = 'settings'"><span></span>Настройки</a>
             </nav>
 
-            <a class="link_logout" href="#" @click.prevent="logOut()"><span></span>Выйти</a>
+            <a class="link_logout" href="#" @click.prevent="$emit('logOut')"><span></span>Выйти</a>
         </aside>
 
-        <div class="content">
-            <pie-bar></pie-bar>
-            <time-bar></time-bar>
-            <div class="widgets_bar">
-                <widget></widget>
-                <widget></widget>
-                <widget></widget>
-                <widget></widget>
-            </div>
-            <check></check>
-        </div>
+        <component :is="page"></component>
  
     </div>
 </template>
 
 <script>
-import timeBar from '../modules/timeBar'
-import pieBar from '../modules/pieBar'
-import widget from '../modules/widget'
-import check from '../modules/check'
+import home from './home'
+import logo from '../UI/logo.vue';
 
 export default {
     data() {
         return {
+            page: 'home',
             user: this.$store.getters.userData
         }
     },
-    methods: {
-        logOut() {
-            localStorage.removeItem('token');
-            this.$router.push('/login');
-        }
-    },
-    components: {
-        timeBar,
-        pieBar,
-        widget,
-        check
-    },
-    created() {
-        this.$store.commit('getToken')
-    },
-    destroyed() {
-        this.$store.commit('clearToken')
-    }
+    components: { home, logo }
 }
 </script>
 
@@ -82,8 +54,9 @@ export default {
         padding: 30px 0
         box-shadow: 5px 5px 32px rgba(0, 0, 0, .2)
 
-        & img
+        & .logo
             display: block
+            height: 143px
             width: 100%
             margin-bottom: 20px
 
@@ -103,6 +76,7 @@ export default {
         & p 
             text-align: center
             color: $hard
+            text-transform: lowercase
 
         & a
             display: block
@@ -140,15 +114,4 @@ export default {
 
             &:hover
                 color: #333
-
-    & .content
-        margin: 40px
-        display: grid
-        grid-template-columns: 1fr 1fr
-        grid-template-rows: 270px 1fr
-        grid-gap: 30px
-
-        & .widget_wrap
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, .2)
-
 </style>

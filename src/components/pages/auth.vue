@@ -1,6 +1,6 @@
 <template>
     <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
-        <img src="../../assets/logo.svg"/>
+        <logo class="logo"></logo>
         <field
             placeholder="Логин"
             v-model="user.login"
@@ -21,6 +21,7 @@
 
 <script>
 import field from '../UI/field.vue';
+import logo from '../UI/logo.vue';
 
 export default {
     data() {
@@ -49,24 +50,14 @@ export default {
                     method: 'post',
                     url: 'login',
                     data: { login, password }
-                }).then(response => {
-                    const token = response.data.response.token;
-                    localStorage.setItem('token', token);
-                    this.$router.push('/');
-                }).catch(error => {
-                    this.errorMessages = JSON.parse(error.request.responseText).message;
-                });
+                })
+                .then(response => this.$emit('logIn', response.data.response.token))
+                .catch(error => this.errorMessages = JSON.parse(error.request.responseText).message)
             }
             else this.errorMessages.splice(0, 1, 'Заполните все поля формы');
         }
     },
-    components: {
-        field
-    },
-    beforeRouteEnter(to, from, next) {
-        const token = localStorage.getItem('token');
-        (token) ? next({ path: '/' }) : next();
-    }
+    components: { field, logo }
 }
 </script>
 
@@ -81,8 +72,9 @@ form
     background: #fff
     box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
 
-    & img 
+    & .logo
         width: 350px
+        height: 200px
         display: block
         margin: 0 -50px
 

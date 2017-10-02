@@ -54,6 +54,6 @@
         fill: #fff
 
     .progress-bar
-        transition: transform .5s ease-in-out;
+        transition: transform .5s ease-in-out
 
 </style>

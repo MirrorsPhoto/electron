@@ -14,6 +14,6 @@ Vue.config.performance = true
 const vm = new Vue({
     el: '#app',
     store,
-    template: '<App/>',
+    template: '<app ref="app"></app>',
     components: { App: require('./App') }
 })

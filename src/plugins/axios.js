@@ -17,7 +17,7 @@ instanceAxios.interceptors.response.use(
     response => response,
     error => {
         if (error.request.status === 401) {
-            vm.$children[0].logOut()
+            vm.$refs.app.logOut()
         }
         return Promise.reject(error)
     }

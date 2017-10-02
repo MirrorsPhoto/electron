@@ -26,12 +26,16 @@ export default {
     },
     logOut() {
       localStorage.removeItem('token')
-      this.$store.commit('clearToken')
+      this.$store.commit('setToken', '')
       this.page = 'auth'
     }
   },
   created() {
-    this.page = localStorage.getItem('token') ? 'index' : 'auth'
+    const token = localStorage.getItem('token')
+    if (token) {
+      this.$store.commit('setToken', token)
+      this.page = 'index'
+    } else this.page = 'auth'
   },
   components: { auth, index }
 }

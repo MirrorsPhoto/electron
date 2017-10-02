@@ -1,8 +1,8 @@
 <template>
     <svg width="1800" height="1000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1000">
-        <g class="bg">
-            <polygon points="0 157, 1800 157, 1800 1000, 0 1000" transform="skewY(-5)" :fill-opacity=" percent ? '0.7' : '1'"/>
-            <polygon :points="'0 157, ' + percent * 18 + ' 157, ' + percent * 18 + ' 1000, 0 1000'" transform="skewY(-5)"/>
+        <g class="bg" transform="skewY(-5)">
+            <polygon points="0 157, 1800 157, 1800 1000, 0 1000" :fill-opacity=" percent ? '0.7' : '1'"/>
+            <polygon points="0 157, 1800 157, 1800 1000, 0 1000" class="progress-bar" :style="'transition: transform .5s ease-in-out; transform: scaleX(' + percent / 100 + ')'"/>
         </g>
         <g class="label">
             <text x="150" y="500" fill="#FFF" font-family="Mirrors" font-size="190">Mirror's</text>
@@ -18,18 +18,9 @@
                 percent: 0,
             }
         },
-        methods: {
-            addPercents(value) {
-               setInterval(() => {
-                   this.percent += 1
-                   if (this.percent === value) clearInterval(this.addPercents)
-               }, 17) 
-            }
-        },
         mounted() {
             this.$electron.ipcRenderer.on('au-download-progress', (data, listener) => {
-                clearInterval(this.addPercents)
-                this.addPercents(listener.percent)
+                this.percent = listener.percent;
             })
         },
         destroyed(){

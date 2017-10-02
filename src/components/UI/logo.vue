@@ -1,6 +1,6 @@
 <template>
     <svg width="1800" height="1000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1000">
-        <g class="bg" transform="skewY(-6)">
+        <g class="bg" transform="skewY(-5)">
             <polygon
                 points="0 157, 1800 157, 1800 1000, 0 1000"
                 :fill-opacity="(percent > 0) ? '0.7' : '1'"

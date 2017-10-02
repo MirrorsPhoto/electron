@@ -1,6 +1,6 @@
 <template>
     <svg width="1800" height="1000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1000">
-        <g class="bg" transform="skewY(-5)">
+        <g class="bg" transform="skewY(-6)">
             <polygon
                 points="0 157, 1800 157, 1800 1000, 0 1000"
                 :fill-opacity="(percent > 0) ? '0.7' : '1'"
@@ -12,8 +12,8 @@
             />
         </g>
         <g class="label">
-            <text x="150" y="500" font-size="190">Mirror's</text>
-            <text x="150" y="650" font-size="120">Photo</text>
+            <text x="200" y="500" font-size="180">Mirror's</text>
+            <text x="200" y="700" font-size="120">Photo</text>
         </g>
     </svg>
 </template>

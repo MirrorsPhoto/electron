@@ -2,19 +2,31 @@
     <div class="wrap">
         <aside>
             <logo class="logo"></logo>
-
-            <div class="user_photo" :style="'background-image: url(' + user.avatar + ')'"></div>
+          
+            <div class="user_photo" :style="user.avatar ? 'background-image: url(' + user.avatar + ')' : false">
+                <icon v-if="!user.avatar" name="user" size="55"></icon>
+            </div>
             <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
             <p>{{ user.role_name }}</p>
 
             <nav>
-                <a click.prevent="page = 'home'"><span></span>Главный экран</a>
-                <a click.prevent="page = 'items'"><span></span>Товары</a>
-                <a click.prevent="page = 'stat'"><span></span>Статистика</a>
-                <a click.prevent="page = 'settings'"><span></span>Настройки</a>
+                <a @click.prevent="page = 'home'">
+                    <icon name="dashboard"></icon>Главный экран
+                </a>
+                <a @click.prevent="page = 'items'">
+                    <icon name="bag"></icon>Товары
+                </a>
+                <a @click.prevent="page = 'stat'">
+                    <icon name="chart"></icon>Статистика
+                </a>
+                <a @click.prevent="page = 'settings'">
+                    <icon name="settings"></icon>Настройки
+                </a>
             </nav>
 
-            <a class="link_logout" href="#" @click.prevent="$emit('logOut')"><span></span>Выйти</a>
+            <a class="link_logout" @click.prevent="$emit('logOut')">
+                <icon name="logout"></icon>Выйти
+            </a>
         </aside>
 
         <component :is="page"></component>
@@ -24,7 +36,8 @@
 
 <script>
 import home from './home'
-import logo from '../UI/logo.vue';
+import logo from '../UI/logo.vue'
+import icon from '../UI/icon'
 
 export default {
     data() {
@@ -33,7 +46,7 @@ export default {
             user: this.$store.getters.userData
         }
     },
-    components: { home, logo }
+    components: { home, logo, icon }
 }
 </script>
 
@@ -64,9 +77,14 @@ export default {
             width: 125px
             height: 125px
             border-radius: 50%
+            background-color: $light
             background-position: center center
             background-size: cover
             margin: auto
+
+            & .icon
+                margin: 35px
+                fill: darken($light, 15%)
 
         & h4
             text-align: center
@@ -84,12 +102,12 @@ export default {
             line-height: 20px
             text-decoration: none
 
-            & span
-                display: inline-block
-                width: 20px
-                height: 20px
+            & .icon
                 margin-left: 40px
                 margin-right: 20px
+                position: relative
+                top: 4px
+                fill: $primary-color
 
         & nav
             margin: 30px auto
@@ -112,6 +130,14 @@ export default {
             color: $hard
             transition: all .3s ease
 
+            & .icon
+                fill: $hard
+                transform: scale(-1)
+
             &:hover
                 color: #333
+
+                & .icon
+                    fill: $primary-color
+
 </style>

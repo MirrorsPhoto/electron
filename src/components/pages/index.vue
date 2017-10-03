@@ -3,8 +3,9 @@
         <aside>
             <logo class="logo"></logo>
           
-            <div class="user_photo" :style="user.avatar ? 'background-image: url(' + user.avatar + ')' : false">
-                <icon v-if="!user.avatar" name="user" size="55"></icon>
+            <div class="user_photo_wrap">
+                <div v-if="user.avatar" class="user_photo" :style="`background-image: url(${user.avatar})`"></div>
+                <div v-else class="no_photo"><icon name="user" size="55"></icon></div>
             </div>
             <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
             <p>{{ user.role_name }}</p>
@@ -73,18 +74,26 @@ export default {
             width: 100%
             margin-bottom: 20px
 
-        & .user_photo
+        & .user_photo_wrap
             width: 125px
             height: 125px
             border-radius: 50%
-            background-color: $light
-            background-position: center center
-            background-size: cover
             margin: auto
+            overflow: hidden
 
-            & .icon
-                margin: 35px
-                fill: darken($light, 15%)
+            & > div
+                height: 100%
+
+            & .user_photo
+                background-position: center center
+                background-size: cover
+
+            & .no_photo
+                background-color: $light
+
+                & .icon
+                    margin: 35px
+                    fill: darken($light, 15%)
 
         & h4
             text-align: center

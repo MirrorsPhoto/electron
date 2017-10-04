@@ -56,7 +56,7 @@ export default {
                     { word: 'клиента', endings: [2, 3, 4] },
                     { word: 'клиентов', endings: [5, 6, 7, 8, 9, 0] }
                 ]
-                return words.find(obj => obj.endings.includes(lastNum)).word
+                return words.find(({ endings }) => endings.includes(lastNum)).word
             }
         }
     },

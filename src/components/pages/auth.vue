@@ -51,7 +51,11 @@ export default {
                     url: 'login',
                     data: { login, password }
                 })
-                .then(response => this.$emit('logIn', response.data.response.token))
+                .then(({ data }) => {
+                    const { token } = data.response
+                    localStorage.setItem('token', token)
+                    this.$emit('logIn', token)
+                })
                 .catch(error => this.errorMessages = JSON.parse(error.request.responseText).message)
             }
             else this.errorMessages.splice(0, 1, 'Заполните все поля формы');

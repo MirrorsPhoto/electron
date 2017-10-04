@@ -20,22 +20,18 @@ export default {
   },
   methods: {
     logIn(token) {
-      localStorage.setItem('token', token)
+      this.$store.commit('initState')
       this.$store.commit('setToken', token)
       this.page = 'index'
     },
     logOut() {
       localStorage.removeItem('token')
-      this.$store.commit('setToken', '')
       this.page = 'auth'
     }
   },
   created() {
     const token = localStorage.getItem('token')
-    if (token) {
-      this.$store.commit('setToken', token)
-      this.page = 'index'
-    } else this.page = 'auth'
+    token ? this.logIn(token) : this.page = 'auth'
   },
   components: { auth, index }
 }

@@ -1,10 +1,13 @@
 <template>
-  <div class="widget_wrap">
+    <div class="widget_wrap">
         <div>
             <h2>{{ time.hours }}<span class="separator">:</span>{{ time.minutes }}</h2>
             <p>{{ date }}</p>
         </div>
-        <div></div>
+        <div>
+            <h2><i :class="'wi wi-day-' + weather.icon"></i>{{ weather.temp }}°</h2>
+            <p>{{ weather.desc }}</p>
+        </div>
         <div>
             <h2><span ref="moneyCount">{{ counts.money }}</span>₽</h2>
             <p>касса сегодня</p>
@@ -13,11 +16,13 @@
             <h2>{{ counts.clients }}</h2>
             <p>{{ clientsWord }}</p>
         </div>
-  </div>
+    </div>
 </template>
 
 <script>
 import CountUp from 'countup.js'
+import axios from 'axios'
+import icons from './arrayIcons'
 
 export default {
     data() {
@@ -26,11 +31,17 @@ export default {
                 hours: '',
                 minutes: ''
             },
+            weather: {
+                temp: 0,
+                desc: '',
+                icon: ''
+            },
             counts: {
                 money: 0,
                 clients: 0
             },
             timer: null,
+            weatherTimer : null,
             countUpper: null
         }
     },
@@ -70,12 +81,28 @@ export default {
                 minutes    = getMinutes >= 10 ? getMinutes : `0${getMinutes}`
             
             this.time = { hours, minutes }
+        },
+        updateWeather() {
+            axios.get('http://api.openweathermap.org/data/2.5/weather?id=713504&lang=ru&units=metric&APPID=3408cd554acba183a966bd9cfa69b9d2')
+            .then(({ data }) => data, () => false)
+            .then(data => {
+                this.weather = {
+                    temp: data ? parseInt(data.main.temp) : '?',
+                    desc: data ? data.weather[0].description : 'Нет интернета...',
+                    icon: data ? icons[data.weather[0].id] : ''
+                }
+                if (!data) setTimeout(this.updateWeather, 1000 * 60)
+            })
         }
     },
-    mounted() {
+    created() {
         this.updateTime()
-        this.timer = setInterval(this.updateTime(), 1000 * 60)
+        this.updateWeather()
 
+        this.timer = setInterval(this.updateTime, 1000 * 60)
+        this.weatherTimer = setInterval(this.updateWeather, 1000 * 60 * 60)
+    },
+    mounted() {
         this.countUpper = new CountUp(this.$refs.moneyCount, this.counts.money, this.counts.money, 0, 1.5, { useEasing: true })
         this.countUpper.start()
 
@@ -90,6 +117,7 @@ export default {
     },
     destroyed() {
         clearInterval(this.timer)
+        clearInterval(this.weatherTimer)
     }
 }
 </script>
@@ -97,6 +125,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '../../styles_config.sass'
+@import '../../assets/weather-icons.css'
 
 .widget_wrap
     background: $light
@@ -108,11 +137,16 @@ export default {
     & div
         background: #fff
         text-align: center
-        padding: 30px
+        padding: 30px 0
         
         & h2
             font-size: 48px
             font-weight: 300
+
+            & i
+                color: $primary-color
+                margin-right: 10px
+                font-size: .8em
 
             & .separator
                 position: relative
@@ -121,6 +155,9 @@ export default {
 
         & p
             color: $hard
+
+            &:first-letter
+                text-transform: uppercase
 
 @keyframes separator
     50%

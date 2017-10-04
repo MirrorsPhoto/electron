@@ -6,12 +6,20 @@ import jwtDecode from 'jwt-decode'
 
 export default new Vuex.Store({
     state: {
-        token: ''
+        token: '',
+        counts: {
+            money: 0,
+            clients: 0
+        }
     },
     getters: {
         userData: state => state.token ? jwtDecode(state.token) : null
     },
     mutations: {
-        setToken: (state, token) => state.token = token
+        setToken: (state, token) => state.token = token,
+        addSale: (state, summ) => {
+            state.counts.money += summ
+            state.counts.clients++
+        }
     }
 })

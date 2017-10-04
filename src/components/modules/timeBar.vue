@@ -4,20 +4,34 @@
             <h2>{{ time.hours }}<span class="separator">:</span>{{ time.minutes }}</h2>
             <p>{{ date }}</p>
         </div>
-      <div></div>
-      <div></div>
-      <div></div>
+        <div></div>
+        <div>
+            <h2><span ref="moneyCount">{{ counts.money }}</span>₽</h2>
+            <p>касса сегодня</p>
+        </div>
+        <div>
+            <h2>{{ counts.clients }}</h2>
+            <p>{{ clientsWord }}</p>
+        </div>
   </div>
 </template>
 
 <script>
+import CountUp from 'countup.js'
+
 export default {
     data() {
         return {
             time: {
                 hours: '',
                 minutes: ''
-            }
+            },
+            counts: {
+                money: 0,
+                clients: 0
+            },
+            timer: null,
+            countUpper: null
         }
     },
     computed: {
@@ -29,6 +43,21 @@ export default {
                 month   = ['января', 'февраля', 'марта',  'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'][date.getMonth()]
 
             return `${day} ${month}, ${weekDay}`
+        },
+        clientsWord() {
+            const { clients } = this.counts
+            if (clients > 10 && clients < 20) {
+                return 'клиентов'
+            }
+            else {
+                const lastNum = +[...String(clients)].pop()
+                const words = [
+                    { word: 'клиент', endings: [1] },
+                    { word: 'клиента', endings: [2, 3, 4] },
+                    { word: 'клиентов', endings: [5, 6, 7, 8, 9, 0] }
+                ]
+                return words.find(obj => obj.endings.includes(lastNum)).word
+            }
         }
     },
     methods: {
@@ -39,13 +68,28 @@ export default {
                 getMinutes = date.getMinutes(),
                 hours      = getHours >= 10 ? getHours : `0${getHours}`,
                 minutes    = getMinutes >= 10 ? getMinutes : `0${getMinutes}`
-               
+            
             this.time = { hours, minutes }
         }
     },
     mounted() {
         this.updateTime()
-        setInterval(() => this.updateTime(), 1000 * 60)
+        this.timer = setInterval(this.updateTime(), 1000 * 60)
+
+        this.countUpper = new CountUp(this.$refs.moneyCount, this.counts.money, this.counts.money, 0, 1.5, { useEasing: true })
+        this.countUpper.start()
+
+        this.$store.watch(
+            state => state.counts,
+            counts => {
+                this.countUpper.update(counts.money)
+                this.counts = counts
+            }, 
+            { deep: true }
+        )
+    },
+    destroyed() {
+        clearInterval(this.timer)
     }
 }
 </script>
@@ -68,7 +112,7 @@ export default {
         
         & h2
             font-size: 48px
-            font-weight: normal
+            font-weight: 300
 
             & .separator
                 position: relative

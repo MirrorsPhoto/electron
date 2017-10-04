@@ -15,7 +15,7 @@ const initialState = {
 export default new Vuex.Store({
     state: {},
     getters: {
-        userData: state => state.token ? jwtDecode(state.token) : null        
+        userData: ({ token }) => token ? jwtDecode(token) : null
     },
     mutations: {
         initState: state => {

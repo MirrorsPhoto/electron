@@ -1,11 +1,6 @@
-'use strict'
-
-process.env.BABEL_ENV = 'web'
-
 const path = require('path')
 const webpack = require('webpack')
 
-const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -27,12 +22,6 @@ let webConfig = {
       {
         test: /\.html$/,
         use: 'vue-html-loader'
-      },
-      {
-        test: /\.js$/,
-        use: 'babel-loader',
-        include: [ path.resolve(__dirname, '../src') ],
-        exclude: /node_modules/
       },
       {
         test: /\.vue$/,
@@ -114,7 +103,6 @@ if (process.env.NODE_ENV === 'production') {
   webConfig.devtool = ''
 
   webConfig.plugins.push(
-    new BabiliWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     }),

@@ -9,20 +9,21 @@
             <p>{{ weather.desc }}</p>
         </div>
         <div>
-            <h2><span ref="moneyCount">{{ counts.money }}</span>₽</h2>
+            <h2><count-upper :value="counts.money"></count-upper>₽</h2>
             <p>касса сегодня</p>
         </div>
         <div>
-            <h2>{{ counts.clients }}</h2>
+            <h2><count-upper :value="counts.clients"></count-upper></h2>
             <p>{{ clientsWord }}</p>
         </div>
     </div>
 </template>
 
 <script>
-import CountUp from 'countup.js'
 import axios from 'axios'
-import icons from './arrayIcons'
+import icons from '../../assets/arrayIcons'
+
+import countUpper from '../UI/countUpper'
 
 export default {
     data() {
@@ -36,13 +37,9 @@ export default {
                 desc: '',
                 icon: ''
             },
-            counts: {
-                money: 0,
-                clients: 0
-            },
+            counts: this.$store.state.counts,
             timer: null,
-            weatherTimer : null,
-            countUpper: null
+            weatherTimer : null
         }
     },
     computed: {
@@ -102,23 +99,11 @@ export default {
         this.timer = setInterval(this.updateTime, 1000 * 60)
         this.weatherTimer = setInterval(this.updateWeather, 1000 * 60 * 60)
     },
-    mounted() {
-        this.countUpper = new CountUp(this.$refs.moneyCount, this.counts.money, this.counts.money, 0, 1.5, { useEasing: true })
-        this.countUpper.start()
-
-        this.$store.watch(
-            state => state.counts,
-            counts => {
-                this.countUpper.update(counts.money)
-                this.counts = counts
-            }, 
-            { deep: true }
-        )
-    },
     destroyed() {
         clearInterval(this.timer)
         clearInterval(this.weatherTimer)
-    }
+    },
+    components: { countUpper }
 }
 </script>
 

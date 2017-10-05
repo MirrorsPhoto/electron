@@ -29,8 +29,9 @@
                 <icon name="logout"></icon>Выйти
             </a>
         </aside>
-
-        <component :is="page"></component>
+        <keep-alive>
+            <component :is="page"></component>
+        </keep-alive>
  
     </div>
 </template>

@@ -63,7 +63,7 @@ let webConfig = {
     new SVGSpritemapPlugin({
       src: 'src/assets/icons/*.svg',
       prefix: '',
-      filename: 'sprite.svg'
+      filename: 'imgs/iconsSprite.svg'
     }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({

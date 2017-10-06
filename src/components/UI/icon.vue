@@ -1,6 +1,6 @@
 <template>
-    <svg :style="'width: ' + size + 'px; height: ' + size + 'px'" :class="classList">
-        <use :xlink:href="'sprite.svg#' + name"></use>
+    <svg :width="size" :height="size" :class="classList">
+        <use :xlink:href="'imgs/iconsSprite.svg#' + name"/>
     </svg>
 </template>
 <script>

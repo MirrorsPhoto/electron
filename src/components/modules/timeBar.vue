@@ -5,7 +5,7 @@
             <p>{{ date }}</p>
         </div>
         <div>
-            <h2><i :class="'wi wi-day-' + weather.icon"></i>{{ weather.temp }}°</h2>
+            <h2><weather-icon :code="weather.code"></weather-icon>{{ weather.temp }}°</h2>
             <p>{{ weather.desc }}</p>
         </div>
         <div>
@@ -21,9 +21,9 @@
 
 <script>
 import axios from 'axios'
-import icons from '../../assets/arrayIcons'
 
 import countUpper from '../UI/countUpper'
+import weatherIcon from '../UI/weatherIcon'
 
 export default {
     data() {
@@ -35,7 +35,7 @@ export default {
             weather: {
                 temp: 0,
                 desc: '',
-                icon: ''
+                code: 0
             },
             counts: this.$store.state.counts,
             timer: null,
@@ -86,7 +86,7 @@ export default {
                 this.weather = {
                     temp: data ? parseInt(data.main.temp) : '?',
                     desc: data ? data.weather[0].description : 'Нет интернета...',
-                    icon: data ? icons[data.weather[0].id] : ''
+                    code: data ? +data.weather[0].id : 800
                 }
                 if (!data) setTimeout(this.updateWeather, 1000 * 60)
             })
@@ -103,14 +103,13 @@ export default {
         clearInterval(this.timer)
         clearInterval(this.weatherTimer)
     },
-    components: { countUpper }
+    components: { countUpper, weatherIcon }
 }
 </script>
 
 
 <style lang="sass" scoped>
 @import '../../styles_config.sass'
-@import '../../assets/weather-icons.css'
 
 .widget_wrap
     background: $light

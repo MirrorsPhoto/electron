@@ -10,8 +10,8 @@
             <tr v-for="(row, index) in rows" :key="index">
                 <td>{{ index + 1 }}</td>
                 <td>{{ row.name }}, {{ row.value }}</td>
-                <td>{{ row.count }}</td>
-                <td>{{ row.price }}</td>
+                <td><count :value.sync="row.count"></count></td>
+                <td>{{ row.count * row.price }}</td>
             </tr>
             <tfoot>
                 <td>{{ total }}</td>
@@ -21,6 +21,7 @@
     </div>
 </template>
 <script>
+import count from "../UI/count"
 export default {
     data() {
         return {
@@ -29,12 +30,19 @@ export default {
     },
     computed:{
         total() {
-            return this.rows.reduce((res, row) => res += row.price, 0)
+            return this.rows.reduce((res, row) => {
+                return res += (row.count * row.price)
+            }, 0)
         }
     },
     methods: {
         addRow(data) {
-            this.rows.push(data)
+            const i = this.rows.findIndex(row => {
+                return data.name === row.name && data.value === row.value)
+            }
+            (i || i === 0)
+                ? this.rows[i].count += data.count
+                : this.rows.push(data)
         },
         confirm() {
             if (this.total > 0) this.$store.commit('addSale', this.total)
@@ -44,6 +52,7 @@ export default {
         this.$parent.$children
             .filter(({ $refs }) => $refs.widget)
             .forEach(widget => widget.$on('add', this.addRow))
-    }
+    },
+    components: { count }
 }
 </script>

@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import jwtDecode from 'jwt-decode' 
+
 import auth from './components/pages/auth'
 import index from './components/pages/index'
 
@@ -21,7 +23,7 @@ export default {
   methods: {
     logIn(token) {
       this.$store.commit('initState')
-      this.$store.commit('setToken', token)
+      this.$store.commit('initUser', jwtDecode(token))
       this.page = 'index'
     },
     logOut() {

@@ -45,7 +45,7 @@ export default {
     data() {
         return {
             page: 'home',
-            user: this.$store.getters.userData
+            user: this.$store.state.user
         }
     },
     components: { home, logo, icon }

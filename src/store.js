@@ -2,10 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
-import jwtDecode from 'jwt-decode'
-
 const initialState = {
-    token: '',
+    user: {},
     counts: {
         money: 0,
         clients: 0
@@ -14,9 +12,6 @@ const initialState = {
 
 export default new Vuex.Store({
     state: {},
-    getters: {
-        userData: ({ token }) => token ? jwtDecode(token) : null
-    },
     mutations: {
         initState: state => {
             for (let key in initialState) {
@@ -24,7 +19,7 @@ export default new Vuex.Store({
                 Vue.set(state, key, (typeof value === 'object') ? Object.assign({}, value) : value)
             }
         },
-        setToken: (state, token) => state.token = token,
+        initUser: (state, data) => state.user = data,
         addSale: (state, summ) => {
             state.counts.money += summ
             state.counts.clients++

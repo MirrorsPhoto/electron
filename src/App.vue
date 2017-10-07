@@ -39,8 +39,9 @@ export default {
 
 
 <style lang="sass">
+  @import './assets/SF_font/FontFace.css'
   *
-    font-family: sans-serif
+    font-family: 'SF'
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
     color: #333
@@ -50,10 +51,14 @@ export default {
 
   body
     font-size: 14px
+    font-weight: normal
     -webkit-app-region: drag
 
   input, button, textarea
     -webkit-app-region: no-drag
+
+  h1, h2, h3, h4, h5, h6
+    font-weight: normal
 
   .bg
     background: url(./assets/DSC_6015.jpg) bottom center no-repeat

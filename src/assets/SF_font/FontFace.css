@@ -1,0 +1,13 @@
+/** Light */ 
+@font-face { 
+  font-family: "SF"; 
+  font-weight: 200; 
+  src: url("./SFUIDisplay-Thin.woff"); 
+} 
+ 
+/** Regular */ 
+@font-face { 
+  font-family: "SF"; 
+  font-weight: normal; 
+  src: url("./SFUIDisplay-Regular.woff"); 
+}

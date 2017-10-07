@@ -3,10 +3,22 @@
             <pie-bar></pie-bar>
             <time-bar></time-bar>
             <div class="widgets_bar">
-                <widget></widget>
-                <widget></widget>
-                <widget></widget>
-                <widget></widget>
+                <widget
+                    name="Фотография"
+                    icon="photo"
+                ></widget>
+                <widget
+                    name="Продажа"
+                    icon="bag"
+                ></widget>
+                <widget
+                    name="Ксерокопия"
+                    icon="copy"
+                ></widget>
+                <widget
+                    name="Ламинация"
+                    icon="lamination"
+                ></widget>
             </div>
             <check></check>
         </div>

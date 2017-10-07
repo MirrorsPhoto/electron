@@ -125,7 +125,7 @@ export default {
         
         & h2
             font-size: 48px
-            font-weight: 300
+            font-weight: 200
 
             & i
                 color: $primary-color

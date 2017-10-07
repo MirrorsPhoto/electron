@@ -94,7 +94,7 @@ export default {
 
                 & .icon
                     margin: 35px
-                    fill: darken($light, 15%)
+                    fill: $medium
 
         & h4
             text-align: center

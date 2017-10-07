@@ -66,7 +66,7 @@ div
 input
   border: none
   box-shadow: none
-  border-bottom: 1px solid $hard
+  border-bottom: 1px solid $medium
   outline: none
   width: 100%
   background: transparent

@@ -1,5 +1,5 @@
 <template>
-    <form ref="widget" class="widget_wrap" @submit.prevent="$emit('add', returnedData)">
+    <form ref="widget" class="widget_wrap" @submit.prevent="$emit('add', { name, value, count, price })">
         <span v-if="name === 'Фотография'" :class="['indicator', { active: $store.state.connect }]"></span>
         <div class="name">
             <icon :name="icon"></icon>
@@ -10,15 +10,15 @@
                 v-if="isSale"
                 width="120px"
                 placeholder="Код товара"
-                v-model="returnedData.value"
+                v-model="value"
             ></field>
             <slct
                 v-else
                 :options="slctOptions"
                 width="120px"
-                v-model="returnedData.value"
+                v-model="value"
             ></slct>
-            <count v-model="returnedData.count"></count>
+            <count v-model="count"></count>
         </div>
         <button type="submit"><icon name="chevron"></icon></button>
     </form>
@@ -42,12 +42,9 @@ export default {
     },
     data() {
         return {
-            returnedData: {
-                name: this.name,
-                value: '',
-                count: 1,
-                price: 1
-            },
+            value: '',
+            count: 1,
+            price: 1,
             widgetsSizes: {
                 'Фотография': ['3x3', '3x4'],
                 'Ксерокопия': ['А4', 'А3'],

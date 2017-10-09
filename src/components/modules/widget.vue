@@ -44,8 +44,9 @@ export default {
         return {
             returnedData: {
                 name: this.name,
-                value: undefined,
-                count: 1
+                value: '',
+                count: 1,
+                price: 1
             },
             widgetsSizes: {
                 'Фотография': ['3x3', '3x4'],

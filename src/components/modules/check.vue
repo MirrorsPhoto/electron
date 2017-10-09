@@ -30,17 +30,13 @@ export default {
     },
     computed:{
         total() {
-            return this.rows.reduce((res, row) => {
-                return res += (row.count * row.price)
-            }, 0)
+            return this.rows.reduce((res, row) => res += (row.count * row.price), 0)
         }
     },
     methods: {
         addRow(data) {
-            const i = this.rows.findIndex(row => {
-                return data.name === row.name && data.value === row.value)
-            }
-            (i || i === 0)
+            const i = this.rows.findIndex(r => data.name === r.name && data.value === r.value)
+            i !== -1
                 ? this.rows[i].count += data.count
                 : this.rows.push(data)
         },

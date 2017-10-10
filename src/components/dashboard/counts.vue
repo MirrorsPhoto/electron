@@ -34,12 +34,14 @@ export default {
                 desc: '',
                 code: 0
             },
-            counts: this.$store.state.counts,
             timer: null,
             weatherTimer : null
         }
     },
     computed: {
+        counts() {
+            return this.$store.state.counts
+        },
         date() {
             const
                 date    = new Date(),

@@ -216,7 +216,7 @@ tfoot
             transition: all .3s ease
 
             &:hover
-                background: $green
+                background: darken($primary-color, 15%)
 
             &:disabled
                 background: $light

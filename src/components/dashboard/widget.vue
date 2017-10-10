@@ -1,23 +1,18 @@
 <template>
     <form ref="widget" class="widget_wrap" @submit.prevent="submit()">
-        <span v-if="name === 'Фотография'" :class="['indicator', { active: $store.state.connect }]"></span>
         <div class="name">
+            <span v-if="name === 'Фотография'" :class="['indicator', { active: $store.state.connect }]"></span>
             <icon :name="icon"></icon>
             <h4>{{ name }}</h4>
         </div>
         <div class="fields_wrap">
             <field
-                v-if="name === 'Продажа'"
+                :select="name !== 'Продажа'"
                 width="120px"
-                placeholder="Код товара"
-                v-model="value"
-            ></field>
-            <slct
-                v-else
+                :placeholder="name !== 'Продажа' ? 'Размер' : 'Код товара'"
+                :value.sync="value"
                 :options="slctOptions"
-                width="120px"
-                v-model="value"
-            ></slct>
+            ></field>
             <count :count.sync="count"></count>
         </div>
         <button type="submit"><icon name="chevron"></icon></button>
@@ -52,21 +47,18 @@ export default {
     },
     created() {
         const { name } = this
-        
+        if (name === 'Продажа') return
         if (name === 'Фотография') {
             this.$http
                 .get('/photo/size')
                 .then(data => this.slctOptions = data)
                 .catch(err => console.error(err))
         }
-        else if (name !== 'Продажа') {
-            this.slctOptions = ['A4', 'A3']
-        }
+        else this.slctOptions = (name === 'Ламинация') ? ['A4', 'A3'] : ['A4']
     },
     components: {
         icon : require('../UI/icon'),
         field: require('../UI/field'),
-        slct : require('../UI/slct'),
         count: require('../UI/count')
     }
 }
@@ -79,7 +71,6 @@ export default {
     display: flex
     justify-content: space-between
     position: relative
-    overflow: hidden
 
     & + &
         margin-top: 20px
@@ -87,25 +78,27 @@ export default {
     & > *
         height: 100%
 
-    & .indicator
-        display: block
-        width: 20px
-        height: 20px
-        border-radius: 50%
-        background-color: $primary-color
-        position: absolute
-        left: -10px
-        top: -10px
-
-        &.active
-            background-color: $green
-
     & .name
         padding: 15px 0
         border-right: 1px solid $light
         float: left
         text-align: center
         flex-basis: 130px
+        position: relative
+        overflow: hidden
+
+        & .indicator
+            display: block
+            width: 20px
+            height: 20px
+            border-radius: 50%
+            background-color: $primary-color
+            position: absolute
+            left: -10px
+            top: -10px
+
+            &.active
+                background-color: $green
 
         & .icon
             fill: $primary-color

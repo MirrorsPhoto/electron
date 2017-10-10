@@ -11,9 +11,6 @@
 <script>
 import jwtDecode from 'jwt-decode' 
 
-import auth from './components/pages/auth'
-import index from './components/pages/index'
-
 export default {
   data() {
     return {
@@ -35,7 +32,10 @@ export default {
     const token = localStorage.getItem('token')
     token ? this.logIn(token) : this.page = 'auth'
   },
-  components: { auth, index }
+  components: {
+    auth : require('./components/auth'),
+    index: require('./components/index')
+  }
 }
 </script>
 

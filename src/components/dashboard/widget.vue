@@ -24,11 +24,6 @@
     </form>
 </template>
 <script>
-import icon from '../UI/icon'
-import field from '../UI/field'
-import slct from '../UI/slct'
-import count from '../UI/count'
-
 export default {
     props: {
         icon: {
@@ -60,7 +55,12 @@ export default {
             return !this.isSale ? this.widgetsSizes[this.name] : []
         }
     },
-    components: { icon, field, slct, count }
+    components: {
+        icon : require('../UI/icon'),
+        field: require('../UI/field'),
+        slct : require('../UI/slct'),
+        count: require('../UI/count')
+    }
 }
 </script>
 <style lang="sass" scoped>

@@ -32,7 +32,6 @@
     </form>
 </template>
 <script>
-import count from "../UI/count"
 export default {
     data() {
         return {
@@ -67,12 +66,11 @@ export default {
             this.rows = []
         }
     },
-    mounted() {
+    created() {
         this.$parent.$children
             .filter(({ $refs }) => $refs.widget)
             .forEach(widget => widget.$on('add', this.addRow))
-    },
-    components: { count }
+    }
 }
 </script>
 <style lang="sass" scoped>

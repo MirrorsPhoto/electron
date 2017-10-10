@@ -22,9 +22,6 @@
 <script>
 import axios from 'axios'
 
-import countUpper from '../UI/countUpper'
-import weatherIcon from '../UI/weatherIcon'
-
 export default {
     data() {
         return {
@@ -103,7 +100,10 @@ export default {
         clearInterval(this.timer)
         clearInterval(this.weatherTimer)
     },
-    components: { countUpper, weatherIcon }
+    components: {
+        countUpper : require('../UI/countUpper'),
+        weatherIcon: require('../UI/weatherIcon')
+    }
 }
 </script>
 

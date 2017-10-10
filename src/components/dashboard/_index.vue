@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-            <pie-bar></pie-bar>
-            <time-bar></time-bar>
+            <chart></chart>
+            <counts></counts>
             <div class="widgets_bar">
                 <widget
                     name="Фотография"
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import timeBar from '../modules/timeBar'
-import pieBar from '../modules/pieBar'
-import widget from '../modules/widget'
-import check from '../modules/check'
-
 export default {
-    components: { timeBar, pieBar, widget, check }
+    components: {
+        chart : require('./chart'),
+        counts: require('./counts'),
+        widget: require('./widget'),
+        check : require('./check')
+    }
 }
 </script>
 

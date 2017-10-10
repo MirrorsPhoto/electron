@@ -11,13 +11,13 @@
             <p>{{ user.role_name }}</p>
 
             <nav>
-                <a @click.prevent="page = 'home'">
+                <a @click.prevent="page = 'dashboard'">
                     <icon name="dashboard"></icon>Главный экран
                 </a>
-                <a @click.prevent="page = 'items'">
+                <a @click.prevent="page = 'storehouse'">
                     <icon name="bag"></icon>Товары
                 </a>
-                <a @click.prevent="page = 'stat'">
+                <a @click.prevent="page = 'statistic'">
                     <icon name="chart"></icon>Статистика
                 </a>
                 <a @click.prevent="page = 'settings'">
@@ -37,23 +37,31 @@
 </template>
 
 <script>
-import home from './home'
-import logo from '../UI/logo.vue'
-import icon from '../UI/icon'
-
 export default {
     data() {
         return {
-            page: 'home',
-            user: this.$store.state.user
+            page: 'dashboard'
         }
     },
-    components: { home, logo, icon }
+    computed: {
+        user() {
+            return this.$store.state.user
+        }
+    },
+    components: {
+        dashboard : require('./dashboard/_index'),
+        storehouse: require('./storehouse/_index'),
+        statistic : require('./statistic/_index'),
+        settings  : require('./settings/_index'),
+
+        logo : require('./UI/logo'),
+        icon : require('./UI/icon')
+    }
 }
 </script>
 
 <style lang="sass" scoped>
-@import '../../styles_config.sass'
+@import '../styles_config.sass'
 
 .wrap 
     width: 1280px

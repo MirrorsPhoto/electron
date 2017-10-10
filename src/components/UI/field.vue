@@ -1,56 +1,84 @@
 <template>
+    <div :style="{ width }">
 
-<div :style="{ width }">
+        <input
+            ref="input"
+            :disabled="disabled || (select && options.length === 1)"
+            :type="type" :value="value"
+            autocomplete="off"
+            @input="change($event.target.value)"
+            @focus="showList = select"
+            @blur="showList = false"
+        >
 
-  <input
-    ref="input"
-    :disabled="disabled"
-    :type="type"
-    :value="value || ''"
-    @input="$emit('input', $event.target.value)"
-    autocomplete="off"
-  >
+        <label
+            @click="$refs.input.focus()"
+            :class="{ active: value }"
+        >{{ placeholder }}</label>
 
-  <label
-    @click="$refs.input.focus()"
-    :class="{ active : !!value  }">
-    {{ placeholder }}
-  </label>
+        <transition name="fadeIn">
+            <ul v-if="showList">
+                <li v-for="(option, index) in options" :key="index">
+                    <a href="#" @click.prevent="change(option)">{{ option }}</a>
+                </li>
+            </ul>
+        </transition>
 
-</div>
+    </div>
 </template>
 
 <script>
 export default {
-  props: {
-    type: {
-      type: String,
-      default: 'text'
+    props: {
+        type: {
+            type: String,
+            default: 'text'
+        },
+        select: {
+            type: Boolean,
+            default: false
+        },
+        placeholder: {
+            type: String,
+            default: ''
+        },
+        width: {
+            type: String,
+            default: '100%'
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        value: {
+            type: [Number, String],
+            default: ''
+        },
+        options: {
+            type: Array,
+            default: () => []
+        },
+        autofocus: {
+            type: Boolean,
+            default: false
+        }
     },
-    placeholder: {
-      type: String,
-      default: ''
+    data() {
+        return {
+            showList: false
+        }
     },
-    width: {
-      type: String,
-      default: '100%'
+    methods: {
+        change(value) {
+            this.$emit('update:value', value)
+        }
     },
-    disabled: {
-      type: Boolean,
-      default: false
+    created() {
+        if (this.select) this.change(this.options[0])
     },
-    value: {
-      type: [Number, String],
-      default: ''
-    },
-    autofocus: {
-      type: Boolean,
-      default: false
+    mounted() {
+        if (this.autofocus) this.$refs.input.focus()
     }
-  },
-  mounted() {
-    if (this.autofocus) this.$refs.input.focus();
-  }
 }
 </script>
 
@@ -79,12 +107,6 @@ input
     padding: 17px 0 6px
     border-bottom: 2px solid $primary-color
 
-  &:disabled
-    color: $hard
-    & + label
-      opacity: .5
-      cursor: default
-
 label
   top: 16px
   line-height: 16px
@@ -102,5 +124,36 @@ input:focus + label, .active
   position: absolute
   top: -2px
   cursor: text
+
+ul
+  list-style: none
+  width: 100%
+  max-height: 90px
+  background: #fff
+  font-size: 14px
+  position: absolute
+  top: 0
+  left: 0
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, .2)
+  overflow-y: auto 
+
+  & li + li
+    border-top: 1px solid $light
+
+  & a
+    display: block
+    text-decoration: none
+    line-height: 30px
+    padding-left: 15px
+
+    &:hover
+      background: $light
+
+.fadeIn-enter-active, .fadeIn-leave-active
+  transition: all .2s ease
+
+.fadeIn-enter, .fadeIn-leave-to
+  opacity: 0
+  transform: translateY(10px)
 
 </style>

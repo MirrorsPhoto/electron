@@ -3,13 +3,13 @@
         <logo class="logo"></logo>
         <field
             placeholder="Логин"
-            v-model="user.login"
+            :value.sync="user.login"
             autofocus
         ></field>
         <field
             placeholder="Пароль"
             type="password"
-            v-model="user.password"
+            :value.sync="user.password"
         ></field>
         <input type="submit">
 

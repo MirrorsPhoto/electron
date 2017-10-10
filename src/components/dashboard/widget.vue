@@ -1,5 +1,5 @@
 <template>
-    <form ref="widget" class="widget_wrap" @submit.prevent="$emit('add', { name, value, count, price })">
+    <form ref="widget" class="widget_wrap" @submit.prevent="submit()">
         <span v-if="name === 'Фотография'" :class="['indicator', { active: $store.state.connect }]"></span>
         <div class="name">
             <icon :name="icon"></icon>
@@ -18,7 +18,7 @@
                 width="120px"
                 v-model="value"
             ></slct>
-            <count v-model="count"></count>
+            <count :count.sync="count"></count>
         </div>
         <button type="submit"><icon name="chevron"></icon></button>
     </form>
@@ -53,6 +53,13 @@ export default {
         },
         slctOptions() {
             return !this.isSale ? this.widgetsSizes[this.name] : []
+        }
+    },
+    methods: {
+        submit() {
+            const { name, value, count, price } = this
+            this.count = 1
+            this.$emit('add', { name, value, count, price })
         }
     },
     components: {

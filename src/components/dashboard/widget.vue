@@ -7,7 +7,7 @@
         </div>
         <div class="fields_wrap">
             <field
-                v-if="isSale"
+                v-if="name === 'Продажа'"
                 width="120px"
                 placeholder="Код товара"
                 v-model="value"
@@ -40,19 +40,7 @@ export default {
             value: '',
             count: 1,
             price: 1,
-            widgetsSizes: {
-                'Фотография': ['3x3', '3x4'],
-                'Ксерокопия': ['А4', 'А3'],
-                'Ламинация': ['А4', 'А3']
-            }
-        }
-    },
-    computed: {
-        isSale() {
-            return this.name === 'Продажа'
-        },
-        slctOptions() {
-            return !this.isSale ? this.widgetsSizes[this.name] : []
+            slctOptions: []
         }
     },
     methods: {
@@ -60,6 +48,19 @@ export default {
             const { name, value, count, price } = this
             this.count = 1
             this.$emit('add', { name, value, count, price })
+        }
+    },
+    created() {
+        const { name } = this
+        
+        if (name === 'Фотография') {
+            this.$http
+                .get('/photo/size')
+                .then(data => this.slctOptions = data)
+                .catch(err => console.error(err))
+        }
+        else if (name !== 'Продажа') {
+            this.slctOptions = ['A4', 'A3']
         }
     },
     components: {

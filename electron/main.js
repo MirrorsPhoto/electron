@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu } from 'electron'
 import path from 'path'
 import url from 'url'
 import autoUpdater from './plugins/autoUpdater';
+import socket from './plugins/socket';
 
 /**
  * Set `__static` path to static files in production
@@ -81,5 +82,6 @@ app.on('ready', () => {
     }
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
-});
 
+    socket(mainWindow)
+});

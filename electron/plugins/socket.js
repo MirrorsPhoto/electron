@@ -6,14 +6,14 @@ export default (mainWindow) => {
   });
 
   webSocketServer.on('connection', (ws) => {
-    mainWindow.webContents.send('photoshop-connected')
+    mainWindow.webContents.send('photoshop-connect', true)
 
     ws.on('message', (message) => {
       mainWindow.webContents.send('photoshop-message', message)
     });
 
     ws.on('close', () => {
-      mainWindow.webContents.send('photoshop-disconected')
+      mainWindow.webContents.send('photoshop-connect', false)
     });
 
   });

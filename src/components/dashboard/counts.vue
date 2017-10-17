@@ -107,7 +107,7 @@ export default {
 @import '../../styles_config.sass'
 
 .widget_wrap
-    background: $light
+    background: $light!important
     display: grid
     grid-template-columns: 1fr 1fr
     grid-template-rows: 1fr 1fr

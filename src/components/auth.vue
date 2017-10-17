@@ -3,13 +3,13 @@
         <logo class="logo"></logo>
         <field
             placeholder="Логин"
-            :value.sync="user.login"
+            v-model="user.login"
             autofocus
         ></field>
         <field
             placeholder="Пароль"
             type="password"
-            :value.sync="user.password"
+            v-model="user.password"
         ></field>
         <input type="submit">
 
@@ -65,7 +65,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import '../styles_config.sass'
 
 form 

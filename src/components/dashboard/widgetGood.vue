@@ -44,8 +44,9 @@ export default {
     submit() {
       this.$http.get('good/' + this.code)
         .then(({ data: { response } }) => {
-          const { name: value, price } = response
-          const { title, count } = this
+          const { name: title, description: value, price } = response
+          const { count } = this
+
           this.$emit('add', { title, value, count, price })
           this.code = ''
           this.count = 1

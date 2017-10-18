@@ -98,7 +98,7 @@ function logging(title, data) {
     start = chalk.red.bold(`┏ ${title} ${new Array(34 - title.length).join('-')}`),
     end   = chalk.red.bold(`┗ ${new Array(35).join('-')}`),
     log   = data
-            .toString(title !== 'Electron Log' ? 'errors-only' : '')
+            .toString(title !== 'Electron Log' ? 'errors-only' : 'utf8')
             .split(/\r?\n/)
             .reduce((res, line) => res += `\n  ${line}`, '')
 

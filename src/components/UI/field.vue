@@ -54,6 +54,10 @@ export default {
       type: [Number, String],
       default: ''
     },
+    maxLen: {
+      type: [Number, Boolean],
+      default: false
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -67,8 +71,7 @@ export default {
       default: false
     },
     options: {
-      type: Array,
-      default: () => []
+      type: Array
     }
   },
   data() {
@@ -90,8 +93,14 @@ export default {
   },
   methods: {
     change(value) {
-      this.innerValue = value
-      this.$emit('input', value)
+      let val = value
+      let { maxLen } = this
+
+      if (maxLen && value.length > maxLen) {
+        val = this.$refs.input.value = value.substr(0, maxLen)
+      }
+      
+      this.$emit('input', val)
     },
     openList() {
       if (this.select && this.options.length > 1 && !this.showList) this.showList = true
@@ -102,7 +111,9 @@ export default {
     }
   },
   mounted() {
-    if (this.select) this.change(this.options[0])
+    this.select
+      ? this.change(this.options[0])
+      : this.innerValue = this.value
   }
 }
 </script>
@@ -140,6 +151,10 @@ div
     &:focus
       padding-bottom: 6px
       border-bottom: 2px solid $primary-color
+
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button 
+      -webkit-appearance: none
+      margin: 0
 
   & label
     color: $hard

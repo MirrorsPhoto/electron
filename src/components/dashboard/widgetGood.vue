@@ -9,6 +9,8 @@
     <div class="fields_wrap">
 
       <field
+        type="number"
+        :max-len="13"
         placeholder="Код товара"
         width="120px"
         v-model="code"

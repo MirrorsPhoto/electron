@@ -19,7 +19,7 @@
             <button class="displayOnHover" @click.prevent="setCount('dec', index)">-</button>
           </td>
           <td>{{ row.count * row.price }}₽</td>
-          <a class="displayOnHover" @click.prevent="removeRow(index)">+</a>
+          <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
       </transition-group>
       <tfoot>
@@ -158,6 +158,7 @@ tbody
       padding: 9px 0
 
     a
+      text-decoration: none
       position: absolute
       right: 12px
       top: 6px
@@ -168,8 +169,6 @@ tbody
       opacity: 0
       transition: all .3s ease
       color: $primary-color
-      cursor: pointer
-
 
     &:hover
       background: $light
@@ -213,7 +212,6 @@ tfoot
       border: none
       outline: none
       margin: 0
-      cursor: pointer
       transition: all .3s ease
 
       &:hover

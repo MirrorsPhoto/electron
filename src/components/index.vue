@@ -13,21 +13,21 @@
       <p>{{ user.role_name }}</p>
 
       <nav>
-        <a @click.prevent="page = 'dashboard'">
+        <a href="#" @click.prevent="page = 'dashboard'">
           <icon name="dashboard"></icon>Главный экран
         </a>
-        <a @click.prevent="page = 'storehouse'">
+        <a href="#" @click.prevent="page = 'storehouse'">
           <icon name="bag"></icon>Товары
         </a>
-        <a @click.prevent="page = 'statistic'">
+        <a href="#" @click.prevent="page = 'statistic'">
           <icon name="chart"></icon>Статистика
         </a>
-        <a @click.prevent="page = 'settings'">
+        <a href="#" @click.prevent="page = 'settings'">
           <icon name="settings"></icon>Настройки
         </a>
       </nav>
 
-      <a class="link_logout" @click.prevent="$emit('logOut')">
+      <a href="#" class="link_logout" @click.prevent="$emit('logOut')">
         <icon name="logout"></icon>Выйти
       </a>
     </aside>
@@ -121,9 +121,11 @@ export default {
 
     & a
       display: block
+      color: #333
       font-size: 16px
       line-height: 20px
       text-decoration: none
+      transition: all .3s ease
 
       & .icon
         margin-left: 40px

@@ -79,12 +79,12 @@ export default {
       outline: none
       background: $light
       padding: 0 10px
-      cursor: pointer
       transition: all .3s ease
 
       & .icon
         transform: rotate(90deg)
         fill: $hard
+        cursor: pointer
 
       &:hover
         background: $primary-color

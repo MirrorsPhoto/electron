@@ -47,7 +47,6 @@ export default {
         border: 1px solid $light
         background: #fff
         color: $primary-color
-        cursor: pointer
         transition: all .3s ease
 
         &:hover

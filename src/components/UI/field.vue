@@ -1,151 +1,164 @@
 <template>
-    <div ref="wrap" :style="{ width }">
+  <div ref="wrap" :style="{ width }">
 
-        <input
-            ref="input"
-            :disabled="disabled || (select && options.length <= 1 && !showList)"
-            :type="type"
-            :autofocus="autofocus"
-            autocomplete="off"
-            :value="innerValue"
-            @input="change($event.target.value)"
-            @mousedown="openList()"
-        >
+    <input
+      ref="input"
+      :type="type"
+      :value="innerValue"
+      @input="change($event.target.value)"
+      @mousedown="openList()"
+      :disabled="disabled || (select && options.length <= 1 && !showList)"
+      :autofocus="autofocus"
+      autocomplete="off"
+    >
 
-        <label
-            @click="select ? openList() : $refs.input.focus()"
-            :class="{ active: innerValue }"
-        >{{ placeholder }}</label>
+    <label
+      v-text="placeholder"
+      :class="{ active: innerValue }"
+      @click="select ? openList() : $refs.input.focus()"
+    ></label>
 
-        <span v-if="select && options.length > 1" class="arrow" @mousedown="openList()"></span>
+    <span
+      v-if="select && options.length > 1"
+      class="arrow"
+      @mousedown="openList()"
+    ></span>
 
-        <transition name="fade-in">
-            <ul v-if="select && showList" ref="list">
-                <li v-for="option in options" :key="option">
-                    <a href="#" @click.prevent="change(option)">{{ option }}</a>
-                </li>
-            </ul>
-        </transition>
+    <transition name="fade-in">
+      <ul ref="list" v-if="select && showList">
+        <li v-for="option in options" :key="option">
+          <a href="#" v-text="option" @click.prevent="change(option)"></a>
+        </li>
+      </ul>
+    </transition>
 
-    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: {
-        type: {
-            type: String,
-            default: 'text'
-        },
-        select: {
-            type: Boolean,
-            default: false
-        },
-        placeholder: {
-            type: String,
-            default: ''
-        },
-        width: {
-            type: String,
-            default: '100%'
-        },
-        disabled: {
-            type: Boolean,
-            default: false
-        },
-        value: {
-            type: [Number, String],
-            default: ''
-        },
-        options: {
-            type: Array,
-            default: () => []
-        },
-        autofocus: {
-            type: Boolean,
-            default: false
-        }
+  props: {
+    type: {
+      type: String,
+      default: 'text'
     },
-    data() {
-        return {
-            innerValue: '',
-            showList: false
-        }
+    placeholder: {
+      type: String,
+      default: ''
     },
-    watch: {
-        value(value) {
-            this.innerValue = value
-        },
-        showList(isShow) {
-            document[isShow ? 'addEventListener' : 'removeEventListener']('click', this.closeList)
-        },
-        options(options) {
-            this.change(options[0])
-        }
+    width: {
+      type: String,
+      default: '100%'
     },
-    methods: {
-        change(value) {
-            this.innerValue = value
-            this.$emit('input', value)
-        },
-        closeList(e) {
-            const el = e.target, { wrap, list } = this.$refs
-            if (!wrap.contains(el) || list.contains(el)) this.showList = false
-        },
-        openList() {
-            if (this.select && this.options.length > 1 && !this.showList) this.showList = true
-        }
+    value: {
+      type: [Number, String],
+      default: ''
     },
-    mounted() {
-        if (this.select) this.change(this.options[0])
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    autofocus: {
+      type: Boolean,
+      default: false
+    },
+    select: {
+      type: Boolean,
+      default: false
+    },
+    options: {
+      type: Array,
+      default: () => []
     }
+  },
+  data() {
+    return {
+      innerValue: '',
+      showList: false
+    }
+  },
+  watch: {
+    value(value) {
+      this.innerValue = value
+    },
+    options(options) {
+      this.change(options[0])
+    },
+    showList(isShow) {
+      document[isShow ? 'addEventListener' : 'removeEventListener']('click', this.closeList)
+    }
+  },
+  methods: {
+    change(value) {
+      this.innerValue = value
+      this.$emit('input', value)
+    },
+    openList() {
+      if (this.select && this.options.length > 1 && !this.showList) this.showList = true
+    },
+    closeList(e) {
+      const el = e.target, { wrap, list } = this.$refs
+      if (!wrap.contains(el) || list.contains(el)) this.showList = false
+    }
+  },
+  mounted() {
+    if (this.select) this.change(this.options[0])
+  }
 }
 </script>
 
 <style lang="sass" scoped>
 @import "../../styles_config.sass"
 
+.fade-in-enter-active, .fade-in-leave-active
+  transition: all .2s ease
+
+.fade-in-enter, .fade-in-leave-to
+  opacity: 0
+  transform: translateY(10px)
+
 div
-  position: relative
+  display: inline-block
   height: 40px
   line-height: 40px
-  display: inline-block
-  cursor: pointer
+  position: relative
 
-input
-  border: none
-  box-shadow: none
-  border-bottom: 1px solid $medium
-  outline: none
-  width: 100%
-  background: transparent
-  padding: 17px 0 7px
-  height: 40px
-  transition: all .3s ease
-  text-overflow: ellipsis
+  & > *
+    cursor: pointer
 
-  &:focus
-    padding: 17px 0 6px
-    border-bottom: 2px solid $primary-color
+  & input
+    background: transparent
+    width: 100%
+    height: 40px
+    padding: 17px 0 7px
+    border: none
+    border-bottom: 1px solid $medium
+    outline: none
+    text-overflow: ellipsis
+    transition: all .3s ease
 
-label
-  top: 16px
-  line-height: 16px
-  color: $hard
-  position: absolute
-  left: 0
-  transition: .2s ease-out
-  cursor: text
+    &:focus
+      padding-bottom: 6px
+      border-bottom: 2px solid $primary-color
 
-input:focus + label
-  color: $primary-color
+  & label
+    color: $hard
+    line-height: 16px
+    position: absolute
+    top: 16px
+    left: 0
+    transition: .2s ease-out
 
-input:focus + label, .active
-  font-size: .8em
-  position: absolute
-  top: -2px
+  input:focus + label
+    color: $primary-color
 
-.arrow
+  input:focus + label, .active
+    font-size: .8em
+    position: absolute
+    top: -2px
+
+  & .arrow
+    display: block
     width: 0
     height: 0
     border: 4px solid transparent
@@ -155,39 +168,32 @@ input:focus + label, .active
     right: 5px
     transition: all .3s ease
 
-div:hover .arrow
+  &:hover .arrow
     border-top-color: $hard
 
-ul
-  list-style: none
-  width: 100%
-  max-height: 90px
-  background: #fff
-  font-size: 14px
-  position: absolute
-  top: 0
-  left: 0
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, .2)
-  overflow-y: auto
-  z-index: 9999
+  & ul
+    list-style: none
+    background: #fff
+    width: 100%
+    max-height: 90px
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .2)
+    font-size: 14px
+    position: absolute
+    top: 0
+    left: 0
+    overflow-y: auto
+    z-index: 9999
 
-  & li + li
-    border-top: 1px solid $light
+    & li + li
+      border-top: 1px solid $light
 
-  & a
-    display: block
-    text-decoration: none
-    line-height: 30px
-    padding-left: 15px
+    & li a
+      display: block
+      padding-left: 15px
+      line-height: 30px
+      text-decoration: none
 
-    &:hover
-      background: $light
-
-.fade-in-enter-active, .fade-in-leave-active
-  transition: all .2s ease
-
-.fade-in-enter, .fade-in-leave-to
-  opacity: 0
-  transform: translateY(10px)
+      &:hover
+        background: $light
 
 </style>

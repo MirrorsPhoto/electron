@@ -10,7 +10,7 @@
 
       <span
         :class="['indicator', { active: isConnectPS }]"
-        :title="(isConnectPS ? 'Есть соединение' : 'Нет соединения') + 'с Photoshop'"
+        :title="(isConnectPS ? 'Есть соединение' : 'Нет соединения') + ' с Photoshop'"
       ></span>
 
       <field

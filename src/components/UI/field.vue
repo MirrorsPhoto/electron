@@ -93,14 +93,13 @@ export default {
   },
   methods: {
     change(value) {
-      let val = value
       let { maxLen } = this
-
-      if (maxLen && value.length > maxLen) {
-        val = this.$refs.input.value = value.substr(0, maxLen)
-      }
       
-      this.$emit('input', val)
+      if (maxLen && value.length > maxLen) {
+        value = this.$refs.input.value = value.substr(0, maxLen)
+      } 
+
+      this.$emit('input', value)
     },
     openList() {
       if (this.select && this.options.length > 1 && !this.showList) this.showList = true
@@ -205,6 +204,7 @@ div
     & li a
       display: block
       padding-left: 15px
+      color: #333
       line-height: 30px
       text-decoration: none
 

@@ -20,9 +20,6 @@
 </template>
 
 <script>
-import field from '../UI/field.vue';
-import logo from '../UI/logo.vue';
-
 export default {
     data() {
         return {
@@ -61,12 +58,15 @@ export default {
             else this.errorMessages.splice(0, 1, 'Заполните все поля формы');
         }
     },
-    components: { field, logo }
+    components: {
+        field: require('./UI/field'),
+        logo : require('./UI/logo')
+    }
 }
 </script>
 
-<style lang="sass">
-@import '../../styles_config.sass'
+<style lang="sass" scoped>
+@import '../styles_config.sass'
 
 form 
     width: 350px

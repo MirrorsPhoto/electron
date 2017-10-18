@@ -11,9 +11,6 @@
 <script>
 import jwtDecode from 'jwt-decode' 
 
-import auth from './components/pages/auth'
-import index from './components/pages/index'
-
 export default {
   data() {
     return {
@@ -35,39 +32,43 @@ export default {
     const token = localStorage.getItem('token')
     token ? this.logIn(token) : this.page = 'auth'
   },
-  components: { auth, index }
+  components: {
+    auth : require('./components/auth'),
+    index: require('./components/index')
+  }
 }
 </script>
 
 
 <style lang="sass">
-  @import './assets/SF_font/FontFace.css'
-  *
-    font-family: 'SF'
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
-    color: #333
-    margin: 0
-    padding: 0
-    box-sizing: border-box
+@import './assets/SF_font/FontFace.css'
 
-  body
-    font-size: 14px
-    font-weight: normal
-    -webkit-app-region: drag
+*, *:after, *:before
+  -webkit-font-smoothing: antialiased
+  -webkit-user-select: none
+  font-family: 'SF'
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+  cursor: default
 
-  input, button, textarea
-    -webkit-app-region: no-drag
+body
+  color: #333
+  font-size: 14px
+  font-weight: normal
 
-  h1, h2, h3, h4, h5, h6
-    font-weight: normal
+  & a, & button, & [type="submit"]
+    cursor: pointer
+  
+h1, h2, h3, h4, h5, h6
+  font-weight: normal
 
-  .bg
-    background: url(./assets/DSC_6015.jpg) bottom center no-repeat
-    background-size: cover
-    height: 100vh
-    display: flex
-    align-items: center
-    justify-content: center
+.bg
+  background: url(./assets/DSC_6015.jpg) bottom center no-repeat
+  background-size: cover
+  height: 100vh
+  display: flex
+  align-items: center
+  justify-content: center
 
 </style>

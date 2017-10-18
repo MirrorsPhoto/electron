@@ -1,34 +1,27 @@
 <template>
     <div class="count_wrap">
-        <button @click.prevent="inc()">+</button>
+        <button @click.prevent="change(count + 1)">+</button>
         <input
             type="number"
             step="1"
             min="1"
-            v-model.number="count"
+            :value="count"
+            @input="change($event.target.value)"
         >
-        <button @click.prevent="dec()">-</button>
+        <button @click.prevent="change(count - 1)">-</button>
         <span>шт.</span>
     </div>
 </template>
 <script>
 export default {
-    data() {
-        return {
-            count: 1
-        }
-    },
-    watch: {
-        count(count) {
-            this.$emit('input', count)
+    props: {
+        count: {
+            default: 1
         }
     },
     methods: {
-        inc() {
-            this.count++
-        },
-        dec() {
-            if (this.count > 1) this.count--
+        change(value) {
+            this.$emit('update:count', value > 1 ? value : 1)
         }
     }
 }
@@ -54,7 +47,6 @@ export default {
         border: 1px solid $light
         background: #fff
         color: $primary-color
-        cursor: pointer
         transition: all .3s ease
 
         &:hover

@@ -32,12 +32,14 @@ function startRenderer() {
       })
     })
 
+    compiler.plugin('done', stats => logging('Render Process', stats))
+
     const server = new WebpackDevServer(
       compiler,
       {
         contentBase: path.join(__dirname, '../'),
         quiet: true,
-        setup (app, ctx) {
+        before (app, ctx) {
           app.use(hotMiddleware)
           ctx.middleware.waitUntilValid(resolve)
         }
@@ -58,12 +60,14 @@ function startMain() {
       done()
     })
 
-    compiler.watch({}, err => {
+    compiler.watch({}, (err, stats) => {
       if (err) {
         console.log(err)
         return
       }
 
+      logging('Main Process', stats)
+      
       if (electronProcess && electronProcess.kill) {
         manualRestart = true
         process.kill(electronProcess.pid)
@@ -81,26 +85,25 @@ function startMain() {
 function startElectron() {
   electronProcess = spawn(electron, ['--inspect=5858', path.join(__dirname, '../dist/electron/main.js')])
 
-  electronProcess.stdout.on('data', data => electronLog(data, 'blue'))
-  electronProcess.stderr.on('data', data => electronLog(data, 'red'))
+  electronProcess.stdout.on('data', data => logging('Electron Log', data))
+  electronProcess.stderr.on('data', data => logging('Electron Log', data))
 
   electronProcess.on('close', () => {
     if (!manualRestart) process.exit()
   })
 }
 
-function electronLog(data, color) {
-  const log = data
-    .toString()
-    .split(/\r?\n/)
-    .reduce((res, line) => res += `\n  ${line}`, '')
+function logging(title, data) {
+  const
+    start = chalk.red.bold(`┏ ${title} ${new Array(34 - title.length).join('-')}`),
+    end   = chalk.red.bold(`┗ ${new Array(35).join('-')}`),
+    log   = data
+            .toString(title !== 'Electron Log' ? 'errors-only' : 'utf8')
+            .split(/\r?\n/)
+            .reduce((res, line) => res += `\n  ${line}`, '')
 
-  if (/[0-9A-z]+/.test(log)) {
-    const
-      wrapStart = chalk[color].bold('┏ Electron Log ---------------'),
-      wrapEnd   = chalk[color].bold('┗ ----------------------------')
-
-    console.log(`\n${wrapStart}\n${log}\n${wrapEnd}\n`)
+  if (/[0-9A-z]+/.test(log) && !/chrome-devtools/.test(log)) {
+    console.log(`\n${start}\n${log}\n${end}\n`)
   }
 }
 

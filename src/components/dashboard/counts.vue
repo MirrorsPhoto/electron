@@ -22,9 +22,6 @@
 <script>
 import axios from 'axios'
 
-import countUpper from '../UI/countUpper'
-import weatherIcon from '../UI/weatherIcon'
-
 export default {
     data() {
         return {
@@ -37,12 +34,14 @@ export default {
                 desc: '',
                 code: 0
             },
-            counts: this.$store.state.counts,
             timer: null,
             weatherTimer : null
         }
     },
     computed: {
+        counts() {
+            return this.$store.state.counts
+        },
         date() {
             const
                 date    = new Date(),
@@ -53,19 +52,12 @@ export default {
             return `${day} ${month}, ${weekDay}`
         },
         clientsWord() {
-            const { clients } = this.counts
-            if (clients > 10 && clients < 20) {
-                return 'клиентов'
-            }
-            else {
-                const lastNum = +[...String(clients)].pop()
-                const words = [
-                    { word: 'клиент', endings: [1] },
-                    { word: 'клиента', endings: [2, 3, 4] },
-                    { word: 'клиентов', endings: [5, 6, 7, 8, 9, 0] }
-                ]
-                return words.find(({ endings }) => endings.includes(lastNum)).word
-            }
+            const
+                n     = this.counts.clients,
+                words = ['клиент', 'клиента', 'клиентов'],
+                cases = [2, 0, 1, 1, 1, 2]
+                
+            return words[(n % 100 > 4 && n % 100 < 20) ? 2 : cases[(n % 10 < 5) ? n % 10 : 5]]
         }
     },
     methods: {
@@ -103,7 +95,10 @@ export default {
         clearInterval(this.timer)
         clearInterval(this.weatherTimer)
     },
-    components: { countUpper, weatherIcon }
+    components: {
+        countUpper : require('../UI/countUpper'),
+        weatherIcon: require('../UI/weatherIcon')
+    }
 }
 </script>
 
@@ -112,7 +107,7 @@ export default {
 @import '../../styles_config.sass'
 
 .widget_wrap
-    background: $light
+    background: $light!important
     display: grid
     grid-template-columns: 1fr 1fr
     grid-template-rows: 1fr 1fr

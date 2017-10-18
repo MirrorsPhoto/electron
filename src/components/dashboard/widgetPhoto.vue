@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     sizes() {
-      return this.photoData.map(size => size.width + 'x' + size.height)
+      return this.photoData.map(this.sizeToString)
     },
     variations() {
       if (this.sizes.length && this.size) {
@@ -64,8 +64,12 @@ export default {
     }
   },
   methods: {
-    submit() {
-      const { title, price, count, size } = this
+    sizeToString(size) {
+      return size.width + 'x' + size.height
+    },
+    submit(msg) {
+      const { title } = this
+      const { size, price, count } = msg ? msg : this
       const value = `${size} (${count} шт.)`
       this.$emit('add', { title, value, price, count: 1 })
     }
@@ -75,7 +79,16 @@ export default {
       .then(({ data: { response } }) => this.photoData = response)
       .catch(err => console.error(err))
 
-    this.$electron.ipcRenderer.on('photoshop-connect', status => this.isConnectPS = status)
+    this.$electron.ipcRenderer.on('photoshop-connect', (e, status) => this.isConnectPS = status)
+    
+    this.$electron.ipcRenderer.on('photoshop-message', (e, { height, width, count }) => {
+      const size = this.sizeToString({ width, height })
+      const price = this.photoData
+        .find(s => s.height === height && s.width === width)
+        .variations[count]
+
+      this.submit({ size, count, price })
+    })
   },
   components: {
     icon : require('../UI/icon'),

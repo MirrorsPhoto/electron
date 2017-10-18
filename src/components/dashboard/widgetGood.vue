@@ -62,10 +62,10 @@ export default {
 @import '../../styles_config.sass'
 
 .error
+  color: $primary-color
+  font-size: .7em
   position: absolute
   bottom: 3px
-  font-size: .7em
   left: 150px
-  color: $primary-color
 
 </style>

@@ -4,7 +4,7 @@
     <counts></counts>
     <div class="widgets_bar">
       <widget-photo></widget-photo>
-      <widget-sale></widget-sale>
+      <widget-good></widget-good>
       <widget-copy></widget-copy>
       <widget-lamin></widget-lamin>
     </div>
@@ -19,7 +19,7 @@ export default {
     counts: require('./counts'),
     check : require('./check'),
     widgetPhoto: require('./widgetPhoto'),
-    widgetSale : require('./widgetSale'),
+    widgetGood : require('./widgetGood'),
     widgetCopy : require('./widgetCopy'),
     widgetLamin: require('./widgetLamin')
   }

@@ -14,9 +14,9 @@
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
           <td>
-            <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
+            <button class="displayOnHover" @click.prevent="setCount('inc', index, row.count)">+</button>
             <span class="count">{{ row.count }}</span>
-            <button class="displayOnHover" @click.prevent="setCount('dec', index)">-</button>
+            <button class="displayOnHover" @click.prevent="setCount('dec', index, row.count)">-</button>
           </td>
           <td>{{ row.count * row.price }}₽</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
@@ -55,12 +55,11 @@ export default {
     removeRow(index) {
       this.rows.splice(index, 1)
     },
-    setCount(method, index) {
+    setCount(method, index, count) {
       if (method === 'inc') {
-        this.rows[index].count++
-      }
-      else if (method === 'dec' && this.rows[index].count > 1) {
-        this.rows[index].count--
+        this.rows[index].count = count + 1
+      } else if (method === 'dec' && this.rows[index].count > 1) {
+        this.rows[index].count = count - 1
       }
     },
     confirm() {

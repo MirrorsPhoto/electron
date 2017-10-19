@@ -88,7 +88,13 @@ let rendererConfig = {
      new SVGSpritemapPlugin({
       src: 'src/assets/icons/*.svg',
       prefix: '',
-      filename: 'imgs/iconsSprite.svg'
+      filename: 'imgs/iconsSprite.svg',
+      svgo: {
+        plugins: [{
+          removeTitle: true,
+          removeDimensions: true
+        }]
+      }
     }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({

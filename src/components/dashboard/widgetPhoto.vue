@@ -57,10 +57,10 @@ export default {
       } else return {}
     },
     counts() {
-      return Object.keys(this.variations)
+      return Object.keys(this.variations).sort((a, b) => a - b)
     },
     price() {
-      return +this.variations[this.count] || 0
+      return this.variations[this.count] || 0
     }
   },
   methods: {
@@ -76,7 +76,7 @@ export default {
   },
   created() {
     this.$http.get('photo/size')
-      .then(({ data: { response } }) => this.photoData = response)
+      .then(({ data: { response } }) => this.photoData = response.sort((a, b) => a.width - b.width))
       .catch(err => console.error(err))
 
     this.$electron.ipcRenderer.on('photoshop-connect', (e, status) => this.isConnectPS = status)

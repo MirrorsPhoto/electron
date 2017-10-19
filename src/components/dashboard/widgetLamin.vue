@@ -12,8 +12,8 @@
         select
         placeholder="Размер"
         width="120px"
-        :options="sizes"
-        v-model="size"
+        :options="formats"
+        v-model="selectedFormat"
       ></field>
 
       <count :count.sync="count"></count>
@@ -28,28 +28,32 @@ export default {
   data() {
     return {
       title: 'Ламинация',
-      variations: {
-        'A4': 100,
-        'A3': 250
-      },
-      size: '',
+      variations: [],
+      selectedFormat: '',
       count: 1
     }
   },
   computed: {
-    sizes() {
-      return Object.keys(this.variations)
+    formats() {
+      return this.variations.map(({ format }) => format)
     },
     price() {
-      return this.variations[this.size]
+      return this.variations
+        .find(({ format }) => format === this.selectedFormat)
+        .price
     }
   },
   methods: {
     submit() {
-      const { title, count, price, size: value } = this
+      const { title, count, price, selectedFormat: value } = this
       this.$emit('add', { title, value, count, price })
       this.count = 1
     }
+  },
+  created() {
+    this.$http.get('lamination/size')
+      .then(({ data }) => this.variations = data.response)
+      .catch(err => console.error(err))
   },
   components: {
     icon : require('../UI/icon'),

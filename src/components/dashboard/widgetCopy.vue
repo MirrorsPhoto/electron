@@ -9,11 +9,10 @@
     <div class="fields_wrap">
 
       <field
-        select
         placeholder="Размер"
         width="120px"
-        :options="sizes"
-        v-model="size"
+        :value="size"
+        disabled
       ></field>
 
       <count :count.sync="count"></count>
@@ -28,27 +27,22 @@ export default {
   data() {
     return {
       title: 'Ксерокопия',
-      variations: {
-        'A4': 3
-      },
-      size: '',
-      count: 1
-    }
-  },
-  computed: {
-    sizes() {
-      return Object.keys(this.variations)
-    },
-    price() {
-      return this.variations[this.size]
+      size : 'A4',
+      count: 1,
+      price: 0
     }
   },
   methods: {
     submit() {
-      const { title, count, price, size: value } = this
+      const { title, size: value, count, price } = this
       this.$emit('add', { title, value, count, price })
       this.count = 1
     }
+  },
+  created() {
+    this.$http.get('copy/price')
+      .then(({ data }) => this.price = data.response)
+      .catch(err => console.err(err))
   },
   components: {
     icon : require('../UI/icon'),

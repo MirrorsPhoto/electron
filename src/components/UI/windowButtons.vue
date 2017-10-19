@@ -1,46 +1,45 @@
 <template>
   <div>
-    <button class="close" @click.prevent="do('close')"></button>
-    <button class="max" @click.prevent="do('max')"></button>
-    <button class="min" @click.prevent="do('min')"></button>
+    <a class="close" @click.prevent="action('close')"></a>
+    <a class="min"   @click.prevent="action('min')"></a>
+    <a class="max"   @click.prevent="action('max')"></a>
   </div>
 </template>
 
 <script>
-  export defalt {
-    methods: {
-      do(action) {
-        const w = this.$electron.remote.getCurrentWindow()
-        switch (action) {
-          case 'close':
-            w.close()
-            break
-          case 'max':
-            w[!w.isMaximized() ? 'maximize' : 'unmaximize']()
-            break
-          case 'min':
-            w.minimize()
-            break
-        }
+export default {
+  methods: {
+    action(type) {
+      const w = this.$electron.remote.getCurrentWindow()
+      switch (type) {
+        case 'close':
+          w.close()
+          break
+        case 'min':
+          w.minimize()
+          break
+        case 'max':
+          w[w.isMaximized() ? 'unmaximize' : 'maximize']()
+          break
       }
     }
   }
+}
 </script>
 
 <style lang="sass" scoped>
 div
   margin: 0!important
   position: absolute
-  top: 0
-  left: 0
+  top: 5px
+  left: 8px
   
-  & button
+  & a
+    display: inline-block
     width: 10px
-    heigth: 10px
+    height: 10px
     border-radius: 50%
-    margin: 5px 0 0 5px 
-    border: none
-    outline: none
+    margin-right: 3px 
     border-radius: 50%
     cursor: default
     transition: all .2s ease
@@ -49,18 +48,18 @@ div
       background: #ff6058
       
       &:hover
-        background: #bf4943
-        
-    &.max
-      background: #29cb42
-      
-      &:hover
-        background: #1e9b30
+        background: darken(#ff6058, 22%)
         
     &.min
       background: #ffbe2f
       
       &:hover
-        background: #bf9023
+        background: darken(#ffbe2f, 12%)
+
+    &.max
+      background: #29cb42
+      
+      &:hover
+        background: darken(#29cb42, 8%)
         
 </style>

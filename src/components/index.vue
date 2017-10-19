@@ -1,9 +1,9 @@
 <template>
   <div class="wrap">
+
+    <window-buttons></window-buttons>
+
     <aside>
-    
-      <window-buttons></window-buttons>
-    
       <logo class="logo"></logo>
 
       <div class="user_photo_wrap">
@@ -85,7 +85,6 @@ export default {
     width: 230px
     padding: 30px 0
     box-shadow: 5px 5px 32px rgba(0, 0, 0, .2)
-    position: relative
 
     & .logo
       display: block

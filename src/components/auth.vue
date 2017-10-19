@@ -1,8 +1,8 @@
 <template>
   <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
-  
+
     <window-buttons></window-buttons>
-  
+    
     <logo class="logo"></logo>
     
     <field
@@ -22,6 +22,7 @@
     <p>
       <span v-for="m in errorMessages" :key="m">{{ m }}<br></span>
     </p>
+
   </form>
 </template>
 
@@ -45,20 +46,20 @@ export default {
     }
   },
   methods: {
-    auth() {
-      const { login, password } = this.user;
+    async auth() {
+      const { user } = this
 
-      if (login && password) {
-        this.$http({
-          method: 'post',
-          url: 'login',
-          data: { login, password }
-        })
-        .then(({ data: { token: response } }) => {
+      if (user.login && user.password) {
+        try {
+          const
+            { data }  = await this.$http.post('login', user),
+            { token } = data.response
+          
           localStorage.setItem('token', token)
           this.$emit('logIn', token)
-        })
-        .catch(({ r: request }) => this.errorMessages = JSON.parse(r.responseText).message)
+        } catch(err) {
+          this.errorMessages = JSON.parse(err.request.responseText).message
+        }
       } else {
         this.errorMessages.splice(0, 1, 'Заполните все поля формы')
       }
@@ -66,8 +67,8 @@ export default {
   },
   components: {
     field: require('./UI/field'),
-    logo : require('./UI/logo'),
-    windowButtons: require('./UI/windowButons')
+    logo: require('./UI/logo'),
+    windowButtons: require('./UI/windowButtons')
   }
 }
 </script>
@@ -92,8 +93,8 @@ form
   & div
     margin-top: 25px
 
-    & [type="submit"]
-      display: none
+  & [type="submit"]
+    display: none
 
   & p
     color: $primary-color
@@ -106,8 +107,8 @@ form
     & span 
       color: inherit
 
-    &.error
-      animation: shake 0.2s ease-in-out 0s 2
+  &.error
+    animation: shake 0.2s ease-in-out 0s 2
     
 @keyframes shake 
   0% 

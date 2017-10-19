@@ -90,8 +90,10 @@ let rendererConfig = {
       prefix: '',
       filename: 'imgs/iconsSprite.svg',
       svgo: {
-        removeTitle: true,
-        removeDimensions: true
+        plugins: [{
+          removeTitle: true,
+          removeDimensions: true
+        }]
       }
     }),
     new ExtractTextPlugin('styles.css'),

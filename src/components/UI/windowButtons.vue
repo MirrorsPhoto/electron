@@ -1,27 +1,16 @@
 <template>
   <div>
-    <a class="close" @click.prevent="action('close')"></a>
-    <a class="min"   @click.prevent="action('min')"></a>
-    <a class="max"   @click.prevent="action('max')"></a>
+    <a class="close" @click.prevent="w.close()"></a>
+    <a class="min"   @click.prevent="w.minimize()"></a>
+    <a class="max"   @click.prevent="w[w.isMaximized() ? 'unmaximize' : 'maximize']()"></a>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    action(type) {
-      const w = this.$electron.remote.getCurrentWindow()
-      switch (type) {
-        case 'close':
-          w.close()
-          break
-        case 'min':
-          w.minimize()
-          break
-        case 'max':
-          w[w.isMaximized() ? 'unmaximize' : 'maximize']()
-          break
-      }
+  data() {
+    return {
+      w: this.$electron.remote.getCurrentWindow()
     }
   }
 }

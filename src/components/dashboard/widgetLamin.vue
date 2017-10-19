@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     formats() {
-      return this.variations.map(({ format }) => format).sort((a, b) => a[1] - b[1])
+      return this.variations.map(({ format }) => format).sort((a, b) => b[1] - a[1])
     },
     price() {
       return this.variations

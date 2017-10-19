@@ -79,6 +79,7 @@ export default {
   box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
   display: grid
   grid-template-columns: 230px auto
+  position: relative
 
   & aside 
     background: #fff

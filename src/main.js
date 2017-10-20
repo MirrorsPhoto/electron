@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueElectron from 'vue-electron'
 import Axios from './plugins/axios'
+import './plugins/offline'
 
 import store from './store'
 
@@ -17,5 +18,9 @@ new Vue({
   },
   beforeCreate() {
     Vue.prototype.$http = Axios(this)
+  },
+  created() {
+    Offline.on('up', () => this.$store.commit('setConnectStatus', true), this)
+    Offline.on('down', () => this.$store.commit('setConnectStatus', false), this)
   }
 })

@@ -19,7 +19,7 @@
       </div>
     </template>
     <div v-else>
-      <icon v-if="!online" name="disconnected" size="40"></icon>
+      <icon name="disconnected" size="40"></icon>
       <span>Нет соединения с интернетом...</span>
     </div>
   </div>

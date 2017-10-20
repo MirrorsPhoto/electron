@@ -42,7 +42,7 @@ export default {
   created() {
     this.$http.get('copy/price')
       .then(({ data }) => this.price = data.response)
-      .catch(err => console.err(err))
+      .catch(err => console.error(err))
   },
   components: {
     icon : require('../UI/icon'),

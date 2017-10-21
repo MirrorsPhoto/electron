@@ -16,6 +16,8 @@ export default function (mainWindow) {
 
     autoUpdater.on('download-progress', (progress) => {
         mainWindow.webContents.send('au-download-progress', progress)
+
+        mainWindow.setProgressBar(progress.percent / 100)
     })
 
     ipcMain.on('au-download-confirm', () => {

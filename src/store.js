@@ -13,7 +13,7 @@ const initialState = {
 
 export default new Vuex.Store({
   state: {
-    online: true
+    online: null
   },
   mutations: {
     setConnectStatus: (state, status) => state.online = status,

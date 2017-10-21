@@ -1,28 +1,35 @@
 <template>
-  <div :class="['widget_wrap', { offline: !online}]">
-    <div>
-      <h2>{{ time.hours }}<span class="separator">:</span>{{ time.minutes }}</h2>
-      <p>{{ date }}</p>
-    </div>
-    <template v-if="online">
-      <div>
-        <h2><weather-icon :code="weather.code"></weather-icon>{{ weather.temp }}°</h2>
-        <p>{{ weather.desc }}</p>
-      </div>
-      <div>
-        <h2><count-upper :value="counts.money"></count-upper>₽</h2>
-        <p>касса сегодня</p>
-      </div>
-      <div>
-        <h2><count-upper :value="counts.clients"></count-upper></h2>
-        <p>{{ clientsWord }}</p>
-      </div>
+  <table :class="['widget_wrap', { offline: !online }]">
+    <template v-if="online !== null">
+
+      <tr>
+        <td>
+          <h2>{{ time.hours }}<span class="separator">:</span>{{ time.minutes }}</h2>
+          <p>{{ date }}</p>
+        </td>
+        <td v-if="online">
+          <h2><weather-icon :code="weather.code"></weather-icon>{{ weather.temp }}°</h2>
+          <p>{{ weather.desc }}</p>
+        </td>
+        <td v-else>
+          <icon v-if="!online" name="disconnected" size="45"></icon>
+          <p>Нет соединения...</p>
+        </td>
+      </tr>
+
+      <tr v-if="online">
+        <td>
+          <h2><count-upper :value="counts.money"></count-upper>₽</h2>
+          <p>касса сегодня</p>
+        </td>
+        <td>
+          <h2><count-upper :value="counts.clients"></count-upper></h2>
+          <p>{{ clientsWord }}</p>
+        </td>
+      </tr>
+      
     </template>
-    <div v-else>
-      <icon v-if="!online" name="disconnected" size="40"></icon>
-      <span>Нет соединения с интернетом...</span>
-    </div>
-  </div>
+  </table>
 </template>
 
 <script>
@@ -124,34 +131,37 @@ export default {
 @import '../../styles_config.sass'
 
 .widget_wrap
-  background: $light!important
-  display: grid
-  grid-template-columns: 1fr 1fr
-  grid-template-rows: 1fr 1fr
-  grid-gap: 1px
+  width: 100%
+  height: 100%
+  border-collapse: collapse
+  margin: -1px
+
+  & td
+    border: 1px solid $light
 
   &.offline
     display: block
 
-    & > div
-      height: 50%
+    & .separator
+      top: 3px
 
-      & + div
-        padding-top: 45px
-        border-top: 1px solid $light
+    & .icon
+      display: block
+      fill: $primary-color
+      margin: 0 auto 10px
 
-      & .icon
-        fill: $primary-color
-        margin-right: 20px
+    & span
+      display: inline-block
+      height: 40px
+      line-height: 40px
+      vertical-align: top
 
-      & span
-        display: inline-block
-        height: 40px
-        line-height: 40px
-        vertical-align: top
+    & td
+      width: 235px
+      height: 270px
 
-  & div
-    background: #fff
+  & td
+    width: 50%
     text-align: center
     padding: 30px 0
     

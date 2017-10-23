@@ -54,6 +54,10 @@ export default {
       type: [Number, String],
       default: ''
     },
+    numbersOnly: {
+      type: Boolean,
+      default: false
+    },
     maxLen: {
       type: [Number, Boolean],
       default: false
@@ -93,12 +97,16 @@ export default {
   },
   methods: {
     change(value) {
-      let { maxLen } = this
-      
-      if (maxLen && value.length > maxLen) {
-        value = this.$refs.input.value = value.substr(0, maxLen)
-      } 
+      const { maxLen, numbersOnly } = this
 
+      if (maxLen && value.length > maxLen) {
+        value = value.substr(0, maxLen)
+      }
+      if (numbersOnly) {
+        value = value.replace(/[^0-9]/g, '')
+      }
+      
+      this.$refs.input.value = value
       this.$emit('input', value)
     },
     openList() {
@@ -111,7 +119,7 @@ export default {
   },
   mounted() {
     this.select
-      ? this.change(this.options[0])
+      ? this.change(this.options[0] || '')
       : this.innerValue = this.value
   }
 }

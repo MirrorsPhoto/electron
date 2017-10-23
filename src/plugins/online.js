@@ -1,54 +1,52 @@
 import { create } from 'axios'
+const { get } = create({ timeout: 1000 })
 
-const defaultOptions = {
-  url: 'favicon.ico',
-  delay: 2
-}
+export default (options = {}) => {
 
-export default options => {
-
-  const { url, delay } = Object.assign(defaultOptions, options)
-  const { get } = create({ timeout: 1000 })
+  options = Object.assign({
+    url: 'favicon.ico',
+    delay: 2,
+    startOnLoad: true
+  }, options)
+  
+  let currentStatus = null
+  let timer = null
+  let listeners = []
 
   const online = {
-    timer: null,
-    state: null,
-    listeners: [],
-    check(cb) {
-      get(url)
-        .then(() => true, err => Boolean(err.response))
-        .then(status => {
-          if (cb && typeof cb === 'function') cb(status)
-
-          if (status !== online.state) {
-            online.state = status
-            online.listeners.forEach(fn => fn(status))
-          }
-        })
+    checkStatus(cb) {
+      get(options.url)
+      .then(() => true, err => Boolean(err.code || err.request.status))
+      .then(status => {
+        if (cb && typeof cb === 'function') cb(status)
+        if (status !== currentStatus) {
+          currentStatus = status
+          listeners.forEach(fn => fn(status))
+        }
+      })
     },
     onUpdateStatus(fn) {
-      if (fn && typeof fn === 'function') online.listeners.push(fn)
+      if (fn && typeof fn === 'function') listeners.push(fn)
     },
-    removeListener(param) {
-      if (param === 'all') {
-        online.listeners = []
-      } else {
-        const index = online.listeners.indexOf(param)
-        if (index !== -1) online.listeners.splice(index, 1)
-      }
+    removeListener(fn) {
+      const index = listeners.indexOf(fn)
+      if (index !== -1) listeners.splice(index, 1)
     },
-    init(delay) {
-      if (!delay) throw new Error('Init method need argument "delay"')
-      online.timer = setInterval(online.check, delay * 1000)
+    removeAllListeners() {
+      listeners.length = 0
     },
-    destroy() {
-      clearInterval(online.timer)
+    start() {
+      timer = setInterval(online.checkStatus, options.delay * 1000)
+    },
+    stop() {
+      clearInterval(timer)
     }
   }
 
-  if (delay) {
-    online.check()
-    online.init(delay)
+  if (options.startOnLoad) {
+    online.checkStatus()
+    online.start()
   }
+
   return online
 }

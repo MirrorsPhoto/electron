@@ -20,8 +20,5 @@ new Vue({
   },
   beforeCreate() {
     Vue.prototype.$http = Axios(this, url)
-  },
-  created() {
-    this.$online.onUpdateStatus(status => this.$store.commit('setConnectStatus', status))
   }
 })

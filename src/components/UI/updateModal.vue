@@ -28,9 +28,9 @@
       
         <footer> 
           <button @click.prevent="open = false" class="cancel">Позже</button>
-          <button @click.prevent="confirm()" class="confirm">Обновить</button> 
         </footer> 
       </div> 
+          <button @click.prevent="confirm()" class="confirm">Загрузить и обновить</button> 
     </transition>
   </div>
 </template> 

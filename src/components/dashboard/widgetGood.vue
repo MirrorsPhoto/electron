@@ -9,7 +9,7 @@
     <div class="fields_wrap">
 
       <field
-        type="number"
+        numbersOnly
         :max-len="13"
         placeholder="Код товара"
         width="120px"
@@ -41,17 +41,25 @@ export default {
     }
   },
   methods: {
-    submit() {
-      this.$http.get('good/' + this.code)
-        .then(({ data: { response } }) => {
-          const { name: title, description: value, price } = response
-          const { count } = this
+    async submit() {
+      const { code } = this
+
+      if (code.length === 13) {
+        try {
+          const
+            { data } = await this.$http.get('good/' + code),
+            { name: title, description: value, price } = data.response,
+            { count } = this
 
           this.$emit('add', { title, value, count, price })
           this.code = ''
           this.count = 1
-        })
-        .catch(({ response: { data }}) => this.errorText = data.message[0])
+        } catch(err) {
+          this.errorText = err.response.data.message[0]
+        }
+      } else {
+        this.errorText = 'Код должен состоять из 13 цифр'
+      }
     }
   },
   components: {

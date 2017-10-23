@@ -1,4 +1,5 @@
 import { Server } from "ws"
+import { Notification } from 'electron'
 
 export default (mainWindow) => {
   var webSocketServer = new Server({
@@ -6,6 +7,12 @@ export default (mainWindow) => {
   });
 
   webSocketServer.on('connection', (ws) => {
+    new Notification({
+      title: 'Photoshop',
+      sound: 'Ping',
+      body: 'Соединение устновлено'
+    }).show();
+
     mainWindow.webContents.send('photoshop-connect', true)
 
     ws.on('message', (message) => {

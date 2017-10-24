@@ -8,29 +8,21 @@
           <button @click.prevent="open = false" class="close">+</button> 
         </header> 
   
-        <div v-if="release.releaseNotes.length" class="release_info">
-          <div class="last_release">
-            <h3>Что нового</h3> 
-            <div v-html="release.releaseNotes[0].note"></div> 
-          </div>
+        <div class="release_info">
 
-          <h3>История изменений:</h3> 
-          <div class="releases_history">
-            <div v-for="(r, i) in release.releaseNotes" :key="i"> 
-              <template v-if="i > 0 && i <= 5"> 
-                <h4 v-text="r.version"></h4> 
-                <div v-html="r.note"></div> 
-              </template> 
-            </div> 
-          </div>
+          <div v-for="(r, i) in releaseNotes.slice(0, 5)" :key="i">
+            <h3 v-if="i === 0">{{ `Что нового в версии ${releaseName}:` }}</h3> 
+            <h4 v-else v-text="r.version"></h4> 
+            <div v-html="r.note"></div> 
+          </div> 
         
         </div> 
       
         <footer> 
           <button @click.prevent="open = false" class="cancel">Позже</button>
+          <button @click.prevent="confirm()" class="confirm">Загрузить и обновить</button> 
         </footer> 
       </div> 
-          <button @click.prevent="confirm()" class="confirm">Загрузить и обновить</button> 
     </transition>
   </div>
 </template> 
@@ -39,24 +31,23 @@
 export default { 
   data() { 
     return { 
-      open: true, 
-      release: { 
-        releaseName: '', 
-        releaseNotes: []  //  [{ version: '', note: '<html>' }, ...]
-      } 
+      open: false, 
+      releaseName: '', 
+      releaseNotes: []  // [{ version: '', note: '<html>' }, ...]
     } 
   }, 
   methods: { 
     confirm() { 
-      this.$electron.ipcRenderer.send('au-download-confirm') 
+      this.$electron.ipcRenderer.send('au-download-confirm')
+      this.open = false
     } 
-  }, 
-  mounted() { 
+  },
+  created() {
     this.$electron.ipcRenderer.on('au-update-available', (e, { releaseName, releaseNotes }) => { 
-      this.release = { releaseName, releaseNotes } 
+      Object.assign(this.$data, { releaseName, releaseNotes })
       this.open = true 
     }) 
-  } 
+  }
 } 
 </script> 
  
@@ -86,8 +77,9 @@ export default {
     transform: scale(.5)
  
   & header 
-    padding: 20px 30px 
-    position: relative 
+    padding: 20px 30px
+    border-bottom: 1px solid $light  
+    position: relative
  
     & button 
       background: transparent 
@@ -105,36 +97,33 @@ export default {
         color: $primary-color 
  
   & .release_info 
-    padding: 0 30px 20px 
-
-    & .last_release
-      padding: 15px 30px
-      margin: 0 -30px 20px
-      background: $light
+    padding: 0 30px 20px
+    max-height: 400px
+    overflow-y: auto
+    line-height: 1.5
 
     & h3
       margin-bottom: 10px
 
     & h4
       color: $hard
-      margin-bottom: 5px
 
-    & .releases_history, .last_release
-      max-height: 200px
-      overflow-y: auto
+    & > div
+      padding: 5px 0
+      border-top: 1px solid $light
 
-      & > div
-        padding: 5px 0
-        border-bottom: 1px solid $light
+      &:first-child
+        background: $light
+        padding: 15px 30px
+        margin: 0 -30px -1px
  
   & footer 
-    display: flex 
-    justify-content: space-between 
+    text-align: right
     padding: 15px 30px 
     border-top: 1px solid $light 
  
     & button 
-      width: 120px 
+      padding: 0 30px 
       height: 40px 
       border: none 
       outline: none 

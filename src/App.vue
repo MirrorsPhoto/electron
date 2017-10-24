@@ -81,5 +81,7 @@ h4
   display: flex
   align-items: center
   justify-content: center
-
+ul
+  list-style-position: inside
+  
 </style>

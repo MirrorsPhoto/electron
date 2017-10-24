@@ -65,7 +65,7 @@ export default {
         fill: $primary-color
 
       & h4
-        font-weight: normal
+        font-size: 14px
 
     & .fields_wrap
       padding: 15px 20px

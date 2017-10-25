@@ -1,10 +1,8 @@
 import Axios from 'axios'
 
-export default vm => {
-
-  const instanceAxios = Axios.create({
-    baseURL: 'http://api.jonkofee.ru'
-  })
+export default (vm, url) => {
+  
+  const instanceAxios = Axios.create({ baseURL: url })
 
   instanceAxios.interceptors.request.use(
     response => {

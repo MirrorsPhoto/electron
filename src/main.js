@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import VueElectron from 'vue-electron'
 import Axios from './plugins/axios'
-
+import Online from 'online-js'
 import store from './store'
+
+const url = 'http://31.131.129.126'
 
 Vue.use(VueElectron)
 Vue.config.productionTip = false
 Vue.config.performance = true
+Vue.prototype.$online = Online({ url })
 
 new Vue({
   el: '#app',
@@ -18,7 +21,7 @@ new Vue({
   beforeCreate() {
     //Запрет на зум
     this.$electron.webFrame.setZoomLevelLimits(1, 1)
-
-    Vue.prototype.$http = Axios(this)
+    
+    Vue.prototype.$http = Axios(this, url)
   }
 })

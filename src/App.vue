@@ -29,6 +29,8 @@ export default {
     }
   },
   created() {
+    this.$online.onUpdateStatus(status => this.$store.commit('setConnectStatus', status))
+    
     const token = localStorage.getItem('token')
     token ? this.logIn(token) : this.page = 'auth'
   },

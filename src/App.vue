@@ -100,15 +100,15 @@ h4
       top: -2px
       left: -10px
 
-  & ul
-    list-style: none
-    padding-left: 10px
+    & > ul
+      list-style: none
+      padding-left: 10px
 
-    & li
-      text-indent: 0
+      & li
+        text-indent: 0
 
-      &:before
-        content: '-'
-        color: #333
+        &:before
+          content: '-'
+          color: #333
 
 </style>

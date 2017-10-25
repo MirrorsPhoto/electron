@@ -47,6 +47,7 @@ export default {
 
 <style lang="sass">
 @import './assets/SF_font/FontFace.css'
+@import './styles_config'
 
 *, *:after, *:before
   -webkit-font-smoothing: antialiased
@@ -70,6 +71,7 @@ h1, h2, h3, h4, h5, h6
 
 h3
   font-size: 1.3em
+  margin: .5em auto 0
 
 h4
   font-size: 1.2em
@@ -81,7 +83,32 @@ h4
   display: flex
   align-items: center
   justify-content: center
-ul
-  list-style-position: inside
-  
+
+.release_info ul
+  list-style: none
+  margin-bottom: 5px
+  padding-left: 17px
+
+  & li
+    text-indent: -6px
+
+    &:before
+      content: '⚫'
+      font-size: .5em
+      color: $primary-color
+      position: relative
+      top: -2px
+      left: -10px
+
+  & ul
+    list-style: none
+    padding-left: 10px
+
+    & li
+      text-indent: 0
+
+      &:before
+        content: '-'
+        color: #333
+
 </style>

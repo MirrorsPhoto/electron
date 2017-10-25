@@ -9,9 +9,8 @@
         </header> 
   
         <div class="release_info">
-          <h3 v-if="releaseNotes.length">Что нового</h3> 
           <div v-for="(r, i) in releaseNotes" :key="i">
-            <h4 v-text="'Версия ' + r.version"></h4>
+            <h2 v-text="'Версия ' + r.version"></h2>
             <div v-html="r.note"></div>
           </div>
         </div>
@@ -95,13 +94,18 @@ export default {
         color: $primary-color 
  
   & .release_info 
-    padding: 20px 30px 0
+    padding: 0 30px
     max-height: 450px
     overflow-y: auto
     line-height: 1.5
 
     &::-webkit-scrollbar
       width: 0
+
+    & h2
+      color: $hard
+      font-weight: 200
+      letter-spacing: .04em
 
     & h4
       color: $hard

@@ -63,7 +63,6 @@
     "axios": "^0.16.1",
     "countup.js": "^1.9.2",
     "electron-updater": "^2.13.0",
-    "html-to-text": "^3.3.0",
     "jwt-decode": "^2.2.0",
     "online-js": "^1.0.1",
     "vue": "^2.3.3",

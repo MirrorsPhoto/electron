@@ -1,10 +1,14 @@
 <template>
   <div class="bg">
+
     <component
       :is="page"
       @logIn="logIn($event)"
       @logOut="logOut()"
     ></component>
+
+    <update-modal></update-modal>
+
   </div>
 </template>
 
@@ -36,7 +40,8 @@ export default {
   },
   components: {
     auth : require('./components/auth'),
-    index: require('./components/index')
+    index: require('./components/index'),
+    updateModal: require('./components/UI/updateModal')
   }
 }
 </script>
@@ -44,6 +49,7 @@ export default {
 
 <style lang="sass">
 @import './assets/SF_font/FontFace.css'
+@import './styles_config'
 
 *, *:after, *:before
   -webkit-font-smoothing: antialiased
@@ -65,6 +71,13 @@ body
 h1, h2, h3, h4, h5, h6
   font-weight: normal
 
+h3
+  font-size: 1.3em
+  margin: .5em auto 0
+
+h4
+  font-size: 1.2em
+
 .bg
   background: url(./assets/DSC_6015.jpg) bottom center no-repeat
   background-size: cover
@@ -72,5 +85,25 @@ h1, h2, h3, h4, h5, h6
   display: flex
   align-items: center
   justify-content: center
+
+.release_info ul
+  list-style-position: inside
+  margin-bottom: 5px
+  padding-left: 25px
+
+  & li
+    text-indent: -20px
+
+    & > ul
+      list-style: none
+      padding-left: 0
+
+      & li
+        text-indent: 0
+
+        &:before
+          content: '-'
+          color: #333
+          margin-right: 10px
 
 </style>

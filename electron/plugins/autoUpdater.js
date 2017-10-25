@@ -1,44 +1,27 @@
 import { autoUpdater } from 'electron-updater'
-import htmlToText from 'html-to-text'
-import { dialog } from 'electron'
+import { ipcMain } from 'electron'
 
 export default function (mainWindow) {
     autoUpdater.on('error', (error) => {
-        dialog.showMessageBox({
-            type: "error",
-            title: "Ошибка 😞",
-            message: JSON.stringify(error)
-        })
+      mainWindow.webContents.send('au-error', error)
     });
 
     autoUpdater.on('update-available', (info) => {
-        const version = info.version,
-            releaseNote = info.releaseNotes !== 'No content.' ? info.releaseNotes : undefined;
-
-        dialog.showMessageBox({
-            type: "question",
-            title: "Вышла новая обнова 🤗",
-            message: "Доступна новая версия " + version,
-            detail: htmlToText.fromString(releaseNote),
-            buttons: [
-                'Установить и перезагрузить',
-                'Позже'
-            ],
-            defaultId: 0,
-            cancelId: 1
-        }, (buttonId) => {
-            if (buttonId === 1) return;
-
-            autoUpdater.downloadUpdate();
-        });
+      mainWindow.webContents.send('au-update-available', info)
     })
 
     autoUpdater.on('update-downloaded', () => {
-        autoUpdater.quitAndInstall();
+        autoUpdater.quitAndInstall()
     });
 
     autoUpdater.on('download-progress', (progress) => {
         mainWindow.webContents.send('au-download-progress', progress)
+
+        mainWindow.setProgressBar(progress.percent / 100)
+    })
+
+    ipcMain.on('au-download-confirm', () => {
+      autoUpdater.downloadUpdate()
     })
 
     autoUpdater.setFeedURL({
@@ -48,6 +31,7 @@ export default function (mainWindow) {
     });
 
     autoUpdater.autoDownload = false;
+    autoUpdater.fullChangelog = true;
 
     return autoUpdater;
 }

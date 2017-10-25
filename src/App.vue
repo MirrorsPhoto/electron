@@ -85,24 +85,16 @@ h4
   justify-content: center
 
 .release_info ul
-  list-style: none
+  list-style-position: inside
   margin-bottom: 5px
-  padding-left: 17px
+  padding-left: 25px
 
   & li
-    text-indent: -6px
-
-    &:before
-      content: '⚫'
-      font-size: .5em
-      color: $primary-color
-      position: relative
-      top: -2px
-      left: -10px
+    text-indent: -20px
 
     & > ul
       list-style: none
-      padding-left: 10px
+      padding-left: 0
 
       & li
         text-indent: 0
@@ -110,5 +102,6 @@ h4
         &:before
           content: '-'
           color: #333
+          margin-right: 10px
 
 </style>

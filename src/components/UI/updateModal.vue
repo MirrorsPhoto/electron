@@ -9,20 +9,18 @@
         </header> 
   
         <div class="release_info">
-
-          <div v-for="(r, i) in releaseNotes.slice(0, 5)" :key="i">
-            <h3 v-if="i === 0">{{ `Что нового в версии ${releaseName}:` }}</h3> 
-            <h4 v-else v-text="r.version"></h4> 
-            <div v-html="r.note"></div> 
-          </div> 
-        
-        </div> 
+          <h3 v-if="releaseNotes.length">Что нового</h3> 
+          <div v-for="(r, i) in releaseNotes" :key="i">
+            <h4 v-text="'Версия ' + r.version"></h4>
+            <div v-html="r.note"></div>
+          </div>
+        </div>
       
-        <footer> 
+        <footer>
           <button @click.prevent="open = false" class="cancel">Позже</button>
-          <button @click.prevent="confirm()" class="confirm">Загрузить и обновить</button> 
-        </footer> 
-      </div> 
+          <button @click.prevent="confirm()" class="confirm">Загрузить и обновить</button>
+        </footer>
+      </div>
     </transition>
   </div>
 </template> 
@@ -32,7 +30,6 @@ export default {
   data() { 
     return { 
       open: false, 
-      releaseName: '', 
       releaseNotes: []  // [{ version: '', note: '<html>' }, ...]
     } 
   }, 
@@ -43,14 +40,15 @@ export default {
     } 
   },
   created() {
-    this.$electron.ipcRenderer.on('au-update-available', (e, { releaseName, releaseNotes }) => { 
-      Object.assign(this.$data, { releaseName, releaseNotes })
+    this.$electron.ipcRenderer.on('au-update-available', (e, { releaseNotes }) => { 
+      this.releaseNotes = releaseNotes
       this.open = true 
     }) 
+    this.$electron.ipcRenderer.on('au-error', (e, err) => console.error(err)) 
   }
 } 
-</script> 
- 
+</script>
+
 <style lang="sass" scoped> 
 @import '../../styles_config.sass' 
 
@@ -97,25 +95,23 @@ export default {
         color: $primary-color 
  
   & .release_info 
-    padding: 0 30px 20px
-    max-height: 400px
+    padding: 20px 30px 0
+    max-height: 450px
     overflow-y: auto
     line-height: 1.5
 
-    & h3
-      margin-bottom: 10px
+    &::-webkit-scrollbar
+      width: 0
 
     & h4
       color: $hard
+      margin-bottom: 5px
 
     & > div
-      padding: 5px 0
-      border-top: 1px solid $light
+      padding: 15px 0
 
-      &:first-child
-        background: $light
-        padding: 15px 30px
-        margin: 0 -30px -1px
+      & + div
+        border-top: 1px dashed $light
  
   & footer 
     text-align: right

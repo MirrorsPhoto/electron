@@ -8,6 +8,12 @@ const initialState = {
   counts: {
     money: 0,
     clients: 0
+  },
+  stats: {
+    'Фотография': 0,
+    'Продажа': 0,
+    'Ксерокопия': 0,
+    'Ламинация': 0
   }
 }
 
@@ -24,9 +30,12 @@ export default new Vuex.Store({
       }
     },
     initUser: (state, data) => state.user = data,
-    addSale: (state, summ) => {
+    addSale: (state, { summ, items }) => {
       state.counts.money += summ
       state.counts.clients++
+      items.forEach(item => {
+        state.stats[item.title] += item.count
+      })
     }
   }
 })

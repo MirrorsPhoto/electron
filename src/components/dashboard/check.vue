@@ -70,7 +70,7 @@ export default {
   created() {
     this.$parent.$children
       .filter(({ $refs }) => $refs.widget)
-      .forEach(widget => widget.$on('add', this.addRow)) 
+      .forEach(widget => widget.$on('add', this.addRow))
   }
 }
 </script>
@@ -85,7 +85,7 @@ export default {
   transition: all .3s
   position: absolute
 
-.widget_wrap 
+.widget_wrap
   padding: 70px 0
   position: relative
 
@@ -116,7 +116,6 @@ thead td:nth-child(4), tbody td:nth-child(4)
 
 thead, tfoot
   height: 70px
-  background: #fff
   position: absolute
   left: 0
 
@@ -164,7 +163,7 @@ tbody
       transform: rotate(45deg)
       font-size: 1.5em
 
-    & .displayOnHover 
+    & .displayOnHover
       opacity: 0
       transition: all .3s ease
       color: $primary-color
@@ -172,7 +171,7 @@ tbody
     &:hover
       background: $light
 
-      & .displayOnHover 
+      & .displayOnHover
         opacity: .5
 
         &:hover
@@ -193,7 +192,6 @@ tbody
 tfoot
   bottom: 0
   border-top: 1px solid $light
-  box-shadow: 0 30px 70px #fff
 
   & td
     width: 100%
@@ -219,6 +217,5 @@ tfoot
       &:disabled
         background: $light
         color: $hard
-            
-</style>
 
+</style>

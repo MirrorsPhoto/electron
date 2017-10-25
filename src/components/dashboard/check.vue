@@ -116,7 +116,6 @@ thead td:nth-child(4), tbody td:nth-child(4)
 
 thead, tfoot
   height: 70px
-  background: #fff
   position: absolute
   left: 0
 
@@ -193,7 +192,6 @@ tbody
 tfoot
   bottom: 0
   border-top: 1px solid $light
-  box-shadow: 0 30px 70px #fff
 
   & td
     width: 100%

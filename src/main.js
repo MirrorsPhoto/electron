@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueElectron from 'vue-electron'
 import Axios from './plugins/axios'
-import Online from './plugins/online'
+import Online from 'online-js'
 import store from './store'
 
 const url = 'http://31.131.129.126'

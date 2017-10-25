@@ -105,7 +105,7 @@ export default {
     & h2
       color: $hard
       font-weight: 200
-      letter-spacing: .04em
+      letter-spacing: .05em
 
     & h4
       color: $hard

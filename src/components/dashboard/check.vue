@@ -63,7 +63,10 @@ export default {
       }
     },
     confirm() {
-      this.$store.commit('addSale', this.total)
+      this.$store.commit('addSale', {
+        summ : this.total,
+        items: this.rows
+      })
       this.rows = []
     }
   },

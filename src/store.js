@@ -33,8 +33,9 @@ export default new Vuex.Store({
     addSale: (state, { summ, items }) => {
       state.counts.money += summ
       state.counts.clients++
-      items.forEach(item => {
-        state.stats[item.title] += item.count
+      items.forEach(({ title, count }) => {
+        const prop = state.stats.hasOwnProperty(title) ? title : 'Продажа'
+        state.stats[prop] += count
       })
     }
   }

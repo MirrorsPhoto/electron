@@ -2,13 +2,13 @@
   <div class="widget_wrap">
 
     <div class="chart_wrap">
-      <h3 v-text="total"></h3>
       <svg class="donut">
         <g>
           <circle
-            ref="circle"
-            v-for="(item, i) in sortedItems" :key="i"
+            v-for="(da, i) in daList" :key="i"
             :stroke="colors[i]"
+            :stroke-dasharray="da"
+            :stroke-dashoffset="doList[i]"
           ></circle>   
         </g>
       </svg>
@@ -21,9 +21,9 @@
           <td colspan="3">{{ item.name }}</td>
         </tr>
         <tr>
-          <td v-text="item.count + ' шт'"></td>
-          <td style="font-size: .5em">⚫ &nbsp;</td>
-          <td v-text="percents[i] + '%'"></td>
+          <td>{{ item.count | rubles }}</td>
+          <td>• &nbsp;</td>
+          <td>{{ percents[i] | percents }}</td>
         </tr>
       </template>
     </table>
@@ -40,7 +40,13 @@ export default {
         'Продажа'   : 'bag',
         'Ксерокопия': 'copy',
         'Ламинация' : 'lamination'
-      }
+      },
+
+      // stroke-dasharray для каждого отрезка. Длина - 0, отступ = длина всего круга
+      daList: ['0 502.65', '0 502.65', '0 502.65', '0 502.65'], 
+
+      // stroke-dashoffset для каждого отрезка. Отступ = сумма длин отрезка и его предыдущих элементов
+      doList: [0, 0, 0, 0]
     }
   },
   computed: {
@@ -54,16 +60,13 @@ export default {
         return { name, count: counts[i] }
       })
     },
-    sortedItems() {
-      return [...this.items].sort((a, b) => b.count - a.count)
-    },
-    // Общее кол-во
+    // Общая сумма
     total() {
       return this.items.reduce((sum, { count }) => sum += count, 0)
     },
-    // Процентное соотношение всех кол-в к общему
+    // Процентное соотношение всех сумм к общей
     percents() {
-      return this.items.map(({ count }) => Math.round(count * 100 / this.total) || 0)
+      return this.items.map(({ count }) => (count * 100 / this.total) || 0)
     }
   },
   watch: {
@@ -74,35 +77,35 @@ export default {
   methods: {
     drawChart(percents) {
 
-      // Массив значений stroke-dasharray
-      const daList = percents.map(p => {
+      this.daList = percents.map(p => {
         const
           circleLength = 502.65,           // Длина окружности = 2PIr
           length = p * circleLength / 100, // Длина отрезка
           offset = circleLength - length   // Оставшееся место
-        return { length, offset }
+
+        return length + ' ' + offset
       })
 
-      // Массив значений stroke-dashoffset
-      // Отступ отрезка от начала координат = сумма длин отрезка и его предыдущих элементов
-      // Отступ отрицательный, чтобы порядок элементов шел ПО часовой стрелке
-      const doList = daList.map((segment, i) => {
+      this.doList = this.daList.map((segment, i) => {
         return i !== 0
-          ? daList.slice(0, i).reduce((sum, { length }) => sum += -length, 0)
+          ? this.daList.slice(0, i).reduce((sum, da) => sum += -da.split(' ')[0], 0) // '-' для порядка ПО часовой стрелке
           : 0
-      })
-
-      this.$refs.circle.forEach((circle, i) => {
-        circle.style.strokeDasharray  = daList[i].length + ' ' + daList[i].offset
-        circle.style.strokeDashoffset = doList[i]
       })
     }
   },
   mounted() {
     setTimeout(() => {
-      // Если общее кол-во == 0, то рисуем график с равными отрезками
-      this.drawChart(this.title ? this.percents : [25, 25, 25, 25])
-    }, 200)
+      // Если общая сумма == 0, то рисуем график с равными отрезками
+      this.drawChart(this.total ? this.percents : [25, 25, 25, 25])
+    }, 500)
+  },
+  filters: {
+    percents(val) {
+      return Math.round(val) + '%'
+    },
+    rubles(val) {
+      return val + '₽'
+    }
   },
   components: {
     icon: require('../UI/icon')
@@ -118,37 +121,20 @@ export default {
   padding-top: 5px
   position: relative
 
-  & .chart_wrap
-    position: relative
+  & .donut
+    width: 270px
+    height: 270px
+    transform: rotate(-90deg)
 
-    & .donut
-      width: 270px
-      height: 270px
-      transform: rotate(-90deg)
+    & g
+      stroke-width: 40px
+      fill: none
 
-      & g
-        stroke-width: 40px
-        fill: none
-
-        & circle
-          cx: 135px
-          cy: 135px
-          r: 80px
-          stroke-dasharray: 0 502.65
-          stroke-dashoffset: 0
-          transition: all .5s ease
-    
-  & h3
-    width: 50px
-    height: 50px
-    text-align: center
-    line-height: 50px
-    position: absolute
-    top: 0
-    bottom: 0
-    right: 0
-    left: 0
-    margin: auto
+      & circle
+        cx: 135px
+        cy: 135px
+        r: 80px
+        transition: all .5s ease
 
   & table
     padding-top: 10px

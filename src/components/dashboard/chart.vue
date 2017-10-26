@@ -39,7 +39,7 @@
 export default {
   data() {
     return {
-      colors: ['#2ecc71', '#f1c40f', '#e74c3c', '#3498db'],
+      colors: ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db'],
       icons: {
         'Фотография': 'photo',
         'Продажа'   : 'bag',

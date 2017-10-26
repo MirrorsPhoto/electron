@@ -63,10 +63,10 @@ export default {
       }
     },
     confirm() {
-      this.$store.commit('addSale', {
-        summ : this.total,
-        items: this.rows
+      const arrayToSend = this.rows.map(({ title, count, price }) => {
+        return { title, summ: count * price } 
       })
+      this.$store.commit('addSale', arrayToSend)
       this.rows = []
     }
   },
@@ -138,6 +138,9 @@ tbody
   overflow-y: auto
   overflow-x: hidden
   position: relative
+
+  &::-webkit-scrollbar
+      width: 0
 
   &:after
     content: ''

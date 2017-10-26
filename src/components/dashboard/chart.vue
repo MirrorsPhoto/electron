@@ -2,31 +2,36 @@
   <div class="widget_wrap">
 
     <div class="chart_wrap">
+
+      <transition name="tooltip">
+        <p v-show="showTooltip" v-text="circleData"></p>
+      </transition>
+
       <svg class="donut">
         <g>
           <circle
+            ref="circle"
             v-for="(da, i) in daList" :key="i"
             :stroke="colors[i]"
             :stroke-dasharray="da"
             :stroke-dashoffset="doList[i]"
-          ></circle>   
+            @mouseover="hoverOnChart(i, true)"
+            @mouseout="hoverOnChart(i, false)"
+          ></circle>
         </g>
       </svg>
     </div>
 
-    <table>
-      <template v-for="(item, i) in items">
-        <tr>
-          <td rowspan="2"><icon :name="icons[item.name]" :style="{ fill: colors[i] }" size="30"></icon></td>
-          <td colspan="3">{{ item.name }}</td>
-        </tr>
-        <tr>
-          <td>{{ item.count | rubles }}</td>
-          <td>• &nbsp;</td>
-          <td>{{ percents[i] | percents }}</td>
-        </tr>
-      </template>
-    </table>
+    <div class="items_wrap">
+      <div
+        v-for="(item, i) in items" :key="i"
+        @mouseover="hoverOnChart(i, true)"
+        @mouseout="hoverOnChart(i, false)"
+      >
+        <icon :name="icons[item.name]" :style="{ fill: colors[i] }" size="30"></icon>
+        <span>{{ item.name }}</span>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -46,7 +51,10 @@ export default {
       daList: ['0 502.65', '0 502.65', '0 502.65', '0 502.65'], 
 
       // stroke-dashoffset для каждого отрезка. Отступ = сумма длин отрезка и его предыдущих элементов
-      doList: [0, 0, 0, 0]
+      doList: [0, 0, 0, 0],
+
+      circleData: '',
+      showTooltip: false
     }
   },
   computed: {
@@ -54,19 +62,19 @@ export default {
       const
         stats  = this.$store.state.stats,
         names  = Object.keys(stats),
-        counts = Object.values(stats)
+        summs = Object.values(stats)
 
       return names.map((name, i) => {
-        return { name, count: counts[i] }
+        return { name, summ: summs[i] }
       })
     },
     // Общая сумма
     total() {
-      return this.items.reduce((sum, { count }) => sum += count, 0)
+      return this.items.reduce((sum, { summ }) => sum += summ, 0)
     },
     // Процентное соотношение всех сумм к общей
     percents() {
-      return this.items.map(({ count }) => (count * 100 / this.total) || 0)
+      return this.items.map(({ summ }) => (summ * 100 / this.total) || 0)
     }
   },
   watch: {
@@ -91,6 +99,27 @@ export default {
           ? this.daList.slice(0, i).reduce((sum, da) => sum += -da.split(' ')[0], 0) // '-' для порядка ПО часовой стрелке
           : 0
       })
+    },
+    hoverOnChart(i, isHover) {
+      const
+        { summ } = this.items[i],
+        percent = Math.round(this.percents[i]),
+        circle = this.$refs.circle[i],
+        color = isHover ? this.switchColor(this.colors[i], -25) : this.colors[i]
+
+      this.circleData = `${summ}₽ | ${percent}%`
+      circle.style.stroke = color
+      this.showTooltip = isHover
+    },
+    switchColor(color, amount) {    
+      const num = parseInt(color.slice(1), 16)
+      const [r, g, b] = [
+        (num >> 16) + amount,
+        (num & 0x0000FF) + amount,
+        ((num >> 8) & 0x00FF) + amount
+      ].map(c => c > 255 ? 255 : c < 0 ? 0 : c)
+      
+      return '#' + (g | (b << 8) | (r << 16)).toString(16)
     }
   },
   mounted() {
@@ -115,40 +144,67 @@ export default {
 <style lang="sass" scoped>
 @import '../../styles_config.sass'
 
+.tooltip
+  &-enter-active, &-leave-active
+    transition: all .2s ease
+
+  &-enter, &-leave-to
+    opacity: 0
+    transform: translateY(5px)
+
 .widget_wrap
   display: flex
   align-items: center
   padding-top: 5px
   position: relative
 
-  & .donut
-    width: 270px
-    height: 270px
-    transform: rotate(-90deg)
+  & .chart_wrap
+    position: relative
 
-    & g
-      stroke-width: 40px
-      fill: none
+    & p
+      background: rgba(0, 0, 0, .7)
+      width: 80px
+      height: 30px
+      border-radius: 5px
+      margin: auto
+      color: #fff
+      font-size: .9em
+      text-align: center
+      line-height: 30px
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      transition: all .3s ease
 
-      & circle
-        cx: 135px
-        cy: 135px
-        r: 80px
-        transition: all .5s ease
+    & .donut
+      width: 270px
+      height: 270px
+      transform: rotate(-90deg)
 
-  & table
+      & g
+        stroke-width: 40px
+        fill: none
+
+        & circle
+          cx: 135px
+          cy: 135px
+          r: 80px
+          transition: all .5s ease
+
+  & .items_wrap
     padding-top: 10px
 
-    & tr
+    & div + div
+      padding-top: 5px
 
-      &:nth-child(odd) td:first-child
-        padding: 0 15px 10px 0 
+    & div, span
+      vertical-align: top
+      line-height: 30px
 
-      &:nth-child(even)
-        color: $hard
-      
-        & td
-          font-size: .9em
-          padding-bottom: 15px
+      & .icon
+        margin-right: 15px
+
 
 </style>

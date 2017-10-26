@@ -5,10 +5,7 @@ Vue.use(Vuex)
 //  Состояние, которое должно обнуляться при авторизации
 const initialState = {
   user: {},
-  counts: {
-    money: 0,
-    clients: 0
-  },
+  clients: 0,
   stats: {
     'Фотография': 0,
     'Продажа': 0,
@@ -21,6 +18,9 @@ export default new Vuex.Store({
   state: {
     online: null
   },
+  getters: {
+    moneySumm: ({ stats }) => Object.keys(stats).reduce((sum, key) => sum += stats[key], 0)
+  },
   mutations: {
     setConnectStatus: (state, status) => state.online = status,
     initState: state => {
@@ -30,13 +30,12 @@ export default new Vuex.Store({
       }
     },
     initUser: (state, data) => state.user = data,
-    addSale: (state, { summ, items }) => {
-      state.counts.money += summ
-      state.counts.clients++
-      items.forEach(({ title, count }) => {
+    addSale: (state, items) => {
+      items.forEach(({ title, summ }) => {
         const prop = state.stats.hasOwnProperty(title) ? title : 'Продажа'
-        state.stats[prop] += count
+        state.stats[prop] += summ 
       })
+      state.clients = state.clients + 1
     }
   }
 })

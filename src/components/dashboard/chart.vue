@@ -29,7 +29,11 @@
         @mouseover="hoverOnChart(i, true)"
         @mouseout="hoverOnChart(i, false)"
       >
-        <icon :name="icons[name]" :style="{ fill: colors[i] }" size="30"></icon>
+        <icon
+          :name="icons[name]"
+          :style="{ fill: colors[i] }"
+          size="30"
+        ></icon>
         <span>{{ name }}</span>
       </div>
     </div>
@@ -55,7 +59,7 @@ export default {
   computed: {
     // Данные для отображения
     stats() {
-      const stats = this.$store.state.stats
+      const { stats } = this.$store.state
       return {
         names: Object.keys(stats),  // Позиции
         summs: Object.values(stats) // Суммы
@@ -74,14 +78,15 @@ export default {
       const circleLength = 2 * Math.PI * this.radius  // Длина круга
       let summOfLengths = 0
 
-      return this.percents.map((p, i) => {
+      return this.percents.map(p => {
         const length = p * circleLength / 100  // Длина отрезка
         const offset = circleLength - length   // Оставшееся место
-        summOfLengths += length
-        return {
+        const styles = {
           dashArray : length + ' ' + offset,
-          dashOffset:  -(summOfLengths - length)  // Сдвиг по кругу = сумма длин предыдущих элементов
+          dashOffset: -summOfLengths  // Сдвиг по кругу = сумма длин предыдущих элементов
         }
+        summOfLengths += length
+        return styles
       })
     }
   },
@@ -90,9 +95,11 @@ export default {
     hoverOnChart(i, isHover) {
       const summ = this.stats.summs[i]
       const percent = Math.round(this.percents[i])
-      this.$refs.circle[i].style.stroke = isHover ? this.switchColor(this.colors[i], -25) : this.colors[i]
       this.dataToShow  = `${percent}% • ${summ}₽`
       this.showTooltip = isHover
+      this.$refs.circle[i].style.stroke = isHover
+        ? this.switchColor(this.colors[i], -25)
+        : this.colors[i]
     },
     // Затемнение/осветление цвета
     switchColor(color, amount) {

@@ -4,32 +4,33 @@
     <div class="chart_wrap">
 
       <transition name="tooltip">
-        <p v-show="showTooltip" v-text="circleData"></p>
+        <p v-show="showTooltip" v-text="dataToShow"></p>
       </transition>
 
       <svg class="donut">
-        <g>
+        <transition-group tag="g" name="circle" appear>
           <circle
             ref="circle"
-            v-for="(da, i) in daList" :key="i"
+            v-for="(circle, i) in circles" :key="i"
+            :r="radius"
             :stroke="colors[i]"
-            :stroke-dasharray="da"
-            :stroke-dashoffset="doList[i]"
+            :stroke-dasharray="circle.dashArray"
+            :stroke-dashoffset="circle.dashOffset"
             @mouseover="hoverOnChart(i, true)"
             @mouseout="hoverOnChart(i, false)"
           ></circle>
-        </g>
+        </transition-group>
       </svg>
     </div>
 
-    <div class="items_wrap">
+    <div class="stats_names_wrap">
       <div
-        v-for="(item, i) in items" :key="i"
+        v-for="(name, i) in stats.names" :key="i"
         @mouseover="hoverOnChart(i, true)"
         @mouseout="hoverOnChart(i, false)"
       >
-        <icon :name="icons[item.name]" :style="{ fill: colors[i] }" size="30"></icon>
-        <span>{{ item.name }}</span>
+        <icon :name="icons[name]" :style="{ fill: colors[i] }" size="30"></icon>
+        <span>{{ name }}</span>
       </div>
     </div>
 
@@ -46,94 +47,63 @@ export default {
         'Ксерокопия': 'copy',
         'Ламинация' : 'lamination'
       },
-
-      // stroke-dasharray для каждого отрезка. Длина - 0, отступ = длина всего круга
-      daList: ['0 502.65', '0 502.65', '0 502.65', '0 502.65'], 
-
-      // stroke-dashoffset для каждого отрезка. Отступ = сумма длин отрезка и его предыдущих элементов
-      doList: [0, 0, 0, 0],
-
-      circleData: '',
+      radius: 80,
+      dataToShow: '', // Данные внутри графика
       showTooltip: false
     }
   },
   computed: {
-    items() {
-      const
-        stats  = this.$store.state.stats,
-        names  = Object.keys(stats),
-        summs = Object.values(stats)
-
-      return names.map((name, i) => {
-        return { name, summ: summs[i] }
-      })
-    },
-    // Общая сумма
-    total() {
-      return this.items.reduce((sum, { summ }) => sum += summ, 0)
+    // Данные для отображения
+    stats() {
+      const stats = this.$store.state.stats
+      return {
+        names: Object.keys(stats),  // Позиции
+        summs: Object.values(stats) // Суммы
+      }
     },
     // Процентное соотношение всех сумм к общей
     percents() {
-      return this.items.map(({ summ }) => (summ * 100 / this.total) || 0)
-    }
-  },
-  watch: {
-    percents(percents) {
-      this.drawChart(percents)
+      const { summs } = this.stats
+      const total = summs.reduce((res, s) => res += s, 0)
+      return total
+        ? summs.map(s => (s * 100 / total) || 0)
+        : [25, 25, 25, 25]  // Если общая сумма == 0, то рисуем график с одинаковыми отрезками
+    },
+    // Размеры и отступы отрезков графика
+    circles() {
+      const circleLength = 2 * Math.PI * this.radius  // Длина круга
+      let summOfLengths = 0
+
+      return this.percents.map((p, i) => {
+        const length = p * circleLength / 100  // Длина отрезка
+        const offset = circleLength - length   // Оставшееся место
+        summOfLengths += length
+        return {
+          dashArray : length + ' ' + offset,
+          dashOffset:  -(summOfLengths - length)  // Сдвиг по кругу = сумма длин предыдущих элементов
+        }
+      })
     }
   },
   methods: {
-    drawChart(percents) {
-
-      this.daList = percents.map(p => {
-        const
-          circleLength = 502.65,           // Длина окружности = 2PIr
-          length = p * circleLength / 100, // Длина отрезка
-          offset = circleLength - length   // Оставшееся место
-
-        return length + ' ' + offset
-      })
-
-      this.doList = this.daList.map((segment, i) => {
-        return i !== 0
-          ? this.daList.slice(0, i).reduce((sum, da) => sum += -da.split(' ')[0], 0) // '-' для порядка ПО часовой стрелке
-          : 0
-      })
-    },
+    // При наведении на отрезок или его имя - подсвечиваем его и выводим данные в центре
     hoverOnChart(i, isHover) {
-      const
-        { summ } = this.items[i],
-        percent = Math.round(this.percents[i]),
-        circle = this.$refs.circle[i],
-        color = isHover ? this.switchColor(this.colors[i], -25) : this.colors[i]
-
-      this.circleData = `${summ}₽ | ${percent}%`
-      circle.style.stroke = color
+      const summ = this.stats.summs[i]
+      const percent = Math.round(this.percents[i])
+      const color = this.colors[i]
+      this.$refs.circle[i].style.stroke = isHover ? this.switchColor(color, -25) : color
+      this.dataToShow  = `${percent}% • ${summ}₽`
       this.showTooltip = isHover
     },
-    switchColor(color, amount) {    
+    // Затемнение/осветление цвета
+    switchColor(color, amount) {
       const num = parseInt(color.slice(1), 16)
       const [r, g, b] = [
         (num >> 16) + amount,
         (num & 0x0000FF) + amount,
         ((num >> 8) & 0x00FF) + amount
       ].map(c => c > 255 ? 255 : c < 0 ? 0 : c)
-      
       return '#' + (g | (b << 8) | (r << 16)).toString(16)
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      // Если общая сумма == 0, то рисуем график с равными отрезками
-      this.drawChart(this.total ? this.percents : [25, 25, 25, 25])
-    }, 500)
-  },
-  filters: {
-    percents(val) {
-      return Math.round(val) + '%'
-    },
-    rubles(val) {
-      return val + '₽'
     }
   },
   components: {
@@ -143,6 +113,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '../../styles_config.sass'
+
+.circle-enter
+  stroke-dasharray: 0 500px
+  stroke-dashoffset: 0
 
 .tooltip
   &-enter-active, &-leave-active
@@ -190,10 +164,9 @@ export default {
         & circle
           cx: 135px
           cy: 135px
-          r: 80px
-          transition: all .5s ease
+          transition: all .7s ease
 
-  & .items_wrap
+  & .stats_names_wrap
     padding-top: 10px
 
     & div + div

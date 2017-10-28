@@ -90,8 +90,7 @@ export default {
     hoverOnChart(i, isHover) {
       const summ = this.stats.summs[i]
       const percent = Math.round(this.percents[i])
-      const color = this.colors[i]
-      this.$refs.circle[i].style.stroke = isHover ? this.switchColor(color, -25) : color
+      this.$refs.circle[i].style.stroke = isHover ? this.switchColor(this.colors[i], -25) : this.colors[i]
       this.dataToShow  = `${percent}% • ${summ}₽`
       this.showTooltip = isHover
     },

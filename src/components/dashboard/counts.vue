@@ -61,7 +61,10 @@ export default {
       return this.$store.state.online
     },
     counts() {
-      return this.$store.state.counts
+      return {
+        clients: this.$store.state.clients,
+        money: this.$store.getters.moneySumm
+      }
     },
     date() {
       const

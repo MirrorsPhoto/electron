@@ -14,11 +14,11 @@
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
           <td>
-            <button class="displayOnHover" @click.prevent="setCount('inc', index, row.count)">+</button>
-            <span class="count">{{ row.count }}</span>
-            <button class="displayOnHover" @click.prevent="setCount('dec', index, row.count)">-</button>
+            <button class="displayOnHover" @click.prevent="setCount('inc', index, row.copies)">+</button>
+            <span class="count">{{ row.copies }}</span>
+            <button class="displayOnHover" @click.prevent="setCount('dec', index, row.copies)">-</button>
           </td>
-          <td>{{ row.count * row.price }}₽</td>
+          <td>{{ row.copies * row.price }}₽</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
       </transition-group>
@@ -42,14 +42,14 @@ export default {
   },
   computed: {
     total() {
-      return this.rows.reduce((res, row) => res += (row.count * row.price), 0)
+      return this.rows.reduce((res, row) => res += (row.copies * row.price), 0)
     }
   },
   methods: {
     addRow(data) {
       const i = this.rows.findIndex(r => data.title === r.title && data.value === r.value)
       i !== -1
-        ? this.rows[i].count += data.count
+        ? this.rows[i].copies += data.copies
         : this.rows.push(data)
     },
     removeRow(index) {
@@ -57,17 +57,22 @@ export default {
     },
     setCount(method, index, count) {
       if (method === 'inc') {
-        this.rows[index].count = count + 1
-      } else if (method === 'dec' && this.rows[index].count > 1) {
-        this.rows[index].count = count - 1
+        this.rows[index].copies = count + 1
+      } else if (method === 'dec' && this.rows[index].copies > 1) {
+        this.rows[index].copies = count - 1
       }
     },
-    confirm() {
-      const arrayToSend = this.rows.map(({ title, count, price }) => {
-        return { title, summ: count * price } 
-      })
-      this.$store.commit('addSale', arrayToSend)
-      this.rows = []
+    async confirm() {
+      try {
+        await this.$http.post('/sale/batch', { items: this.rows })
+        const arrayToStore = this.rows.map(({ title, copies, price }) => {
+          return { title, summ: copies * price }
+        })
+        this.$store.commit('addSale', arrayToStore)
+        this.rows = []
+      } catch(err) {
+        console.error(err)
+      }
     }
   },
   created() {

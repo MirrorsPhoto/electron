@@ -16,7 +16,7 @@
         v-model="selectedFormat"
       ></field>
 
-      <count :count.sync="count"></count>
+      <count :count.sync="copies"></count>
 
     </div>
 
@@ -28,26 +28,23 @@ export default {
   data() {
     return {
       title: 'Ламинация',
+      type: 'lamination',
       variations: [],
       selectedFormat: '',
-      count: 1
+      copies: 1
     }
   },
   computed: {
     formats() {
       return this.variations.map(({ format }) => format).sort((a, b) => b[1] - a[1])
-    },
-    price() {
-      return this.variations
-        .find(({ format }) => format === this.selectedFormat)
-        .price
     }
   },
   methods: {
     submit() {
-      const { title, count, price, selectedFormat: value } = this
-      this.$emit('add', { title, value, count, price })
-      this.count = 1
+      const { title, type, copies, selectedFormat: value } = this
+      const { id, price } = this.variations.find(({ format }) => format === this.selectedFormat)
+      this.$emit('add', { id, title, type, value, copies, price })
+      this.copies = 1
     }
   },
   created() {

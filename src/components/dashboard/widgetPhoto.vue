@@ -40,6 +40,7 @@ export default {
   data() {
     return {
       title: 'Фотография',
+      type: 'photo',
       photoData: [],
       size: '',
       count: 1,
@@ -47,6 +48,12 @@ export default {
     }
   },
   computed: {
+    id() {
+      const index = this.sizes.findIndex(size => size === this.size)
+      return index !== -1
+        ? this.photoData[index].id
+        : null
+    },
     sizes() {
       return this.photoData.map(this.sizeToString)
     },
@@ -68,10 +75,10 @@ export default {
       return size.width + 'x' + size.height
     },
     submit(msg) {
-      const { title } = this
-      const { size, price, count } = msg ? msg : this
+      const { title, type } = this
+      const { size, price, count, id } = msg ? msg : this
       const value = `${size} (${count} шт.)`
-      this.$emit('add', { title, value, price, count: 1 })
+      this.$emit('add', { id, title, type, value, price, count, copies: 1 })
     }
   },
   created() {

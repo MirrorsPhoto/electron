@@ -1,5 +1,5 @@
 <template>
-  <form class="widget_wrap" @submit.prevent="confirm()">
+  <form class="widget_wrap" @submit.prevent="submit()">
     <table>
       <thead>
         <tr>
@@ -72,7 +72,7 @@ export default {
       }
     },
     // Отправление чека на сервер и запись сумм в хранилище
-    async confirm() {
+    async submit() {
       try {
         await this.$http.post('/sale/batch', { items: this.rows })
         const arrayToStore = this.rows.map(({ title, copies, price }) => {

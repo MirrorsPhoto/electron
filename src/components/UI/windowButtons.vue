@@ -20,15 +20,15 @@ export default {
 div
   margin: 0!important
   position: absolute
-  top: 5px
+  top: 6px
   left: 8px
   
   & a
     display: inline-block
-    width: 10px
-    height: 10px
+    width: 12px
+    height: 12px
     border-radius: 50%
-    margin-right: 3px 
+    margin-right: 4px
     border-radius: 50%
     cursor: default
     transition: all .2s ease

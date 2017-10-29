@@ -143,7 +143,7 @@ export default {
 
     & p
       background: rgba(0, 0, 0, .7)
-      width: 80px
+      width: 100px
       height: 30px
       border-radius: 5px
       margin: auto

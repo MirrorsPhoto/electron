@@ -3,14 +3,19 @@
     <template v-if="online !== null">
 
       <tr>
+        <!-- Время -->
         <td>
           <h2>{{ time.hours }}<span class="separator">:</span>{{ time.minutes }}</h2>
           <p>{{ date }}</p>
         </td>
+
+        <!-- Погода -->
         <td v-if="online">
           <h2><weather-icon :code="weather.code"></weather-icon>{{ weather.temp }}°</h2>
           <p>{{ weather.desc }}</p>
         </td>
+
+        <!-- Заглушка, если нет интернета -->
         <td v-else>
           <icon v-if="!online" name="disconnected" size="45"></icon>
           <p>Нет соединения...</p>
@@ -18,33 +23,36 @@
       </tr>
 
       <tr v-if="online">
+        <!-- Касса -->
         <td>
           <h2><count-upper :value="counts.money"></count-upper>₽</h2>
           <p>касса сегодня</p>
         </td>
+
+        <!-- Кол-во клиентов -->
         <td>
           <h2><count-upper :value="counts.clients"></count-upper></h2>
           <p>{{ clientsWord }}</p>
         </td>
       </tr>
-      
+
     </template>
   </table>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   data() {
     return {
       time: {
-        hours: "",
-        minutes: ""
+        hours: '',
+        minutes: ''
       },
       weather: {
         temp: 0,
-        desc: "",
+        desc: '',
         code: 0
       },
       timer: null,
@@ -52,6 +60,7 @@ export default {
     }
   },
   watch: {
+    // При изменение статуса 'Онлайн' запускаем/останавливаем обновление погоды
     online(online) {
       this.updatingWeather(online ? 'start' : 'stop')
     }
@@ -60,6 +69,7 @@ export default {
     online() {
       return this.$store.state.online
     },
+    // Счетчики клиентов и кассы
     counts() {
       return {
         clients: this.$store.state.clients,
@@ -75,6 +85,7 @@ export default {
 
       return `${day} ${month}, ${weekDay}`
     },
+    // Склонения слова 'клиентов', зависящее от кол-ва
     clientsWord() {
       const
         n = this.counts.clients,
@@ -106,7 +117,7 @@ export default {
     updatingWeather(param) {
       if (param === 'start') {
         this.updateWeather()
-        this.weatherTimer = setInterval(this.updateWeather, 1000 * 60 * 60)
+        this.weatherTimer = setInterval(this.updateWeather, 1000 * 60 * 60) // Обновление погоды каждый час
       } else if (param === 'stop' && this.weatherTimer !== null) {
         clearInterval(this.weatherTimer)
       }

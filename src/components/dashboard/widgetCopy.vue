@@ -35,12 +35,27 @@ export default {
   },
   methods: {
     submit() {
-      const { title, type, size: value, copies, price } = this
-      this.$emit('add', { title, type, value, copies, price })
+      const {
+        title,
+        type,
+        copies,
+        price,
+        size: value
+      } = this
+
+      this.$emit('add', {
+        title,
+        type,
+        copies,
+        price,
+        value
+      })
+
       this.copies = 1
     }
   },
   created() {
+    // Получаем цену ксерокопии
     this.$http.get('copy/price')
       .then(({ data }) => this.price = data.response)
       .catch(err => console.error(err))

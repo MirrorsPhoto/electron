@@ -43,17 +43,29 @@ export default {
   },
   methods: {
     async submit() {
-      const { code } = this
-
-      if (code.length === 13) {
+      if (this.code.length === 13) {
         try {
-          const
-            { data } = await this.$http.get('good/' + code),
-            { name: title, description: value, price, id, available } = data.response,
-            { type } = this,
-            copies = (this.copies > available) ? available : this.copies
+          const { data } = await this.$http.get('good/' + this.code)
+          const {
+            id,
+            price,
+            available,
+            name: title,
+            description: value
+          } = data.response
+          const { type } = this
+          const copies = this.copies > available ? available : this.copies
 
-          this.$emit('add', { id, title, type, value, copies, price, available })
+          this.$emit('add', {
+            id,
+            title,
+            type,
+            value,
+            copies,
+            price,
+            available
+          })
+
           this.code = ''
           this.copies = 1
         } catch(err) {

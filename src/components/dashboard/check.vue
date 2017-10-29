@@ -9,6 +9,7 @@
           <td>Цена</td>
         </tr>
       </thead>
+
       <transition-group name="check" tag="tbody">
         <tr v-for="(row, index) in rows" :key="index">
           <td>{{ index + 1 }}.</td>
@@ -22,10 +23,11 @@
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
       </transition-group>
+
       <tfoot>
         <tr>
           <td align="left">
-            <span v-if="total > 0" class="total">Итого: {{ total }}₽</span>
+            <span v-if="total" class="total">Итого: {{ total }}₽</span>
           </td>
           <td align="right"><input type="submit" value="Оплачено" :disabled="!rows.length"></td>
         </tr>
@@ -41,20 +43,25 @@ export default {
     }
   },
   computed: {
+    // Общая стоимость позиций в чеке
     total() {
       return this.rows.reduce((res, row) => res += (row.copies * row.price), 0)
     }
   },
   methods: {
+    // Добавление позиции в чек
     addRow(data) {
       const i = this.rows.findIndex(r => data.title === r.title && data.value === r.value)
-      i !== -1
-        ? this.rows[i].copies += data.copies
-        : this.rows.push(data)
+      // Если в чеке нет такой позиции, то добавляем ее. Иначе суммируем кол-во
+      i === -1
+        ? this.rows.push(data)
+        : this.rows[i].copies += data.copies
     },
-    removeRow(index) {
-      this.rows.splice(index, 1)
+    // Удаление позиции из чека
+    removeRow(i) {
+      this.rows.splice(i, 1)
     },
+    // Изменение кол-ва
     setCount(method, i) {
       const { available, copies } = this.rows[i]
       if (method === 'inc') {
@@ -64,6 +71,7 @@ export default {
         this.rows[i].copies = copies - 1
       }
     },
+    // Отправление чека на сервер и запись сумм в хранилище
     async confirm() {
       try {
         await this.$http.post('/sale/batch', { items: this.rows })
@@ -78,6 +86,7 @@ export default {
     }
   },
   created() {
+    // Подписываемся на событие 'add' в виджетах
     this.$parent.$children
       .filter(({ $refs }) => $refs.widget)
       .forEach(widget => widget.$on('add', this.addRow))

@@ -8,6 +8,7 @@
 
     <div class="fields_wrap">
 
+      <!-- Индикатор подключения к Photoshop -->
       <span
         :class="['indicator', { active: isConnectPS }]"
         :title="(isConnectPS ? 'Есть соединение' : 'Нет соединения') + ' с Photoshop'"
@@ -48,53 +49,64 @@ export default {
     }
   },
   computed: {
-    id() {
-      const index = this.sizes.findIndex(size => size === this.size)
-      return index !== -1
-        ? this.photoData[index].id
-        : null
-    },
+    // Размеры фотографий строками для передачи в компонент field
     sizes() {
       return this.photoData.map(this.sizeToString)
     },
-    variations() {
-      if (this.sizes.length && this.size) {
-        const index = this.sizes.findIndex(size => size === this.size)
-        return this.photoData[index].variations
-      } else return {}
+    // Данные выбранного размера
+    selectedSizeData() {
+      const { sizes, size } = this
+      return sizes.length && size
+        ? this.photoData[sizes.indexOf(size)]
+        : {}
     },
+    // Возможные кол-ва выбранного размера
     counts() {
-      return Object.keys(this.variations).sort((a, b) => a - b)
+      return Object.keys(this.selectedSizeData.variations || {}).sort((a, b) => a - b)
     },
     price() {
-      return this.variations[this.count] || 0
+      return this.selectedSizeData.variations[this.count] || 0
     }
   },
   methods: {
     sizeToString(size) {
       return size.width + 'x' + size.height
     },
-    submit(msg) {
-      const { title, type } = this
-      const { size, price, count, id } = msg ? msg : this
-      const value = `${size} (${count} шт.)`
-      this.$emit('add', { id, title, type, value, price, count, copies: 1 })
+    submit() {
+      const {
+        id,
+        title,
+        type,
+        size,
+        price,
+        count
+      } = this
+
+      this.$emit('add', {
+        id,
+        title,
+        type,
+        price,
+        count,
+        copies: 1,
+        value: `${size} (${count} шт.)`
+      })
     }
   },
   created() {
+    // Получаем размеры фото
     this.$http.get('photo/size')
       .then(({ data: { response } }) => this.photoData = response.sort((a, b) => a.width - b.width))
       .catch(err => console.error(err))
 
+    // Меняем статус подключения к Photoshop
     this.$electron.ipcRenderer.on('photoshop-connect', (e, status) => this.isConnectPS = status)
-    
-    this.$electron.ipcRenderer.on('photoshop-message', (e, { height, width, count }) => {
-      const size = this.sizeToString({ width, height })
-      const price = this.photoData
-        .find(s => s.height === height && s.width === width)
-        .variations[count]
 
-      this.submit({ size, count, price })
+    // Продажа фото из Photoshop-расширения
+    this.$electron.ipcRenderer.on('photoshop-message', (e, { height, width, count }) => {
+      this.size  = this.sizeToString({ width, height })
+      this.count = count
+      this.submit()
     })
   },
   components: {

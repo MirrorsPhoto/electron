@@ -41,13 +41,29 @@ export default {
   },
   methods: {
     submit() {
-      const { title, type, copies, selectedFormat: value } = this
+      const {
+        title,
+        type,
+        copies,
+        selectedFormat: value
+      } = this
+
       const { id, price } = this.variations.find(({ format }) => format === this.selectedFormat)
-      this.$emit('add', { id, title, type, value, copies, price })
+
+      this.$emit('add', {
+        id,
+        title,
+        type,
+        value,
+        copies,
+        price
+      })
+
       this.copies = 1
     }
   },
   created() {
+    // Получаем форматы ламинации и их цены
     this.$http.get('lamination/size')
       .then(({ data }) => this.variations = data.response)
       .catch(err => console.error(err))

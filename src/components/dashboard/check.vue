@@ -14,9 +14,9 @@
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
           <td>
-            <button class="displayOnHover" @click.prevent="setCount('inc', index, row.copies)">+</button>
+            <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
             <span class="count">{{ row.copies }}</span>
-            <button class="displayOnHover" @click.prevent="setCount('dec', index, row.copies)">-</button>
+            <button class="displayOnHover" @click.prevent="setCount('dec', index)">-</button>
           </td>
           <td>{{ row.copies * row.price }}₽</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
@@ -55,11 +55,13 @@ export default {
     removeRow(index) {
       this.rows.splice(index, 1)
     },
-    setCount(method, index, count) {
+    setCount(method, i) {
+      const { available, copies } = this.rows[i]
       if (method === 'inc') {
-        this.rows[index].copies = count + 1
-      } else if (method === 'dec' && this.rows[index].copies > 1) {
-        this.rows[index].copies = count - 1
+        if (available && available <= copies) return
+        this.rows[i].copies = copies + 1
+      } else if (copies > 1) {
+        this.rows[i].copies = copies - 1
       }
     },
     async confirm() {

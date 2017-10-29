@@ -49,10 +49,11 @@ export default {
         try {
           const
             { data } = await this.$http.get('good/' + code),
-            { name: title, description: value, price, id } = data.response,
-            { type, copies } = this
+            { name: title, description: value, price, id, available } = data.response,
+            { type } = this,
+            copies = (this.copies > available) ? available : this.copies
 
-          this.$emit('add', { id, title, type, value, copies, price })
+          this.$emit('add', { id, title, type, value, copies, price, available })
           this.code = ''
           this.copies = 1
         } catch(err) {

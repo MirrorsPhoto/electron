@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import jwtDecode from 'jwt-decode' 
+import jwtDecode from 'jwt-decode'
 
 export default {
   data() {
@@ -34,7 +34,7 @@ export default {
   },
   created() {
     this.$online.onUpdateStatus(status => this.$store.commit('setConnectStatus', status))
-    
+
     const token = localStorage.getItem('token')
     token ? this.logIn(token) : this.page = 'auth'
   },
@@ -67,7 +67,10 @@ body
 
   & a, & button, & [type="submit"]
     cursor: pointer
-  
+
+  & button, & input
+    font-size: 1em
+
 h1, h2, h3, h4, h5, h6
   font-weight: normal
 
@@ -87,12 +90,17 @@ h4
   justify-content: center
 
 .release_info ul
-  list-style-position: inside
+  list-style: none
   margin-bottom: 5px
-  padding-left: 25px
+  padding-left: 20px
 
   & li
-    text-indent: -20px
+    text-indent: -18px
+
+    &:before
+      content: '•'
+      color: $primary-color
+      margin-right: 10px
 
     & > ul
       list-style: none

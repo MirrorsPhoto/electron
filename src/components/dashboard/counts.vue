@@ -139,8 +139,38 @@ export default {
   border-collapse: collapse
   margin: -1px
 
+  & tr
+
+    & + tr
+      border-top: 1px solid $light
+
+    & td:first-child
+      border-right: 1px solid $light
+
   & td
-    border: 1px solid $light
+    width: 50%
+    text-align: center
+    padding: 30px 0
+
+    & h2
+      font-size: 48px
+      font-weight: 200
+
+      & i
+        color: $primary-color
+        margin-right: 10px
+        font-size: .8em
+
+      & .separator
+        position: relative
+        top: -4px
+        animation: separator 2s linear infinite
+
+    & p
+      color: $hard
+
+      &:first-letter
+        text-transform: uppercase
 
   &.offline
     display: block
@@ -163,30 +193,6 @@ export default {
       width: 235px
       height: 270px
 
-  & td
-    width: 50%
-    text-align: center
-    padding: 30px 0
-    
-    & h2
-      font-size: 48px
-      font-weight: 200
-
-      & i
-        color: $primary-color
-        margin-right: 10px
-        font-size: .8em
-
-      & .separator
-        position: relative
-        top: -4px
-        animation: separator 2s linear infinite
-
-    & p
-      color: $hard
-
-      &:first-letter
-        text-transform: uppercase
 
 @keyframes separator
   50%

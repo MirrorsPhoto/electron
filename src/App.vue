@@ -90,12 +90,17 @@ h4
   justify-content: center
 
 .release_info ul
-  list-style-position: inside
+  list-style: none
   margin-bottom: 5px
-  padding-left: 25px
+  padding-left: 20px
 
   & li
-    text-indent: -20px
+    text-indent: -18px
+
+    &:before
+      content: '•'
+      color: $primary-color
+      margin-right: 10px
 
     & > ul
       list-style: none

@@ -1,5 +1,5 @@
 <template>
-  <form class="widget_wrap" @submit.prevent="confirm()">
+  <form class="widget_wrap" @submit.prevent="submit()">
     <table>
       <thead>
         <tr>
@@ -9,23 +9,25 @@
           <td>Цена</td>
         </tr>
       </thead>
+
       <transition-group name="check" tag="tbody">
         <tr v-for="(row, index) in rows" :key="index">
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
           <td>
-            <button class="displayOnHover" @click.prevent="setCount('inc', index, row.count)">+</button>
-            <span class="count">{{ row.count }}</span>
-            <button class="displayOnHover" @click.prevent="setCount('dec', index, row.count)">-</button>
+            <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
+            <span class="count">{{ row.copies }}</span>
+            <button class="displayOnHover" @click.prevent="setCount('dec', index)">-</button>
           </td>
-          <td>{{ row.count * row.price }}₽</td>
+          <td>{{ row.copies * row.price }}₽</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
       </transition-group>
+
       <tfoot>
         <tr>
           <td align="left">
-            <span v-if="total > 0" class="total">Итого: {{ total }}₽</span>
+            <span v-if="total" class="total">Итого: {{ total }}₽</span>
           </td>
           <td align="right"><input type="submit" value="Оплачено" :disabled="!rows.length"></td>
         </tr>
@@ -41,36 +43,50 @@ export default {
     }
   },
   computed: {
+    // Общая стоимость позиций в чеке
     total() {
-      return this.rows.reduce((res, row) => res += (row.count * row.price), 0)
+      return this.rows.reduce((res, row) => res += (row.copies * row.price), 0)
     }
   },
   methods: {
+    // Добавление позиции в чек
     addRow(data) {
       const i = this.rows.findIndex(r => data.title === r.title && data.value === r.value)
-      i !== -1
-        ? this.rows[i].count += data.count
-        : this.rows.push(data)
+      // Если в чеке нет такой позиции, то добавляем ее. Иначе суммируем кол-во
+      i === -1
+        ? this.rows.push(data)
+        : this.rows[i].copies += data.copies
     },
-    removeRow(index) {
-      this.rows.splice(index, 1)
+    // Удаление позиции из чека
+    removeRow(i) {
+      this.rows.splice(i, 1)
     },
-    setCount(method, index, count) {
+    // Изменение кол-ва
+    setCount(method, i) {
+      const { available, copies } = this.rows[i]
       if (method === 'inc') {
-        this.rows[index].count = count + 1
-      } else if (method === 'dec' && this.rows[index].count > 1) {
-        this.rows[index].count = count - 1
+        if (available && available <= copies) return
+        this.rows[i].copies = copies + 1
+      } else if (copies > 1) {
+        this.rows[i].copies = copies - 1
       }
     },
-    confirm() {
-      const arrayToSend = this.rows.map(({ title, count, price }) => {
-        return { title, summ: count * price } 
-      })
-      this.$store.commit('addSale', arrayToSend)
-      this.rows = []
+    // Отправление чека на сервер и запись сумм в хранилище
+    async submit() {
+      try {
+        await this.$http.post('/sale/batch', { items: this.rows })
+        const arrayToStore = this.rows.map(({ title, copies, price }) => {
+          return { title, summ: copies * price }
+        })
+        this.$store.commit('addSale', arrayToStore)
+        this.rows = []
+      } catch(err) {
+        console.error(err)
+      }
     }
   },
   created() {
+    // Подписываемся на событие 'add' в виджетах
     this.$parent.$children
       .filter(({ $refs }) => $refs.widget)
       .forEach(widget => widget.$on('add', this.addRow))

@@ -15,8 +15,8 @@
         disabled
       ></field>
 
-      <count :count.sync="count"></count>
-  
+      <count :count.sync="copies"></count>
+
     </div>
 
     <button type="submit"><icon name="chevron"></icon></button>
@@ -27,19 +27,35 @@ export default {
   data() {
     return {
       title: 'Ксерокопия',
+      type: 'copy',
       size : 'A4',
-      count: 1,
+      copies: 1,
       price: 0
     }
   },
   methods: {
     submit() {
-      const { title, size: value, count, price } = this
-      this.$emit('add', { title, value, count, price })
-      this.count = 1
+      const {
+        title,
+        type,
+        copies,
+        price,
+        size: value
+      } = this
+
+      this.$emit('add', {
+        title,
+        type,
+        copies,
+        price,
+        value
+      })
+
+      this.copies = 1
     }
   },
   created() {
+    // Получаем цену ксерокопии
     this.$http.get('copy/price')
       .then(({ data }) => this.price = data.response)
       .catch(err => console.error(err))

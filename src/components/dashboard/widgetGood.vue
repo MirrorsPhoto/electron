@@ -19,7 +19,7 @@
 
       <span v-text="errorText" class="error"></span>
 
-      <count :count.sync="count"></count>
+      <count :count.sync="copies"></count>
     </div>
 
     <button type="submit"><icon name="chevron"></icon></button>
@@ -30,8 +30,9 @@ export default {
   data() {
     return {
       title: 'Продажа',
+      type: 'good',
       code: '',
-      count: 1,
+      copies: 1,
       errorText: ''
     }
   },
@@ -42,18 +43,31 @@ export default {
   },
   methods: {
     async submit() {
-      const { code } = this
-
-      if (code.length === 13) {
+      if (this.code.length === 13) {
         try {
-          const
-            { data } = await this.$http.get('good/' + code),
-            { name: title, description: value, price } = data.response,
-            { count } = this
+          const { data } = await this.$http.get('good/' + this.code)
+          const {
+            id,
+            price,
+            available,
+            name: title,
+            description: value
+          } = data.response
+          const { type } = this
+          const copies = this.copies > available ? available : this.copies
 
-          this.$emit('add', { title, value, count, price })
+          this.$emit('add', {
+            id,
+            title,
+            type,
+            value,
+            copies,
+            price,
+            available
+          })
+
           this.code = ''
-          this.count = 1
+          this.copies = 1
         } catch(err) {
           this.errorText = err.response.data.message[0]
         }

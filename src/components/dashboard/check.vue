@@ -71,7 +71,7 @@ export default {
         this.rows[i].copies = copies - 1
       }
     },
-    // Отправление чека на сервер и запись сумм в хранилище
+    // Отправление чека на сервер
     submit() {
       this.$http.post('/sale/batch', { items: this.rows })
         .then(() => this.rows = [])

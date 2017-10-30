@@ -49,6 +49,9 @@ export default {
     }
   },
   computed: {
+    id() {
+       return this.selectedSizeData.id || null
+     },
     // Размеры фотографий строками для передачи в компонент field
     sizes() {
       return this.photoData.map(this.sizeToString)

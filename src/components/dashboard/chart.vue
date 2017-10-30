@@ -60,10 +60,13 @@ export default {
     // Данные для отображения
     stats() {
       const { stats } = this.$store.state
-      return {
-        names: Object.keys(stats),  // Позиции
-        summs: Object.values(stats) // Суммы
-      }
+      const names = []
+      const summs = []
+      Object.keys(stats).forEach(type => {
+        names.push(stats[type].name)
+        summs.push(stats[type].cash)
+      })
+      return { names, summs }
     },
     // Процентное соотношение всех сумм к общей
     percents() {

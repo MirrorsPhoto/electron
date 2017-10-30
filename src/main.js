@@ -4,7 +4,7 @@ import Axios from './plugins/axios'
 import Online from 'online-js'
 import store from './store'
 
-const url = 'http://31.131.129.126'
+const url = 'http://api.jonkofee.ru'
 
 Vue.use(VueElectron)
 Vue.config.productionTip = false
@@ -21,7 +21,7 @@ new Vue({
   beforeCreate() {
     //Запрет на зум
     this.$electron.webFrame.setZoomLevelLimits(1, 1)
-    
+
     Vue.prototype.$http = Axios(this, url)
   }
 })

@@ -7,10 +7,22 @@ const initialState = {
   user: {},
   clients: 0,
   stats: {
-    'Фотография': 0,
-    'Продажа': 0,
-    'Ксерокопия': 0,
-    'Ламинация': 0
+    photo: {
+      name: 'Фотография',
+      cash: 0
+    },
+    good: {
+      name: 'Продажа',
+      cash: 0
+    },
+    copy: {
+      name: 'Ксерокопия',
+      cash: 0
+    },
+    lamination: {
+      name: 'Ламинация',
+      cash: 0
+    }
   }
 }
 
@@ -19,23 +31,26 @@ export default new Vuex.Store({
     online: null
   },
   getters: {
-    moneySumm: ({ stats }) => Object.keys(stats).reduce((sum, key) => sum += stats[key], 0)
+    moneySumm: ({ stats }) => Object.keys(stats).reduce((sum, key) => sum += stats[key].cash, 0)
   },
   mutations: {
     setConnectStatus: (state, status) => state.online = status,
     initState: state => {
-      for (let key in initialState) {
-        const value = initialState[key]
-        Vue.set(state, key, (typeof value === 'object') ? Object.assign({}, value) : value)
+      for (let prop in initialState) {
+        Vue.set(state, prop, JSON.parse(JSON.stringify(initialState[prop])))
       }
     },
     initUser: (state, data) => state.user = data,
-    addSale: (state, items) => {
-      items.forEach(({ title, summ }) => {
-        const prop = state.stats.hasOwnProperty(title) ? title : 'Продажа'
-        state.stats[prop] += summ 
-      })
-      state.clients = state.clients + 1
+    addSale: (state, data) => {
+      for (let type in data.cash) {
+        console.log(state.stats[type].cash);
+        if (state.stats[type].cash !== 0) {
+          state.stats[type].cash = data.cash[type]
+        } else {
+          state.stats[type].cash += data.cash[type]
+        }
+      }
+      state.clients = data.client_count
     }
   }
 })

@@ -72,17 +72,10 @@ export default {
       }
     },
     // Отправление чека на сервер и запись сумм в хранилище
-    async submit() {
-      try {
-        await this.$http.post('/sale/batch', { items: this.rows })
-        const arrayToStore = this.rows.map(({ title, copies, price }) => {
-          return { title, summ: copies * price }
-        })
-        this.$store.commit('addSale', arrayToStore)
-        this.rows = []
-      } catch(err) {
-        console.error(err)
-      }
+    submit() {
+      this.$http.post('/sale/batch', { items: this.rows })
+        .then(() => this.rows = [])
+        .catch(err => console.error(err))
     }
   },
   created() {

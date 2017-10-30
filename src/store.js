@@ -43,12 +43,7 @@ export default new Vuex.Store({
     initUser: (state, data) => state.user = data,
     addSale: (state, data) => {
       for (let type in data.cash) {
-        console.log(state.stats[type].cash);
-        if (state.stats[type].cash !== 0) {
-          state.stats[type].cash = data.cash[type]
-        } else {
-          state.stats[type].cash += data.cash[type]
-        }
+        state.stats[type].cash = data.cash[type]
       }
       state.clients = data.client_count
     }

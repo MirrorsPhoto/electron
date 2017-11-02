@@ -9,7 +9,7 @@ const url = 'http://api.jonkofee.ru'
 Vue.use(VueElectron)
 Vue.config.productionTip = false
 Vue.config.performance = true
-Vue.prototype.$online = Online({ url })
+Vue.prototype.$online = process.env.NODE_ENV !== 'development' && Online({ url })
 
 new Vue({
   el: '#app',

@@ -41,7 +41,10 @@ export default {
     }
   },
   created() {
-    this.$online.onUpdateStatus(status => this.$store.commit('setConnectStatus', status))
+
+    process.env.NODE_ENV !== 'development'
+      ? this.$online.onUpdateStatus(status => this.$store.commit('setConnectStatus', status))
+      : this.$store.commit('setConnectStatus', true)
 
     const token = localStorage.getItem('token')
     token ? this.logIn(token) : this.page = 'auth'

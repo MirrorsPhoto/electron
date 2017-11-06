@@ -25,10 +25,14 @@
     ],
     "mac": {
       "category": "public.app-category.business",
-      "icon": "src/icons/icon.icns",
-      "target": [
-        "zip"
-      ]
+      "icon": "src/icons/icon.icns"
+    },
+    "dmg": {
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "icon": "src/icons/icon.icns"
     }
   },
   "dependencies": {

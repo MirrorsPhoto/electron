@@ -62,7 +62,7 @@
   "dependencies": {
     "axios": "^0.17.0",
     "countup.js": "^1.9.2",
-    "electron-updater": "^2.13.0",
+    "electron-updater": "^2.16.1",
     "jwt-decode": "^2.2.0",
     "online-js": "^1.0.1",
     "vue": "^2.5.3",

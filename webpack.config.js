@@ -3,7 +3,10 @@ process.noDeprecation = true
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin')
-const exec = require('executive')
+const WebpackShellPlugin = require('webpack-shell-plugin')
+const MinifyPlugin = require("babili-webpack-plugin")
+
+const isDev = process.env.NODE_ENV === 'development'
 
 module.exports = {
 
@@ -50,11 +53,9 @@ module.exports = {
       },
       { // Копирование шрифтов
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: {
-          loader: 'file-loader',
-          query: {
-            name: 'fonts/[name].[ext]'
-          }
+        loader: 'file-loader',
+        query: {
+          name: 'fonts/[name].[ext]'
         }
       }
     ]
@@ -89,20 +90,17 @@ module.exports = {
           removeDimensions: true
         }]
       }
-    })
+    }),
+
+    isDev
+      // Запускаем электрон
+      ? new WebpackShellPlugin({ onBuildEnd: ['cross-env NODE_ENV=development electron .'] })
+      : new MinifyPlugin({}, { comments: false })
   ],
 
   // Выводим в консоль только ошибки
   stats: 'errors-only',
 
-  devServer: {
-    contentBase: __dirname + '/dist',
-    port: 1111,
-    clientLogLevel: 'error',
-    stats: 'errors-only',
-    after() {
-      // После запуска сервера запускаем электрон
-      exec('cross-env NODE_ENV=development electron .')
-    }
-  }
+  // Пересборка при изменении файлов в режиме разработки
+  watch: isDev
 }

@@ -17,7 +17,7 @@ app.on('ready', async () => {
   })
 
   mainWindow.maximize()
-  mainWindow.loadURL(isDev ? 'http://localhost:1111' : `file://${appPath}/index.html`)
+  mainWindow.loadURL(`file://${appPath}/index.html`)
   mainWindow.on('closed', app.quit)
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(
@@ -37,6 +37,9 @@ app.on('ready', async () => {
     const { default: installExtension, VUEJS_DEVTOOLS } = require('electron-devtools-installer')
     await installExtension(VUEJS_DEVTOOLS)
     mainWindow.webContents.openDevTools()
+
+    // При пересборке файлов обновлям страницу
+    require('fs').watch(appPath, () => mainWindow.webContents.reload())
   } else {
     updater = autoUpdater(mainWindow)
     updater.checkForUpdates()

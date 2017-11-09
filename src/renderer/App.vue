@@ -1,11 +1,13 @@
 <template>
   <div class="bg">
 
-    <component
-      :is="page"
-      @logIn="logIn($event)"
-      @logOut="logOut()"
-    ></component>
+    <transition :name="page !== 'auth' ? 'login' : 'logout'" mode="out-in">
+      <component
+        :is="page"
+        @logIn="logIn($event)"
+        @logOut="logOut()"
+      ></component>
+    </transition>
 
     <update-modal></update-modal>
 
@@ -50,7 +52,7 @@ export default {
     token ? this.logIn(token) : this.page = 'auth'
   },
   components: {
-    auth : require('./components/auth'),
+    auth: require('./components/auth'),
     index: require('./components/index'),
     updateModal: require('./components/UI/updateModal')
   }
@@ -148,5 +150,35 @@ h4
             content: '-'
             color: #333
             margin-right: 10px
+@keyframes rotate
+  from
+    transform: rotateY(0)
+  to
+    transform: rotateY(180deg)
+
+@keyframes scale
+  from
+    width: 300px
+    height: 400px
+  to
+    width: 1280px
+    height: 720px
+
+.login-leave-active
+  animation: rotate 1s ease-in
+
+.login-enter-active
+  animation: scale .6s ease-in-out
+  overflow: hidden
+
+.logout-leave-active
+  animation: scale .6s ease reverse
+  overflow: hidden
+  & *
+    opacity: 0
+    transition: opacity 1s
+
+.logout-enter-active
+  animation: rotate 1s ease-in reverse
 
 </style>

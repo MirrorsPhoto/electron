@@ -1,22 +1,41 @@
 <template>
   <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
 
-    <window-buttons></window-buttons>
-    
-    <logo class="logo"></logo>
-    
+    <window-buttons
+      v-animate="{
+        name: 'fadeIn', dur: 500,
+        leave: { name: 'fadeOut' }
+      }"
+    />
+
+    <logo
+      class="logo"
+      v-animate="{
+        name: 'fadeInUp', del: 300,
+        leave: { name: 'fadeOut', dur: 500, del: 0 }
+      }"
+    />
+
     <field
       placeholder="Логин"
       v-model="user.login"
       autofocus
-    ></field>
-    
+      v-animate="{
+        name: 'fadeInUp', del: 500,
+        leave: { name: 'fadeOutDown', del: 200 }
+      }"
+    />
+
     <field
       placeholder="Пароль"
       type="password"
       v-model="user.password"
-    ></field>
-    
+      v-animate="{
+        name: 'fadeInUp', del: 700,
+        leave: { name: 'fadeOutDown', del: 0 }
+      }"
+    />
+
     <input type="submit">
 
     <p>
@@ -78,20 +97,20 @@ export default {
 
 form 
   background: #fff
-  width: 350px
-  padding: 50px 50px 70px
+  width: 300px
+  padding: 50px 50px 60px
   position: relative
   color: #fff
   box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
 
   & .logo
     display: block
-    width: 350px
-    height: 200px
+    width: 300px
+    height: 170px
     margin: 0 -50px
 
   & div
-    margin-top: 25px
+    margin-top: 20px
 
   & [type="submit"]
     display: none
@@ -100,7 +119,7 @@ form
     color: $primary-color
     text-align: center
     position: absolute
-    top: 410px
+    top: 360px
     left: 0
     right: 0
     

@@ -270,7 +270,8 @@ export default {
   computed: {
     icon() {
       const code = this.code || 800
-      const timeOfDay = new Date().getHours() < 20 ? 'day' : 'night'
+      const hours = new Date().getHours()
+      const timeOfDay = hours > 7 && hours < 20 ? 'day' : 'night'
       return this.icons.find(icon => icon.codes.includes(code))[timeOfDay]
     }
   }

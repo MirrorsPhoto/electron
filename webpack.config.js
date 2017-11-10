@@ -57,6 +57,10 @@ module.exports = {
         query: {
           name: 'fonts/[name].[ext]'
         }
+      },
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
       }
     ]
   },

@@ -3,7 +3,7 @@
 
     <window-buttons
       v-animate="{
-        name: 'fadeIn', dur: 500,
+        name: 'fadeIn',
         leave: { name: 'fadeOut' }
       }"
     />
@@ -12,7 +12,7 @@
       class="logo"
       v-animate="{
         name: 'fadeInUp', del: 300,
-        leave: { name: 'fadeOut', dur: 500, del: 0 }
+        leave: { name: 'fadeOut', del: 0 }
       }"
     />
 
@@ -22,7 +22,7 @@
       autofocus
       v-animate="{
         name: 'fadeInUp', del: 500,
-        leave: { name: 'fadeOutDown', del: 200 }
+        leave: { name: 'fadeOutDown', del: 100 }
       }"
     />
 

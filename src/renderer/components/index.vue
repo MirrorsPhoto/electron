@@ -3,7 +3,7 @@
 
     <window-buttons v-animate="{ name: 'fadeIn', del: 1100 }"></window-buttons>
 
-    <aside v-animate="{ name: 'fadeInLeft', del: 700 }">
+    <aside v-animate="{ name: 'fadeInLeft', del: 700, dur: 700 }">
       <logo class="logo"></logo>
 
       <div class="user_photo_wrap">

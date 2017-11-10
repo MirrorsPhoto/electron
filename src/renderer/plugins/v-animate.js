@@ -4,7 +4,7 @@
  *
  *  Директива принимает либо строку с названием класса анимации либо объект со следующими свойствами:
  *  name {String} - Название анимации (класс)
- *  dur {Number} - Длительность в мс, по умолчанию - 1000
+ *  dur {Number} - Длительность в мс, по умолчанию - 500
  *  del {Number} - Задержка в мс, по умолчанию - 0
  *
  *  Примеры использования:
@@ -41,7 +41,7 @@ export default {
 
       if (name) {
         const props = {
-          'animation-duration': `${ dur || 1000 }ms`,
+          'animation-duration': `${ dur || 500 }ms`,
           'animation-delay': `${ del || 0 }ms`,
           'animation-fill-mode': 'both'
         }

@@ -54,7 +54,7 @@ export default {
     }
   },
   destroyed() {
-    this.$electron.ipcRenderer.removeAllListeners()
+    this.$electron.ipcRenderer.removeAllListeners('photoshop-connect, photoshop-message')
   },
   components: {
     dashboard: require('./dashboard/_index'),

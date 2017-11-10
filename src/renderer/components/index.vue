@@ -1,9 +1,9 @@
 <template>
   <div class="wrap">
 
-    <window-buttons></window-buttons>
+    <window-buttons v-animate="{ name: 'fadeIn', del: 1100 }"></window-buttons>
 
-    <aside>
+    <aside v-animate="{ name: 'fadeInLeft', del: 700 }">
       <logo class="logo"></logo>
 
       <div class="user_photo_wrap">
@@ -34,9 +34,12 @@
         <icon name="logout"></icon>Выйти
       </a>
     </aside>
-    <keep-alive>
-      <component :is="page"></component>
-    </keep-alive>
+
+    <transition :duration="500" mode="out-in">
+      <keep-alive>
+        <component :is="page" :key="page"></component>
+      </keep-alive>
+    </transition>
 
   </div>
 </template>
@@ -80,12 +83,13 @@ export default {
   display: grid
   grid-template-columns: 230px auto
   position: relative
+  overflow: hidden
 
   & aside 
     background: #fff
     width: 230px
     padding: 30px 0
-    box-shadow: 5px 5px 32px rgba(0, 0, 0, .2)
+    box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
 
     & .logo
       display: block

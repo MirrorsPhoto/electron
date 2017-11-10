@@ -23,6 +23,8 @@ div
   top: 6px
   left: 8px
   
+  z-index: 5
+
   & a
     display: inline-block
     width: 12px

@@ -1,6 +1,6 @@
 /**
- *  Директива для присвоения анимаций элементам
- *  Список анимаций и примеры: https://daneden.github.io/animate.css/
+ *  Директива для присвоения анимаций элементам.
+ *  Список анимаций и примеры: https://cssanimation.io/
  *
  *  Директива принимает либо строку с названием класса анимации либо объект со следующими свойствами:
  *  name {String} - Название анимации (класс)
@@ -17,16 +17,16 @@
  *    v-animate="{ name: 'fadeIn', dur: 1500, delay: 500 }"
  *  ></my-component>
  */
-
-export default {
+export const styles = import('./cssanimation.css')
+export const VAnimate = {
   install(Vue) {
 
-    // Подключаем animate.css
-    const cdnLink = Object.assign(document.createElement('link'), {
-      rel: 'stylesheet',
-      href: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'
-    })
-    document.head.appendChild(cdnLink)
+    // // Подключаем animate.css
+    // const cdnLink = Object.assign(document.createElement('link'), {
+    //   rel: 'stylesheet',
+    //   href: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'
+    // })
+    // document.head.appendChild(cdnLink)
 
     const validateValue = value => {
       return typeof value === 'string'

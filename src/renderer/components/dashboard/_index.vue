@@ -1,28 +1,61 @@
 <template>
   <div class="content">
-    <chart></chart>
-    <counts></counts>
-    <div class="widgets_bar">
-      <widget-photo></widget-photo>
-      <widget-good></widget-good>
-      <widget-copy></widget-copy>
-      <widget-lamin></widget-lamin>
+
+    <chart v-animate="topWidgetAnimation"/>
+    <counts v-animate="topWidgetAnimation"/>
+
+    <div class="widgets_bar" v-animate="bottomWidgetAnimation">
+      <widget-photo/>
+      <widget-good/>
+      <widget-copy/>
+      <widget-lamin/>
     </div>
-    <check></check>
+
+    <check v-animate="bottomWidgetAnimation"/>
+
   </div>
 </template>
 
 <script>
 export default {
-  components: {
-    chart : require('./chart'),
-    counts: require('./counts'),
-    check : require('./check'),
-    widgetPhoto: require('./widgetPhoto'),
-    widgetGood : require('./widgetGood'),
-    widgetCopy : require('./widgetCopy'),
-    widgetLamin: require('./widgetLamin')
-  }
+  data() {
+    return {
+      active: true,
+      isInitial: true
+    }
+  },
+  computed: {
+    topWidgetAnimation() {
+      return {
+        name: this.active ? 'fadeInDown' : 'fadeOutUp',
+        del: this.isInitial ? 1100 : 0,
+        dur: this.isInitial ? 800 : 500
+      }
+    },
+    bottomWidgetAnimation() {
+      return {
+        name: this.active ? 'fadeInUp' : 'fadeOutDown',
+        del: this.isInitial ? 1100 : 0,
+        dur: this.isInitial ? 800 : 500
+      }
+    }
+  },
+  activated() {
+    this.active = true
+  },
+  deactivated() {
+    this.isInitial && (this.isInitial = false)
+    this.active = false
+ },
+ components: {
+   chart : require('./chart'),
+   counts: require('./counts'),
+   check : require('./check'),
+   widgetPhoto: require('./widgetPhoto'),
+   widgetGood : require('./widgetGood'),
+   widgetCopy : require('./widgetCopy'),
+   widgetLamin: require('./widgetLamin')
+ }
 }
 </script>
 

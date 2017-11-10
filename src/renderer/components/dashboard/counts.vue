@@ -11,7 +11,13 @@
 
         <!-- Погода -->
         <td v-if="online">
-          <h2><weather-icon :code="weather.code"></weather-icon>{{ weather.temp }}°</h2>
+          <h2>
+            <weather-icon
+              :code="weather.code"
+              :time-of-day="weather.timeOfDay"
+            />
+            {{ weather.temp }}°
+          </h2>
           <p>{{ weather.desc }}</p>
         </td>
 
@@ -53,7 +59,8 @@ export default {
       weather: {
         temp: 0,
         desc: '',
-        code: 0
+        code: 0,
+        timeOfDay: ''
       },
       timer: null,
       weatherTimer: null
@@ -108,10 +115,13 @@ export default {
     },
     async updateWeather() {
       const { data } = await axios.get("http://api.openweathermap.org/data/2.5/weather?id=713504&lang=ru&units=metric&APPID=3408cd554acba183a966bd9cfa69b9d2")
+      const { sunrise, sunset } = data.sys
+      const time = Math.round(new Date().getTime() / 1000)
       this.weather = {
         temp: parseInt(data.main.temp),
         desc: data.weather[0].description,
-        code: +data.weather[0].id
+        code: +data.weather[0].id,
+        timeOfDay: (time >= sunrise && time < sunset) ? 'day' : 'night'
       }
     },
     updatingWeather(param) {

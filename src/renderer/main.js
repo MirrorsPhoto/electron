@@ -16,14 +16,11 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   store,
-  template: '<App ref="app"></App>',
+  template: '<App/>',
   components: {
     App: require('./App')
   },
   beforeCreate() {
-    // Запрет на зум
-    this.$electron.webFrame.setZoomLevelLimits(1, 1)
-
     Vue.prototype.$http = Axios(this, url)
   }
 })

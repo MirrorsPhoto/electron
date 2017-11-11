@@ -43,6 +43,8 @@ export default {
     }
   },
   created() {
+    // Запрет на зум
+    this.$electron.webFrame.setZoomLevelLimits(1, 1)
 
     process.env.NODE_ENV !== 'development'
       ? this.$online.onUpdateStatus(status => this.$store.commit('setConnectStatus', status))

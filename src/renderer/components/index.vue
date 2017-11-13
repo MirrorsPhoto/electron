@@ -27,13 +27,14 @@
 
       <nav>
         <a
-          v-for="({ title, icon, page }, i) in menu" :key="i"
+          v-for="(item, i) in menu" :key="i"
           href="#"
-          @click.prevent="setPage(page)"
+          @click.prevent="setPage(item.page)"
           v-animate="{ name: 'fadeInLeft', del: 1200 + i * 100 }"
+          :class="page === item.page ? 'active' : ''"
         >
-          <icon :name="icon"></icon>
-          {{ title }}
+          <icon :name="item.icon"></icon>
+          {{ item.title }}
         </a>
       </nav>
 

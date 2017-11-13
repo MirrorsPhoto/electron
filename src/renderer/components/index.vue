@@ -1,36 +1,48 @@
 <template>
   <div class="wrap">
 
-    <window-buttons v-animate="{ name: 'fadeIn', del: 1100 }"></window-buttons>
+    <window-buttons
+      v-animate="{ name: 'fadeInTop', del: 2000 }"
+    />
 
-    <aside v-animate="{ name: 'fadeInLeft', del: 700, dur: 700 }">
-      <logo class="logo"></logo>
+    <aside
+      v-animate="{ name: 'moveFromLeft', del: 500, dur: 1000 }"
+    >
+      <logo
+        class="logo"
+        v-animate="{ name: 'moveFromTop', del: 1000 }"
+      />
 
-      <div class="user_photo_wrap">
-        <div v-if="user.avatar" class="user_photo" :style="`background-image: url(${user.avatar})`"></div>
-        <div v-else class="no_photo">
+      <div
+        class="user_photo_wrap"
+        v-animate="{ name: 'rotateXIn', del: 1200 }"
+      >
+        <!-- <div v-if="user.avatar" class="user_photo" :style="`background-image: url(${user.avatar})`"></div> -->
+        <div class="no_photo">
           <icon name="user" size="55"></icon>
         </div>
       </div>
-      <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
-      <p>{{ user.role_name }}</p>
+      <h4 v-animate="{ name: 'rotateXIn', del: 1200 }">{{ user.first_name + ' ' + user.last_name }}</h4>
+      <p v-animate="{ name: 'fadeInBottom', del: 1200 }">{{ user.role_name }}</p>
 
       <nav>
-        <a href="#" @click.prevent="page = 'dashboard'">
-          <icon name="dashboard"></icon>Главный экран
-        </a>
-        <a href="#" @click.prevent="page = 'storehouse'">
-          <icon name="bag"></icon>Товары
-        </a>
-        <a href="#" @click.prevent="page = 'statistic'">
-          <icon name="chart"></icon>Статистика
-        </a>
-        <a href="#" @click.prevent="page = 'settings'">
-          <icon name="settings"></icon>Настройки
+        <a
+          v-for="({ title, icon, page }, i) in menu" :key="i"
+          href="#"
+          @click.prevent="setPage(page)"
+          v-animate="{ name: 'fadeInLeft', del: 1200 + i * 100 }"
+        >
+          <icon :name="icon"></icon>
+          {{ title }}
         </a>
       </nav>
 
-      <a href="#" class="link_logout" @click.prevent="$emit('logOut')">
+      <a
+        href="#"
+        class="link_logout"
+        @click.prevent="$emit('logOut')"
+        v-animate="{ name: 'fadeInLeft', del: 1700 }"
+      >
         <icon name="logout"></icon>Выйти
       </a>
     </aside>
@@ -48,12 +60,39 @@
 export default {
   data() {
     return {
-      page: 'dashboard'
+      page: 'dashboard',
+      menu: [
+        {
+          title: 'Главный экран',
+          icon: 'dashboard',
+          page: 'dashboard'
+        },
+        {
+          title: 'Товары',
+          icon: 'bag',
+          page: 'storehouse'
+        },
+        {
+          title: 'Статистика',
+          icon: 'chart',
+          page: 'statistic'
+        },
+        {
+          title: 'Настройки',
+          icon: 'settings',
+          page: 'settings'
+        }
+      ]
     }
   },
   computed: {
     user() {
       return this.$store.state.user
+    }
+  },
+  methods: {
+    setPage(page) {
+      this.page = page
     }
   },
   destroyed() {

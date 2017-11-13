@@ -1,17 +1,17 @@
 <template>
   <div class="content">
 
-    <chart v-animate="topWidgetAnimation"/>
-    <counts v-animate="topWidgetAnimation"/>
+    <chart v-animate="{ name: topWidgetAnimation, del }"/>
+    <counts v-animate="{ name: topWidgetAnimation, del }"/>
 
-    <div class="widgets_bar" v-animate="bottomWidgetAnimation">
+    <div class="widgets_bar" v-animate="{ name: bottomWidgetAnimation, del }">
       <widget-photo/>
       <widget-good/>
       <widget-copy/>
       <widget-lamin/>
     </div>
 
-    <check v-animate="bottomWidgetAnimation"/>
+    <check v-animate="{ name: bottomWidgetAnimation, del }"/>
 
   </div>
 </template>
@@ -25,19 +25,14 @@ export default {
     }
   },
   computed: {
+    del() {
+      return this.isInitial ? 2300 : 0
+    },
     topWidgetAnimation() {
-      return {
-        name: this.active ? 'fadeInDown' : 'fadeOutUp',
-        del: this.isInitial ? 1100 : 0,
-        dur: this.isInitial ? 800 : 500
-      }
+      return this.active ? 'fadeInTop' : 'fadeOutTop'
     },
     bottomWidgetAnimation() {
-      return {
-        name: this.active ? 'fadeInUp' : 'fadeOutDown',
-        del: this.isInitial ? 1100 : 0,
-        dur: this.isInitial ? 800 : 500
-      }
+      return this.active ? 'fadeInBottom' : 'fadeOutBottom'
     }
   },
   activated() {

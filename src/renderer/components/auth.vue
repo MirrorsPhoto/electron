@@ -2,18 +2,12 @@
   <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
 
     <window-buttons
-      v-animate="{
-        name: 'fadeIn',
-        leave: { name: 'fadeOut' }
-      }"
+      v-animate="{ name: 'fadeInTop', del: 500 }"
     />
 
     <logo
       class="logo"
-      v-animate="{
-        name: 'fadeInUp', del: 300,
-        leave: { name: 'fadeOut', del: 0 }
-      }"
+      v-animate="{ name: 'fadeInBottom', del: 400 }"
     />
 
     <field
@@ -21,8 +15,8 @@
       v-model="user.login"
       autofocus
       v-animate="{
-        name: 'fadeInUp', del: 500,
-        leave: { name: 'fadeOutDown', del: 100 }
+        name: 'fadeInBottom', del: 500,
+        leave: { name: 'fadeOutBottom', del: 100, dur: 350 }
       }"
     />
 
@@ -31,8 +25,8 @@
       type="password"
       v-model="user.password"
       v-animate="{
-        name: 'fadeInUp', del: 700,
-        leave: { name: 'fadeOutDown', del: 0 }
+        name: 'fadeInBottom', del: 700,
+        leave: { name: 'fadeOutBottom', del: 0, dur: 350 }
       }"
     />
 

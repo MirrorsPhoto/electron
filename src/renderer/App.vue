@@ -6,10 +6,10 @@
         :is="page"
         @logIn="logIn($event)"
         @logOut="logOut()"
-      ></component>
+      />
     </transition>
 
-    <update-modal></update-modal>
+    <update-modal/>
 
   </div>
 </template>
@@ -152,13 +152,14 @@ h4
             content: '-'
             color: #333
             margin-right: 10px
-@keyframes rotate
+
+@keyframes auth
   from
     transform: rotateY(0)
   to
     transform: rotateY(180deg)
 
-@keyframes scale
+@keyframes index
   from
     width: 300px
     height: 400px
@@ -167,20 +168,20 @@ h4
     height: 720px
 
 .login-leave-active
-  animation: rotate 1s ease-in
+  animation: auth 1s ease-in
 
 .login-enter-active
-  animation: scale .6s ease-in-out
+  animation: index .6s ease-in-out
   overflow: hidden
 
 .logout-leave-active
-  animation: scale .6s ease reverse
+  animation: index .6s ease reverse
   overflow: hidden
   & *
     opacity: 0
     transition: opacity 1s
 
 .logout-enter-active
-  animation: rotate 1s ease-in reverse
+  animation: auth 1s ease-in reverse
 
 </style>

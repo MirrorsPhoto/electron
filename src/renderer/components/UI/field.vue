@@ -8,7 +8,6 @@
       @input="change($event.target.value)"
       @mousedown="openList()"
       :disabled="disabled || (select && options.length <= 1 && !showList)"
-      :autofocus="autofocus"
       autocomplete="off"
     >
 
@@ -121,6 +120,8 @@ export default {
     this.select
       ? this.change(this.options[0] || '')
       : this.innerValue = this.value
+
+    this.autofocus && this.$refs.input.focus()
   }
 }
 </script>

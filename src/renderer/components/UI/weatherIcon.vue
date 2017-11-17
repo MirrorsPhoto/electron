@@ -219,6 +219,10 @@ export default {
     code: {
       type: Number,
       required: true
+    },
+    timeOfDay: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -270,8 +274,7 @@ export default {
   computed: {
     icon() {
       const code = this.code || 800
-      const timeOfDay = new Date().getHours() < 20 ? 'day' : 'night'
-      return this.icons.find(icon => icon.codes.includes(code))[timeOfDay]
+      return this.icons.find(icon => icon.codes.includes(code))[this.timeOfDay]
     }
   }
 }

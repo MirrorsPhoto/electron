@@ -142,13 +142,9 @@ export default {
     position: relative
 
     & p
-      background: rgba(0, 0, 0, .7)
-      width: 100px
       height: 30px
-      border-radius: 5px
       margin: auto
-      color: #fff
-      font-size: .9em
+      font-size: 1.1em
       text-align: center
       line-height: 30px
       position: absolute
@@ -170,7 +166,7 @@ export default {
         & circle
           cx: 135px
           cy: 135px
-          transition: all .7s ease
+          transition: all .5s ease
 
   & .stats_names_wrap
     padding-top: 10px

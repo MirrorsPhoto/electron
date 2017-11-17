@@ -1,13 +1,15 @@
 <template>
   <div class="bg">
 
-    <component
-      :is="page"
-      @logIn="logIn($event)"
-      @logOut="logOut()"
-    ></component>
+    <transition :name="page !== 'auth' ? 'login' : 'logout'" mode="out-in">
+      <component
+        :is="page"
+        @logIn="logIn($event)"
+        @logOut="logOut()"
+      />
+    </transition>
 
-    <update-modal></update-modal>
+    <update-modal/>
 
   </div>
 </template>
@@ -41,6 +43,8 @@ export default {
     }
   },
   created() {
+    // Запрет на зум
+    this.$electron.webFrame.setZoomLevelLimits(1, 1)
 
     process.env.NODE_ENV !== 'development'
       ? this.$online.onUpdateStatus(status => this.$store.commit('setConnectStatus', status))
@@ -50,7 +54,7 @@ export default {
     token ? this.logIn(token) : this.page = 'auth'
   },
   components: {
-    auth : require('./components/auth'),
+    auth: require('./components/auth'),
     index: require('./components/index'),
     updateModal: require('./components/UI/updateModal')
   }
@@ -148,5 +152,36 @@ h4
             content: '-'
             color: #333
             margin-right: 10px
+
+@keyframes auth
+  from
+    transform: rotateY(0)
+  to
+    transform: rotateY(180deg)
+
+@keyframes index
+  from
+    width: 300px
+    height: 400px
+  to
+    width: 1280px
+    height: 720px
+
+.login-leave-active
+  animation: auth 1s ease-in
+
+.login-enter-active
+  animation: index .6s ease-in-out
+  overflow: hidden
+
+.logout-leave-active
+  animation: index .6s ease reverse
+  overflow: hidden
+  & *
+    opacity: 0
+    transition: opacity 1s
+
+.logout-enter-active
+  animation: auth 1s ease-in reverse
 
 </style>

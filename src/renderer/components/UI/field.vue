@@ -1,35 +1,45 @@
 <template>
-  <div ref="wrap" :style="{ width }">
+  <div
+    :style="{ width }"
+    @click="onClick"
+    @mouseleave="onMouseLeave"
+    >
 
     <input
       ref="input"
+      v-model="innerValue"
       :type="type"
-      :value="innerValue"
-      @input="change($event.target.value)"
-      @mousedown="openList()"
+      :placeholder="selected"
       :disabled="disabled || (select && options.length <= 1 && !showList)"
       autocomplete="off"
+      @focus="onFocus"
+      @blur="onBlur"
+      @input="onInput"
+      @keydown.down="onKeyDown"
+      @keydown.up="onKeyUp"
+      @keydown.enter.prevent="onKeyEnter"
     >
 
     <label
       v-text="placeholder"
       :class="{ active: innerValue }"
-      @click="select ? openList() : $refs.input.focus()"
     ></label>
 
     <span
       v-if="select && options.length > 1"
-      class="arrow"
-      @mousedown="openList()"
+      :class="['arrow', { active: showList }]"
     ></span>
 
-    <transition name="fade-in">
-      <ul ref="list" v-if="select && showList">
-        <li v-for="option in options" :key="option">
-          <a href="#" v-text="option" @click.prevent="change(option)"></a>
-        </li>
-      </ul>
-    </transition>
+    <ul ref="list" v-if="showList">
+      <li v-for="(option, i) in filteredOptions" :key="option">
+        <a
+          href="#"
+          v-text="option"
+          :class="{ active_item: i === selectIndex }"
+          @mousedown.prevent="change(option)"
+        ></a>
+      </li>
+    </ul>
 
   </div>
 </template>
@@ -74,29 +84,39 @@ export default {
       default: false
     },
     options: {
-      type: Array
+      type: Array,
+      required: this.select
     }
   },
   data() {
     return {
       innerValue: '',
-      showList: false
+      showList: false,
+      selectIndex: 0,
+      selected: ''
     }
   },
   watch: {
     value(value) {
-      this.innerValue = value
+      this.change(value)
     },
     options(options) {
       this.change(options[0])
-    },
-    showList(isShow) {
-      document[isShow ? 'addEventListener' : 'removeEventListener']('click', this.closeList)
     }
   },
-  methods: {
-    change(value) {
-      const { maxLen, numbersOnly } = this
+  computed: {
+    filteredOptions() {
+      return this.options.filter(option => {
+        const text = this.innerValue
+        const path = option.split('').slice(0, text.length).join('')
+        if (text.toLowerCase() === path.toLowerCase()) {
+          return option
+        }
+      })
+    },
+    validValue() {
+      const { maxLen, numbersOnly, innerValue } = this
+      let value = innerValue
 
       if (maxLen && value.length > maxLen) {
         value = value.substr(0, maxLen)
@@ -104,23 +124,66 @@ export default {
       if (numbersOnly) {
         value = value.replace(/[^0-9]/g, '')
       }
-      
-      this.$refs.input.value = value
+
+      return value
+    }
+  },
+  methods: {
+    change(value) {
+      this.innerValue = value
+      this.selected = value
       this.$emit('input', value)
+      this.select && this.$refs.input.blur()
     },
-    openList() {
-      if (this.select && this.options.length > 1 && !this.showList) this.showList = true
+    onClick() {
+      this.$refs.input.focus()
     },
-    closeList(e) {
-      const el = e.target, { wrap, list } = this.$refs
-      if (!wrap.contains(el) || list.contains(el)) this.showList = false
+    onMouseLeave() {
+      setTimeout(() => this.$refs.input.blur(), 500)
+    },
+    onFocus() {
+      if (this.select && this.options.length > 1) {
+        this.showList = true
+        this.innerValue = ''
+      }
+    },
+    onBlur(e) {
+      if (this.select) {
+        this.showList = false
+        this.innerValue = this.selected
+        this.selectIndex = 0
+      }
+    },
+    onInput() {
+      if (this.select) {
+        this.selectIndex = 0
+        this.$refs.list.scrollTop = 0
+      } else {
+        this.change(this.validValue)
+      }
+    },
+    onKeyDown() {
+      if (this.selectIndex + 1 < this.filteredOptions.length) {
+        this.selectIndex++
+        if (this.selectIndex > 2) {
+          this.$refs.list.scrollTop += 32
+        }
+      }
+    },
+    onKeyUp() {
+      if (this.selectIndex > 0) {
+        this.selectIndex--
+        if (this.selectIndex < (this.filteredOptions.length - 2)) {
+          this.$refs.list.scrollTop -= 32
+        }
+      }
+    },
+    onKeyEnter() {
+      this.change(this.filteredOptions[this.selectIndex])
     }
   },
   mounted() {
-    this.select
-      ? this.change(this.options[0] || '')
-      : this.innerValue = this.value
-
+    this.change(this.select ? this.options[0] || '' : this.value)
     this.autofocus && this.$refs.input.focus()
   }
 }
@@ -128,13 +191,6 @@ export default {
 
 <style lang="sass" scoped>
 @import "../../styles_config.sass"
-
-.fade-in-enter-active, .fade-in-leave-active
-  transition: all .2s ease
-
-.fade-in-enter, .fade-in-leave-to
-  opacity: 0
-  transform: translateY(10px)
 
 div
   display: inline-block
@@ -155,12 +211,14 @@ div
     outline: none
     text-overflow: ellipsis
     transition: all .3s ease
+    position: relative
+    z-index: 1
 
     &:focus
       padding-bottom: 6px
       border-bottom: 2px solid $primary-color
 
-    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button 
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
       -webkit-appearance: none
       margin: 0
 
@@ -171,6 +229,7 @@ div
     top: 16px
     left: 0
     transition: .2s ease-out
+    z-index: 0
 
   input:focus + label
     color: $primary-color
@@ -189,7 +248,11 @@ div
     position: absolute
     top: 20px
     right: 5px
-    transition: all .3s ease
+    z-index: 0
+
+    &.active
+      transform: rotate(-180deg)
+      transform-origin: 50% 25%
 
   &:hover .arrow
     border-top-color: $hard
@@ -202,10 +265,10 @@ div
     box-shadow: 2px 2px 5px rgba(0, 0, 0, .2)
     font-size: 14px
     position: absolute
-    top: 0
+    top: 40px
     left: 0
     overflow-y: auto
-    z-index: 9999
+    z-index: 3
 
     & li + li
       border-top: 1px solid $light
@@ -217,7 +280,7 @@ div
       line-height: 30px
       text-decoration: none
 
-      &:hover
+      &:hover, &.active_item
         background: $light
 
 </style>

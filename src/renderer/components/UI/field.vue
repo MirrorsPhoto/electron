@@ -36,7 +36,6 @@
           href="#"
           v-text="option"
           :class="{ active_item: i === selectIndex }"
-          @mouseenter="selectIndex = i"
           @mousedown.prevent="change(option)"
         ></a>
       </li>
@@ -281,7 +280,7 @@ div
       line-height: 30px
       text-decoration: none
 
-      &.active_item
+      &:hover, &.active_item
         background: $light
 
 </style>

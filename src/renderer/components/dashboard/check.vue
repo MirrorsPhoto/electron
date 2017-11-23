@@ -29,7 +29,7 @@
           <td align="left">
             <span v-if="total" class="total">Итого: {{ total }}₽</span>
           </td>
-          <td align="right"><input type="submit" value="Оплачено" :disabled="!rows.length"></td>
+          <td align="right"><input type="submit" value="Оплачено" :disabled="disableButton || !rows.length"></td>
         </tr>
       </tfoot>
     </table>
@@ -39,7 +39,8 @@
 export default {
   data() {
     return {
-      rows: []
+      rows: [],
+      disableButton: false
     }
   },
   computed: {
@@ -73,11 +74,11 @@ export default {
     },
     // Отправление чека на сервер
     submit() {
-      const items = this.rows
-      this.rows = []
-      this.$http
-        .post('/sale/batch', { items })
+      this.disableButton = true
+      this.$http.post('/sale/batch', { items: this.rows })
+        .then(() => this.rows = [])
         .catch(err => console.error(err))
+        .then(() => this.disableButton = false)
     }
   },
   created() {

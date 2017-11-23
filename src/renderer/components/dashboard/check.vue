@@ -73,8 +73,10 @@ export default {
     },
     // Отправление чека на сервер
     submit() {
-      this.$http.post('/sale/batch', { items: this.rows })
-        .then(() => this.rows = [])
+      const items = this.rows
+      this.rows = []
+      this.$http
+        .post('/sale/batch', { items })
         .catch(err => console.error(err))
     }
   },

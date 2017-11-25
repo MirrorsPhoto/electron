@@ -123,6 +123,10 @@ export default {
       const { code, id } = this
       const url = code ? `good/bar-code/${code}` : `good/${id}`
 
+      if (!code && !id) {
+        return alert('Введите название или код товара')
+      }
+
       if (code) {
         if (code.length !== 13) {
           return alert('Код должен состоять из 13 цифр')

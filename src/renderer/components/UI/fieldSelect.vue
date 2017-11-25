@@ -93,10 +93,10 @@ export default {
       if (!this.options.length) return []
 
       const s = this.search.toLowerCase()
-      return this.options.filter(o => s === o.substr(0, s.length).toLowerCase())
+      return this.options.filter(o => o.toLowerCase().indexOf(s) !== -1)
     }
   },
-  
+
   methods: {
 
     setSearch(value) {

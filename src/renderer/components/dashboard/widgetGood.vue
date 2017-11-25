@@ -83,8 +83,10 @@ export default {
         return
       }
 
-      // Записываем в поисковый запрос первые три буквы. При их смене - новый поисковый запрос
-      if (value.length > 2 && value.toLowerCase().substr(0, 3) !== this.searchText) {
+      // Оставляем в поисковом запросе первые три буквы. При их смене - новый поисковый запрос
+      value = value.toLowerCase().substr(0, 3)
+      
+      if (value.length > 2 && value !== this.searchText) {
         this.searchText = value
         this.searchResults = []
         this.getSearchResults()

@@ -127,8 +127,11 @@ export default {
           this.code = null
           this.id = null
           this.copies = 1
-          this.searchResults = []
-          !code && this.$refs.field.select('')
+          if (!code) {
+            this.searchText = ''
+            this.searchResults = []
+            this.$refs.field.select('')
+          }
         })
     },
 

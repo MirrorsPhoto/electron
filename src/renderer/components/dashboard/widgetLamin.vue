@@ -8,13 +8,13 @@
 
     <div class="fields_wrap">
 
-      <field
-        select
-        placeholder="Размер"
+      <field-select
+        label="Размер"
         width="120px"
         :options="formats"
+        autoSelect
         v-model="selectedFormat"
-      ></field>
+      ></field-select>
 
       <count :count.sync="copies"></count>
 
@@ -70,9 +70,8 @@ export default {
   },
   components: {
     icon : require('../UI/icon'),
-    field: require('../UI/field'),
+    fieldSelect: require('../UI/fieldSelect'),
     count: require('../UI/count')
   }
 }
 </script>
-

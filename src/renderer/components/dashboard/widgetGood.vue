@@ -1,5 +1,8 @@
 <template>
-  <form ref="widget" class="widget_wrap" @submit.prevent="submit()">
+
+  <!-- Виджет продажи товара -->
+
+  <form ref="widget" class="widget_wrap" @submit.prevent="onSubmit">
 
     <div class="name">
       <icon name="bag"></icon>
@@ -8,18 +11,22 @@
 
     <div class="fields_wrap">
 
-      <field
-        numbersOnly
-        :max-len="13"
-        placeholder="Код товара"
+      <!-- Если вводится код - поле меняется на input, если поиск товара по названию - на select -->
+      <component
+        :is="code ? 'fieldInput' : 'fieldSelect'"
+        ref="field"
+        label="Код или поиск"
         width="120px"
-        v-model="code"
-        @keypress.enter.native.prevent="submit()"
-      ></field>
+        :max-len="code && 13"
+        :value="code"
+        :options="!code && options"
+        @input="onInput"
+        @search="onSearch"
+      />
 
-      <span v-text="errorText" class="error"></span>
-
+      <!-- Кол-во штук -->
       <count :count.sync="copies"></count>
+
     </div>
 
     <button type="submit"><icon name="chevron"></icon></button>
@@ -31,66 +38,158 @@ export default {
     return {
       title: 'Продажа',
       type: 'good',
-      code: '',
-      copies: 1,
-      errorText: ''
+      code: null,
+      id: null,   // id выбранного товара при поиске по названию
+      copies: 1,  // Кол-во
+      searchText: '',
+      searchResults: []
     }
   },
-  watch: {
-    code(code) {
-      this.errorText = ''
+  computed: {
+    options() {
+      if (!this.searchResults.length) return []
+      return this.searchResults.map(({ name }) => name)
     }
   },
   methods: {
-    async submit() {
-      if (this.code.length === 13) {
-        try {
-          const { data } = await this.$http.get('good/' + this.code)
-          const {
-            id,
-            price,
-            available,
-            name: title,
-            description: value
-          } = data.response
-          const { type } = this
-          const copies = this.copies > available ? available : this.copies
 
-          this.$emit('add', {
-            id,
-            title,
-            type,
-            value,
-            copies,
-            price,
-            available
-          })
+    // Ввод в поле input или выбор опции в поле select
+    onInput(value) {
+      if (!value) return
 
-          this.code = ''
-          this.copies = 1
-        } catch(err) {
-          this.errorText = err.response.data.message[0]
-        }
+      // Если выбрана опция
+      if (this.options.includes(value)) {
+        this.code = null
+        this.id = this.searchResults.find(({ name }) => name === value).id
+        return
+      }
+
+      // Если в input введены буквы - меняем поле на select и вставляем значение в строку поиска
+      if (isNaN(value)) {
+        this.switchField('fieldSelect', value)
+        return
+      }
+
+      this.code = value
+      if (value.length === 13) {
+        this.onSubmit()
+      }
+    },
+
+    // Поиск в поле select
+    onSearch(value) {
+
+      // Если введены цифры - меняем поле на input и вставляем значение
+      if (!isNaN(value)) {
+        this.switchField('fieldInput', value)
+        return
+      }
+
+      // Если введенное значение есть в опциях
+      if (this.options.includes(value)) {
+        return
       } else {
-        this.errorText = 'Код должен состоять из 13 цифр'
+        // Иначе оставляем в поисковом запросе первые три буквы. При их смене - новый поисковый запрос
+        value = value.toLowerCase().substr(0, 3)
+
+        if (value.length > 2 && value !== this.searchText) {
+          this.searchText = value
+          this.searchResults = []
+          this.getSearchResults()
+        }
+      }
+    },
+
+    // Переключение поля
+    switchField(fildName, value) {
+      const ifToSelect = fildName === 'fieldSelect'
+      this.searchText = ifToSelect ? value : ''
+      this.code = ifToSelect ? null : value
+
+      // После перерисовки DOM ставим фокус на поле
+      this.$nextTick(() => {
+        this.$refs.field.$el.querySelector('input').focus()
+        ifToSelect && (this.$refs.field.search = value)
+      })
+    },
+
+    getSearchResults() {
+      this.$http.get('good/search?query=' + this.searchText)
+        .then(({ data }) => this.searchResults = data.response || [])
+        .catch(err => console.error(err))
+    },
+
+    onSubmit() {
+      const { code, id } = this
+      const url = code ? `good/bar-code/${code}` : `good/${id}`
+
+      if (!code && !id) {
+        return alert('Введите название или код товара')
+      }
+
+      if (code) {
+        if (code.length !== 13) {
+          return alert('Код должен состоять из 13 цифр')
+        }
+      } else if (!id) {
+        return alert('Товар не найден...')
+      }
+
+      this.sendToCheck(url)
+        .then(() => {
+          if (code) {
+            this.code = null
+          } else {
+            this.id = null
+            this.searchText = ''
+            this.searchResults = []
+            this.$refs.field.select('')
+          }
+          this.copies = 1
+        })
+    },
+
+    // Отправка в чек
+    async sendToCheck(url) {
+      try {
+        const { data } = await this.$http.get(url)
+        const {
+          id,
+          price,
+          available,
+          name,
+          description
+        } = data.response
+        const { type } = this
+
+        if (available === 0) {
+          return alert('Товар закончился...')
+        }
+
+        // Если указанное кол-во превышает доступное - меняем на доступное
+        const copies = this.copies > available ? available : this.copies
+
+        this.$emit('add', {
+          id,
+          type,
+          copies,
+          price,
+          available,
+          title: name,
+          value: description
+        })
+
+      } catch(err) {
+        console.error(err)
       }
     }
   },
+
   components: {
     icon : require('../UI/icon'),
-    field: require('../UI/field'),
+    fieldInput: require('../UI/fieldInput'),
+    fieldSelect: require('../UI/fieldSelect'),
     count: require('../UI/count')
   }
 }
 </script>
-<style lang="sass" scoped>
-@import '../../styles_config.sass'
-
-.error
-  color: $primary-color
-  font-size: .7em
-  position: absolute
-  bottom: 3px
-  left: 150px
-
-</style>

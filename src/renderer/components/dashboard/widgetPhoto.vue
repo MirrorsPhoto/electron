@@ -14,22 +14,22 @@
         :title="(isConnectPS ? 'Есть соединение' : 'Нет соединения') + ' с Photoshop'"
       ></span>
 
-      <field
-        select
-        placeholder="Размер"
+      <field-select
+        label="Размер"
         width="120px"
         :options="sizes"
+        autoSelect
         v-model="size"
-      ></field>
+      ></field-select>
 
-      <field
-        select
-        placeholder="Кол-во"
+      <field-select
+        label="Кол-во"
         width="120px"
         :options="counts"
+        autoSelect
         v-model.number="count"
-      ></field>
-  
+      ></field-select>
+
     </div>
 
     <button type="submit"><icon name="chevron"></icon></button>
@@ -114,7 +114,7 @@ export default {
   },
   components: {
     icon : require('../UI/icon'),
-    field: require('../UI/field')
+    fieldSelect: require('../UI/fieldSelect')
   }
 }
 </script>
@@ -137,4 +137,3 @@ export default {
     border-right-color: $green
 
 </style>
-

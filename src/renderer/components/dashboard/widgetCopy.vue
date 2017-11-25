@@ -8,12 +8,12 @@
 
     <div class="fields_wrap">
 
-      <field
-        placeholder="Размер"
+      <field-input
+        label="Размер"
         width="120px"
         :value="size"
         disabled
-      ></field>
+      ></field-input>
 
       <count :count.sync="copies"></count>
 
@@ -61,10 +61,9 @@ export default {
       .catch(err => console.error(err))
   },
   components: {
-    icon : require('../UI/icon'),
-    field: require('../UI/field'),
+    icon: require('../UI/icon'),
+    fieldInput: require('../UI/fieldInput'),
     count: require('../UI/count')
   }
 }
 </script>
-

@@ -53,10 +53,17 @@ export default {
     // Добавление позиции в чек
     addRow(data) {
       const i = this.rows.findIndex(r => data.title === r.title && data.value === r.value)
+
       // Если в чеке нет такой позиции, то добавляем ее. Иначе суммируем кол-во
-      i === -1
-        ? this.rows.push(data)
-        : this.rows[i].copies += data.copies
+      if (i === -1) {
+        this.rows.push(data)
+        return
+      }
+
+      // Если общее кол-во в одинаковых позициях превышает допустимое - устанавливаем допустимое
+      const { available = Infinity } = this.rows[i]
+      const total = this.rows[i].copies + data.copies
+      this.rows[i].copies = Math.min(total, available)
     },
     // Удаление позиции из чека
     removeRow(i) {

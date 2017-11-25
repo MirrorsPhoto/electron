@@ -2,21 +2,21 @@
   <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
 
     <window-buttons></window-buttons>
-    
+
     <logo class="logo"></logo>
-    
-    <field
+
+    <field-input
       placeholder="Логин"
       v-model="user.login"
       autofocus
-    ></field>
-    
-    <field
+    ></field-input>
+
+    <field-input
       placeholder="Пароль"
       type="password"
       v-model="user.password"
-    ></field>
-    
+    ></field-input>
+
     <input type="submit">
 
     <p>
@@ -54,7 +54,7 @@ export default {
           const
             { data }  = await this.$http.post('login', user),
             { token } = data.response
-          
+
           localStorage.setItem('token', token)
           this.$emit('logIn', token)
         } catch(err) {
@@ -66,7 +66,7 @@ export default {
     }
   },
   components: {
-    field: require('./UI/field'),
+    fieldInput: require('./UI/fieldInput'),
     logo: require('./UI/logo'),
     windowButtons: require('./UI/windowButtons')
   }
@@ -76,7 +76,7 @@ export default {
 <style lang="sass" scoped>
 @import '../styles_config.sass'
 
-form 
+form
   background: #fff
   width: 350px
   padding: 50px 50px 70px
@@ -103,21 +103,21 @@ form
     top: 410px
     left: 0
     right: 0
-    
-    & span 
+
+    & span
       color: inherit
 
   &.error
     animation: shake 0.2s ease-in-out 0s 2
-    
-@keyframes shake 
-  0% 
+
+@keyframes shake
+  0%
     margin-left: 0rem
-  25% 
+  25%
     margin-left: 0.5rem
   75%
     margin-left: -0.5rem
-  100% 
+  100%
     margin-left: 0rem
 
 </style>

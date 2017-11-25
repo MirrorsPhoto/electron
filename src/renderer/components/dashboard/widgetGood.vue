@@ -22,7 +22,6 @@
         :options="!code && options"
         @input="onInput"
         @search="onSearch"
-        @keydown.enter.native.prevent="onSubmit"
       />
 
       <!-- Кол-во штук -->
@@ -72,6 +71,9 @@ export default {
       }
 
       this.code = value
+      if (value.length === 13) {
+        this.onSubmit()
+      }
     },
 
     // Поиск в поле select
@@ -85,7 +87,7 @@ export default {
 
       // Оставляем в поисковом запросе первые три буквы. При их смене - новый поисковый запрос
       value = value.toLowerCase().substr(0, 3)
-      
+
       if (value.length > 2 && value !== this.searchText) {
         this.searchText = value
         this.searchResults = []

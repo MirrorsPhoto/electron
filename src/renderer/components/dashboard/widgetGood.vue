@@ -79,24 +79,24 @@ export default {
     // Поиск в поле select
     onSearch(value) {
 
-      // Если введенное значение есть в опциях
-      if (this.options.includes(value)) {
-        return
-      }
-
       // Если введены цифры - меняем поле на input и вставляем значение
       if (!isNaN(value)) {
         this.switchField('fieldInput', value)
         return
       }
 
-      // Оставляем в поисковом запросе первые три буквы. При их смене - новый поисковый запрос
-      value = value.toLowerCase().substr(0, 3)
+      // Если введенное значение есть в опциях
+      if (this.options.includes(value)) {
+        return
+      } else {
+        // Иначе оставляем в поисковом запросе первые три буквы. При их смене - новый поисковый запрос
+        value = value.toLowerCase().substr(0, 3)
 
-      if (value.length > 2 && value !== this.searchText) {
-        this.searchText = value
-        this.searchResults = []
-        this.getSearchResults()
+        if (value.length > 2 && value !== this.searchText) {
+          this.searchText = value
+          this.searchResults = []
+          this.getSearchResults()
+        }
       }
     },
 

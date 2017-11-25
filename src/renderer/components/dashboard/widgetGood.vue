@@ -149,6 +149,10 @@ export default {
         } = data.response
         const { type } = this
 
+        if (available === 0) {
+          return alert('Товар закончился...')
+        }
+
         // Если указанное кол-во превышает доступное - меняем на доступное
         const copies = this.copies > available ? available : this.copies
 

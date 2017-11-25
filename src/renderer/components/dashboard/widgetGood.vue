@@ -79,6 +79,11 @@ export default {
     // Поиск в поле select
     onSearch(value) {
 
+      // Если введенное значение есть в опциях
+      if (this.options.includes(value)) {
+        return
+      }
+
       // Если введены цифры - меняем поле на input и вставляем значение
       if (!isNaN(value)) {
         this.switchField('fieldInput', value)

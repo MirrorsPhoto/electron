@@ -124,14 +124,15 @@ export default {
 
       this.sendToCheck(url)
         .then(() => {
-          this.code = null
-          this.id = null
-          this.copies = 1
-          if (!code) {
+          if (code) {
+            this.code = null
+          } else {
+            this.id = null
             this.searchText = ''
             this.searchResults = []
             this.$refs.field.select('')
           }
+          this.copies = 1
         })
     },
 

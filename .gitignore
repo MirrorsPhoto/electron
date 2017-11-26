@@ -7,3 +7,5 @@ npm-debug.log.*
 thumbs.db
 !.gitkeep
 \.idea/
+
+src/renderer/config\.json

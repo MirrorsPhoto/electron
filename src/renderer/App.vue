@@ -2,11 +2,11 @@
   <div class="bg">
 
     <transition name="scale" mode="out-in" appear>
-    <component
-      :is="page"
-      @logIn="logIn($event)"
-      @logOut="logOut()"
-    ></component>
+      <component
+        :is="page"
+        @logIn="logIn($event)"
+        @logOut="logOut()"
+      ></component>
     </transition>
 
     <update-modal></update-modal>
@@ -16,6 +16,7 @@
 
 <script>
 import jwtDecode from 'jwt-decode'
+import { url } from './config.json'
 
 export default {
   data() {
@@ -31,7 +32,7 @@ export default {
       this.page = 'index'
 
       // Обновляем суммы позиций и кол-во клиетов
-      this.socket = new WebSocket('ws://jonkofee.ru:8000?token=' + token)
+      this.socket = new WebSocket(`${url.socket}?token=${token}`)
       this.socket.onopen = () => this.$http.get('/socket/update')
       this.socket.onmessage = ({ data }) => this.$store.commit('addSale', JSON.parse(data))
       this.socket.onerror = err => console.error(err)

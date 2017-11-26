@@ -163,7 +163,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles_config.sass"
+@import '../../config/colors'
 
 .arrow
   display: block

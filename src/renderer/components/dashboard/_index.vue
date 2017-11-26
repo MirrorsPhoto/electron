@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import '../../styles_config.sass'
+@import '../../config/colors'
 
 .content
   margin: 40px
@@ -62,7 +62,7 @@ export default {
       overflow: hidden
 
       & .icon
-        fill: $primary-color
+        fill: $red
 
       & h4
         font-size: 14px
@@ -87,7 +87,7 @@ export default {
         cursor: pointer
 
       &:hover
-        background: $primary-color
+        background: $red
 
         & .icon
           fill: #fff

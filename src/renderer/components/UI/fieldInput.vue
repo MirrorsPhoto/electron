@@ -113,7 +113,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles_config.sass"
+@import '../../config/colors'
 
 div
   display: inline-block
@@ -139,7 +139,7 @@ div
 
     &:focus
       padding-bottom: 6px
-      border-bottom: 2px solid $primary-color
+      border-bottom: 2px solid $red
 
     &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
       -webkit-appearance: none
@@ -155,7 +155,7 @@ div
     z-index: 0
 
   input:focus + label
-    color: $primary-color
+    color: $red
 
   input:focus + label, .active
     font-size: .8em

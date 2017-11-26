@@ -280,7 +280,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import "../../styles_config.sass"
+@import '../../config/colors'
 
 .icon
   width: 80px
@@ -348,13 +348,13 @@ export default {
   28%
     transform: translate(0.0px, 0.0px)
   40%
-    fill: $primary-color
+    fill: $red
     transform: translate(0.0px, 0.0px)
   65%
     fill: white
     transform: translate(-1px, 5.0px)
   61%
-    fill: $primary-color
+    fill: $red
   100%
     transform: translate(0.0px, 0.0px)
 

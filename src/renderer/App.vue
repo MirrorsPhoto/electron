@@ -63,7 +63,7 @@ export default {
 
 <style lang="sass">
 @import './assets/SF_font/FontFace.css'
-@import './styles_config'
+@import './config/colors'
 
 *, *:after, *:before
   -webkit-font-smoothing: antialiased
@@ -117,7 +117,7 @@ h4
       content: url('./assets/bug.svg')
 
     & ~ ul > li:before
-      color: $primary-color
+      color: $red
 
   & #user-content-feature
 

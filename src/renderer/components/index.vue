@@ -17,17 +17,14 @@
         <p>{{ user.role_name }}</p>
 
         <nav>
-          <a href="#" @click.prevent="page = 'dashboard'">
-            <icon name="dashboard"></icon>Главный экран
-          </a>
-          <a href="#" @click.prevent="page = 'storehouse'">
-            <icon name="bag"></icon>Товары
-          </a>
-          <a href="#" @click.prevent="page = 'statistic'">
-            <icon name="chart"></icon>Статистика
-          </a>
-          <a href="#" @click.prevent="page = 'settings'">
-            <icon name="settings"></icon>Настройки
+          <a
+            v-for="(item, i) in menu" :key="i"
+            href="#"
+            :class="{ active: item.component === page }"
+            @click.prevent="page = item.component"
+            >
+            <icon :name="item.icon"></icon>
+            {{ item.title }}
           </a>
         </nav>
 
@@ -56,13 +53,38 @@
 export default {
   data() {
     return {
-      page: 'dashboard'
+      page: '',
+      menu: [
+        {
+          title: 'Главный экран',
+          component: 'dashboard',
+          icon: 'dashboard'
+        },
+        {
+          title: 'Товары',
+          component: 'storehouse',
+          icon: 'bag'
+        },
+        {
+          title: 'Статистика',
+          component: 'statistic',
+          icon: 'chart'
+        },
+        {
+          title: 'Настройки',
+          component: 'settings',
+          icon: 'settings'
+        }
+      ]
     }
   },
   computed: {
     user() {
       return this.$store.state.user
     }
+  },
+  created() {
+    this.page = this.menu[0].component
   },
   destroyed() {
     this.$electron.ipcRenderer.removeAllListeners('photoshop-connect, photoshop-message')
@@ -162,11 +184,12 @@ export default {
         border-bottom: 1px solid $light
 
       & a.active
-        border-left: 4px solid $primary-color
+        border-left: 3px solid $primary-color
         background: $light
 
-        & span
-          margin-left: 36px
+        & > .icon
+          left: -3px
+          margin-right: 17px
 
     .link_logout
       color: $hard

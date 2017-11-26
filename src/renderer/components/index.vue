@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '../styles_config.sass'
+@import '../config/colors'
 
 .wrap
   width: 1280px
@@ -170,7 +170,7 @@ export default {
         margin-right: 20px
         position: relative
         top: 4px
-        fill: $primary-color
+        fill: $red
 
     & nav
       margin: 30px auto
@@ -183,7 +183,7 @@ export default {
         border-bottom: 1px solid $light
 
       & a.active
-        border-left: 3px solid $primary-color
+        border-left: 3px solid $red
         background: $light
 
         & > .icon
@@ -202,7 +202,7 @@ export default {
         color: #333
 
         & .icon
-          fill: $primary-color
+          fill: $red
 
 .slide-left-enter-active
   transition: all 1s ease

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueElectron from 'vue-electron'
-import Axios from './plugins/axios'
 import Online from 'online-js'
-import store from './store'
-import { url } from './config.json'
+import axios from './plugins/axios'
+import store from './plugins/store'
+import config from './config'
 
 Vue.use(VueElectron)
 Vue.config.productionTip = false
 Vue.config.performance = true
-Vue.prototype.$online = process.env.NODE_ENV !== 'development' && Online({ url: url.api })
+Vue.prototype.$online = process.env.NODE_ENV !== 'development' && Online({ url: config.url.api })
 
 new Vue({
   el: '#app',
@@ -21,6 +21,6 @@ new Vue({
     // Запрет на зум
     this.$electron.webFrame.setZoomLevelLimits(1, 1)
 
-    Vue.prototype.$http = Axios(this, url.api)
+    Vue.prototype.$http = axios(this, config.url.api)
   }
 })

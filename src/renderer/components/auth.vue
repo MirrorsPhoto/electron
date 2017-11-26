@@ -74,7 +74,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '../styles_config.sass'
+@import '../config/colors'
 
 form
   background: #fff
@@ -97,7 +97,7 @@ form
     display: none
 
   & p
-    color: $primary-color
+    color: $red
     text-align: center
     position: absolute
     top: 360px

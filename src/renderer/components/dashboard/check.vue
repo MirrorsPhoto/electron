@@ -97,7 +97,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import '../../styles_config.sass'
+@import '../../config/colors'
 
 .check-enter, .check-leave-to
   opacity: 0
@@ -191,7 +191,7 @@ tbody
     & .displayOnHover
       opacity: 0
       transition: all .3s ease
-      color: $primary-color
+      color: $red
 
     &:hover
       background: $light
@@ -229,7 +229,7 @@ tfoot
     & [type="submit"]
       height: 40px
       padding: 0 30px
-      background: $primary-color
+      background: $red
       color: #fff
       border: none
       outline: none
@@ -237,7 +237,7 @@ tfoot
       transition: all .3s ease
 
       &:hover
-        background: darken($primary-color, 15%)
+        background: darken($red, 15%)
 
       &:disabled
         background: $light

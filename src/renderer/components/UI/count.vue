@@ -27,7 +27,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import '../../styles_config.sass'
+@import '../../config/colors'
 .count_wrap
     display: flex
     justify-content: space-between
@@ -46,11 +46,11 @@ export default {
     & button
         border: 1px solid $light
         background: #fff
-        color: $primary-color
+        color: $red
         transition: all .3s ease
 
         &:hover
-            background: $primary-color
+            background: $red
             color: #fff
 
     & input
@@ -58,13 +58,13 @@ export default {
         border-bottom: 1px solid $light
         text-align: center
 
-        &::-webkit-outer-spin-button, &::-webkit-inner-spin-button 
+        &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
             -webkit-appearance: none
             margin: 0
 
     & span
         text-align: right
         padding: 6px 0
-                
+
 </style>
 

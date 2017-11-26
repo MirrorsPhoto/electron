@@ -34,14 +34,14 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles_config.sass"
+@import '../../config/colors'
 
 @font-face
   font-family: 'Mirrors'
   src: url('../../assets/mirrors.ttf')
 
 .bg
-  fill: $primary-color
+  fill: $red
 
 .label text
   font-family: Mirrors

@@ -118,7 +118,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import '../../styles_config.sass'
 
 .circle-enter
   stroke-dasharray: 0 500px

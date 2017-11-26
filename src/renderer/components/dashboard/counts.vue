@@ -152,7 +152,7 @@ export default {
 
 
 <style lang="sass" scoped>
-@import '../../styles_config.sass'
+@import '../../config/colors'
 
 .widget_wrap
   width: 100%
@@ -178,7 +178,7 @@ export default {
       font-weight: 200
 
       & i
-        color: $primary-color
+        color: $red
         margin-right: 10px
         font-size: .8em
 
@@ -201,7 +201,7 @@ export default {
 
     & .icon
       display: block
-      fill: $primary-color
+      fill: $red
       margin: 0 auto 10px
 
     & span

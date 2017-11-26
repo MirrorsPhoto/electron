@@ -16,7 +16,7 @@
 
 <script>
 import jwtDecode from 'jwt-decode'
-import { url } from './config.json'
+import config from './config'
 
 export default {
   data() {
@@ -32,7 +32,7 @@ export default {
       this.page = 'index'
 
       // Обновляем суммы позиций и кол-во клиетов
-      this.socket = new WebSocket(`${url.socket}?token=${token}`)
+      this.socket = new WebSocket(`${config.url.socket}?token=${token}`)
       this.socket.onopen = () => this.$http.get('/socket/update')
       this.socket.onmessage = ({ data }) => this.$store.commit('addSale', JSON.parse(data))
       this.socket.onerror = err => console.error(err)
@@ -63,7 +63,7 @@ export default {
 
 <style lang="sass">
 @import './assets/SF_font/FontFace.css'
-@import './styles_config'
+@import './config/colors'
 
 *, *:after, *:before
   -webkit-font-smoothing: antialiased
@@ -117,7 +117,7 @@ h4
       content: url('./assets/bug.svg')
 
     & ~ ul > li:before
-      color: $primary-color
+      color: $red
 
   & #user-content-feature
 

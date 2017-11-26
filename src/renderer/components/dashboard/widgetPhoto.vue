@@ -119,7 +119,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import '../../styles_config.sass'
+@import '../../config/colors'
 
 .indicator
   display: block
@@ -127,7 +127,7 @@ export default {
   height: 0
   border-radius: 10px
   border: 10px solid transparent
-  border-right-color: $primary-color
+  border-right-color: $red
   transform: rotate(45deg)
   position: absolute
   left: -10px

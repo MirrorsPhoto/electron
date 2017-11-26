@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueElectron from 'vue-electron'
-import Axios from './plugins/axios'
 import Online from 'online-js'
-import store from './store'
+import axios from './plugins/axios'
+import store from './plugins/store'
 import config from './config'
 
 Vue.use(VueElectron)
@@ -21,6 +21,6 @@ new Vue({
     // Запрет на зум
     this.$electron.webFrame.setZoomLevelLimits(1, 1)
 
-    Vue.prototype.$http = Axios(this, config.url.api)
+    Vue.prototype.$http = axios(this, config.url.api)
   }
 })

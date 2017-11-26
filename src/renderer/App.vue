@@ -1,11 +1,13 @@
 <template>
   <div class="bg">
 
+    <transition name="scale" mode="out-in" appear>
     <component
       :is="page"
       @logIn="logIn($event)"
       @logOut="logOut()"
     ></component>
+    </transition>
 
     <update-modal></update-modal>
 
@@ -148,5 +150,14 @@ h4
             content: '-'
             color: #333
             margin-right: 10px
+
+.scale-enter-active, .scale-leave-active
+  transition: all .3s ease
+
+.scale-enter, .scale-leave-to
+  opacity: 0
+  transform: scale(1.5)
+  & > *
+    opacity: 0
 
 </style>

@@ -6,13 +6,13 @@
     <logo class="logo"></logo>
 
     <field-input
-      placeholder="Логин"
+      label="Логин"
       v-model="user.login"
       autofocus
     ></field-input>
 
     <field-input
-      placeholder="Пароль"
+      label="Пароль"
       type="password"
       v-model="user.password"
     ></field-input>
@@ -78,20 +78,20 @@ export default {
 
 form
   background: #fff
-  width: 350px
-  padding: 50px 50px 70px
+  width: 300px
+  padding: 50px 50px 60px
   position: relative
   color: #fff
   box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
 
   & .logo
     display: block
-    width: 350px
-    height: 200px
+    width: 300px
+    height: 170px
     margin: 0 -50px
 
   & div
-    margin-top: 25px
+    margin-top: 20px
 
   & [type="submit"]
     display: none
@@ -100,7 +100,7 @@ form
     color: $primary-color
     text-align: center
     position: absolute
-    top: 410px
+    top: 360px
     left: 0
     right: 0
 

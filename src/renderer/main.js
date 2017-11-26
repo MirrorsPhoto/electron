@@ -3,13 +3,12 @@ import VueElectron from 'vue-electron'
 import Axios from './plugins/axios'
 import Online from 'online-js'
 import store from './store'
-
-const url = 'http://api.jonkofee.ru'
+import { url } from './config.json'
 
 Vue.use(VueElectron)
 Vue.config.productionTip = false
 Vue.config.performance = true
-Vue.prototype.$online = process.env.NODE_ENV !== 'development' && Online({ url })
+Vue.prototype.$online = process.env.NODE_ENV !== 'development' && Online({ url: url.api })
 
 new Vue({
   el: '#app',
@@ -22,6 +21,6 @@ new Vue({
     // Запрет на зум
     this.$electron.webFrame.setZoomLevelLimits(1, 1)
 
-    Vue.prototype.$http = Axios(this, url)
+    Vue.prototype.$http = Axios(this, url.api)
   }
 })

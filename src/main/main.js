@@ -21,16 +21,34 @@ app.on('ready', async () => {
   mainWindow.on('closed', app.quit)
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(
-    [{
-      label: app.getName(),
-      submenu: [{ role: 'about' }, { type: 'separator' },
-        {
-          label: 'Проверить наличие обновлений',
-          role: 'update',
-          click: () => !isDev && updater.checkForUpdates()
-        },
-        { type: 'separator' }, { role: 'quit' }]
-    }]
+    [
+      {
+        label: app.getName(),
+        submenu: [
+          { role: 'about' },
+          { type: 'separator' },
+          {
+            label: 'Проверить наличие обновлений',
+            role: 'update',
+            click: () => !isDev && updater.checkForUpdates()
+          },
+          { type: 'separator' },
+          { role: 'quit' }
+        ]
+      },
+      {
+        label: "Edit",
+        submenu: [
+            { role: "undo" },
+            { role: "redo" },
+            { type: "separator" },
+            { role: "cut" },
+            { role: "copy" },
+            { role: "paste" },
+            { role: "selectall" }
+        ]
+      }
+    ]
   ))
 
   if (isDev) {

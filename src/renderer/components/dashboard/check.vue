@@ -1,5 +1,5 @@
 <template>
-  <form class="widget_wrap" @submit.prevent="submit()">
+  <form class="widget_wrap" @submit.prevent="submit">
     <table>
       <thead>
         <tr>
@@ -29,7 +29,13 @@
           <td align="left">
             <span v-if="total" class="total">Итого: {{ total | currency }}</span>
           </td>
-          <td align="right"><input type="submit" value="Оплачено" :disabled="disableButton || !rows.length"></td>
+          <td align="right">
+            <btn
+              text="Оплачено"
+              :disabled="disableButton || !rows.length"
+              @click="submit"
+            />
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -93,6 +99,9 @@ export default {
     this.$parent.$children
       .filter(({ $refs }) => $refs.widget)
       .forEach(widget => widget.$on('add', this.addRow))
+  },
+  components: {
+    btn: require('../UI/btn')
   }
 }
 </script>
@@ -225,22 +234,5 @@ tfoot
 
     & .total
       color: $hard
-
-    & [type="submit"]
-      height: 40px
-      padding: 0 30px
-      background: $red
-      color: #fff
-      border: none
-      outline: none
-      margin: 0
-      transition: all .3s ease
-
-      &:hover
-        background: darken($red, 15%)
-
-      &:disabled
-        background: $light
-        color: $hard
 
 </style>

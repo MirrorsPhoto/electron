@@ -16,8 +16,15 @@
         </div>
 
         <footer>
-          <button @click.prevent="open = false" class="cancel">Позже</button>
-          <button @click.prevent="confirm()" class="confirm">Загрузить и обновить</button>
+          <btn
+            type="cancel"
+            text="Позже"
+            @click="open = false"
+          />
+          <btn
+            text="Загрузить и обновить"
+            @click="confirm"
+          />
         </footer>
       </div>
     </transition>
@@ -44,6 +51,9 @@ export default {
       this.open = true
     })
     this.$electron.ipcRenderer.on('au-error', (e, err) => console.error(err))
+  },
+  components: {
+    btn: require('./btn')
   }
 }
 </script>
@@ -121,26 +131,5 @@ export default {
     text-align: right
     padding: 15px 30px
     border-top: 1px solid $light
-
-    & button
-      padding: 0 30px
-      height: 40px
-      border: none
-      outline: none
-
-      &.confirm
-        background: $red
-        color: #fff
-        transition: all .3s ease
-
-        &:hover
-          background: darken($red, 15%)
-
-      &.cancel
-        background: #fff
-        color: $red
-
-        &:hover
-          text-decoration: underline
 
 </style>

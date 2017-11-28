@@ -63,6 +63,13 @@ export default {
       // Если в чеке нет такой позиции, то добавляем ее. Иначе суммируем кол-во
       if (i === -1) {
         this.rows.push(data)
+
+        // Прокручиваем список вниз
+        this.$nextTick(() => {
+          const list = this.$el.querySelector('tbody')
+          list.scrollTop += list.children[0].clientHeight
+        })
+
         return
       }
 
@@ -110,7 +117,7 @@ export default {
 
 .check-enter, .check-leave-to
   opacity: 0
-  transform: translateY(20px)
+  transform: translateY(10px)
 
 .check-leave-active, .check-enter-active
   transition: all .3s
@@ -170,21 +177,11 @@ tbody
   &::-webkit-scrollbar
       width: 0
 
-  &:after
-    content: ''
-    position: absolute
-    display: block
-    width: 100%
-    height: 50px
-    bottom: 0
-    left: 0
-    background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))
-
   & tr
     margin: 0 -30px
     padding: 0 30px
     position: relative
-    transition: all 1s ease
+    transition: all .3s ease
 
     & td
       padding: 9px 0
@@ -219,7 +216,7 @@ tbody
 
     & .count
       display: inline-block
-      margin 0 5px
+      margin: 0 5px
       width: 30px
       text-align: center
 

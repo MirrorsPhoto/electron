@@ -53,6 +53,7 @@ label
     height: 16px
     width: 16px
     border: 1px solid $medium
+    cursor: pointer
 
     &:after
       content: ''
@@ -65,10 +66,7 @@ label
       border: solid #fff
       border-width: 0 2px 2px 0
       transform: rotate(45deg)
-
-  &:hover .checkbox:not(&:hover input:disabled + .checkbox)
-    background: $light
-    cursor: pointer
+      cursor: pointer
 
   & input
     position: absolute
@@ -83,7 +81,7 @@ label
 
     &:disabled + .checkbox
       border-color: $light
-      pointer-events: none
+      cursor: default
 
     &:checked:disabled + .checkbox
       background: $light

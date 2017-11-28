@@ -1,6 +1,7 @@
 <template>
   <div
     :style="{ width }"
+    :class="{ has_icon: icon }"
     @mouseleave="addCloseTimer"
     @mouseenter="removeCloseTimer"
     >
@@ -19,7 +20,14 @@
       @keydown.escape="$refs.input.blur()"
     >
 
+    <icon
+      v-if="icon"
+      :name="icon"
+      :size="16"
+    />
+
     <label
+      v-else
       v-text="label"
       :class="{ active: value }"
     ></label>
@@ -43,6 +51,10 @@ export default {
     placeholder: {
       type: [Number, String],
       default: ''
+    },
+    icon: {
+      type: [String, Boolean],
+      default: false
     },
     width: {
       type: String,
@@ -108,6 +120,9 @@ export default {
   },
   mounted() {
     this.autofocus && this.$refs.input.focus()
+  },
+  components: {
+    icon: require('./icon')
   }
 }
 </script>
@@ -124,10 +139,18 @@ div
   & > *
     cursor: pointer
 
+  &.has_icon
+    height: 30px
+    line-height: 30px
+
+    & input
+      text-indent: 28px
+      padding-top: 7px
+
   & input
     background: transparent
     width: 100%
-    height: 40px
+    height: 100%
     padding: 17px 0 7px
     border: none
     border-bottom: 1px solid $medium
@@ -161,5 +184,11 @@ div
     font-size: .8em
     position: absolute
     top: -2px
+
+  & .icon
+    fill: $hard
+    position: absolute
+    left: 0
+    top: 7px
 
 </style>

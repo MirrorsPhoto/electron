@@ -38,7 +38,7 @@
         <!-- Кол-во клиентов -->
         <td>
           <h2><count-upper :value="counts.clients"></count-upper></h2>
-          <p>{{ clientsWord }}</p>
+          <p>{{ counts.clients | decline(['клиент', 'клиента', 'клиентов'], false) }}</p>
         </td>
       </tr>
 
@@ -91,15 +91,6 @@ export default {
         month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"][date.getMonth()]
 
       return `${day} ${month}, ${weekDay}`
-    },
-    // Склонения слова 'клиентов', зависящее от кол-ва
-    clientsWord() {
-      const
-        n = this.counts.clients,
-        words = ["клиент", "клиента", "клиентов"],
-        cases = [2, 0, 1, 1, 1, 2]
-
-      return words[n % 100 > 4 && n % 100 < 20 ? 2 : cases[n % 10 < 5 ? n % 10 : 5]]
     }
   },
   methods: {

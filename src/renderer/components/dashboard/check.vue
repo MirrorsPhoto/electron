@@ -19,7 +19,7 @@
             <span class="count">{{ row.copies }}</span>
             <button class="displayOnHover" @click.prevent="setCount('dec', index)">-</button>
           </td>
-          <td>{{ row.copies * row.price }}₽</td>
+          <td>{{ row.copies * row.price | currency }}</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
       </transition-group>
@@ -27,7 +27,7 @@
       <tfoot>
         <tr>
           <td align="left">
-            <span v-if="total" class="total">Итого: {{ total }}₽</span>
+            <span v-if="total" class="total">Итого: {{ total | currency }}</span>
           </td>
           <td align="right"><input type="submit" value="Оплачено" :disabled="disableButton || !rows.length"></td>
         </tr>

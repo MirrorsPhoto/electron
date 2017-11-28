@@ -4,7 +4,9 @@
     <div class="chart_wrap">
 
       <transition name="tooltip">
-        <p v-show="showTooltip" v-text="dataToShow"></p>
+        <p v-show="showTooltip">
+          {{ dataToShow | currency }}
+        </p>
       </transition>
 
       <svg class="donut">
@@ -95,7 +97,7 @@ export default {
     hoverOnChart(i, isHover) {
       const summ = this.stats.summs[i]
       const percent = Math.round(this.percents[i])
-      this.dataToShow  = `${percent}% • ${summ}₽`
+      this.dataToShow  = `${percent}% • ${summ}`
       this.showTooltip = isHover
       this.$refs.circle[i].style.stroke = isHover
         ? this.switchColor(this.colors[i], -25)

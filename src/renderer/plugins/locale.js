@@ -4,6 +4,10 @@ const locale = require('../locales/' + currentLanguage)
 export default (phrase, variables) => {
   let result = eval('locale.' + phrase)
 
+  if (Array.isArray(result)) {
+    return result
+  }
+
   if (typeof result !== 'string') {
     throw new Error('Invalid phrase: ' + phrase)
   }

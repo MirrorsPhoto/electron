@@ -15,7 +15,7 @@
       <component
         :is="code ? 'fieldInput' : 'fieldSelect'"
         ref="field"
-        label="Код или поиск"
+        :label="$locale('menu.dashboard.widget_good.field_label')"
         width="120px"
         :max-len="code && 13"
         :value="code"
@@ -36,7 +36,7 @@
 export default {
   data() {
     return {
-      title: 'Продажа',
+      title: this.$locale('services.good'),
       type: 'good',
       code: null,
       id: null,   // id выбранного товара при поиске по названию
@@ -124,15 +124,15 @@ export default {
       const url = code ? `good/bar-code/${code}` : `good/${id}`
 
       if (!code && !id) {
-        return alert('Введите название или код товара')
+        return alert(this.$locale('menu.dashboard.widget_good.errors.empty_field'))
       }
 
       if (code) {
         if (code.length !== 13) {
-          return alert('Код должен состоять из 13 цифр')
+          return alert(this.$locale('menu.dashboard.widget_good.errors.invalid_length'))
         }
       } else if (!id) {
-        return alert('Товар не найден...')
+        return alert(this.$locale('menu.dashboard.widget_good.errors.not_found'))
       }
 
       this.sendToCheck(url)
@@ -163,7 +163,7 @@ export default {
         const { type } = this
 
         if (available === 0) {
-          return alert('Товар закончился...')
+          return alert(this.$locale('menu.dashboard.widget_good.errors.good_expired'))
         }
 
         // Если указанное кол-во превышает доступное - меняем на доступное

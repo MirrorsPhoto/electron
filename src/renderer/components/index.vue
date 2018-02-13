@@ -29,7 +29,7 @@
         </nav>
 
         <a href="#" class="link_logout" @click.prevent="$emit('logOut')">
-          <icon name="logout"></icon>{{ $locale('menu.logout') }}
+          <icon name="logout"></icon>{{ $locale('menu.logout_button') }}
         </a>
       </aside>
     </transition>
@@ -56,22 +56,22 @@ export default {
       page: '',
       menu: [
         {
-          title: this.$locale('menu.dashboard'),
+          title: this.$locale('menu.dashboard.name'),
           component: 'dashboard',
           icon: 'dashboard'
         },
         {
-          title: this.$locale('menu.storehouse'),
+          title: this.$locale('menu.storehouse.name'),
           component: 'storehouse',
           icon: 'bag'
         },
         {
-          title: this.$locale('menu.statistic'),
+          title: this.$locale('menu.statistic.name'),
           component: 'statistic',
           icon: 'chart'
         },
         {
-          title: this.$locale('menu.settings'),
+          title: this.$locale('menu.settings.name'),
           component: 'settings',
           icon: 'settings'
         }

@@ -46,10 +46,10 @@ export default {
     return {
       colors: ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db'],
       icons: {
-        'Фотография': 'photo',
-        'Продажа'   : 'bag',
-        'Ксерокопия': 'copy',
-        'Ламинация' : 'lamination'
+        [this.$locale('services.photo')]: 'photo',
+        [this.$locale('services.good')] : 'bag',
+        [this.$locale('services.copy')] : 'copy',
+        [this.$locale('services.lamin')]: 'lamination'
       },
       radius: 80,
       dataToShow: '', // Данные внутри графика

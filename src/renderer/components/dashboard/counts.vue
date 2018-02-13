@@ -114,7 +114,7 @@ export default {
       this.time = { hours, minutes }
     },
     async updateWeather() {
-      const { data } = await axios.get("http://api.openweathermap.org/data/2.5/weather?id=713504&lang=ru&units=metric&APPID=3408cd554acba183a966bd9cfa69b9d2")
+      const { data } = await axios.get("http://api.openweathermap.org/data/2.5/weather?id=713504&units=metric&APPID=3408cd554acba183a966bd9cfa69b9d2&lang=" + navigator.language.substr(0, 2))
       const { sunrise, sunset } = data.sys
       const time = Math.round(new Date().getTime() / 1000)
       this.weather = {

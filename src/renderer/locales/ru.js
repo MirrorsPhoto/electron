@@ -23,5 +23,17 @@ module.exports = {
     statistic: 'Статистика',
     settings: 'Настройки',
     logout: 'Выйти'
+  },
+  units: {
+    count: 'шт.'
+  },
+  ui: {
+    select_not_found: 'Не найдено...',
+    update_modal: {
+      title: 'Новая версия приложения!',
+      confirm_button: 'Загрузить и обновить',
+      cancel_button: 'Позже',
+      version: 'Версия %version%'
+    }
   }
 }

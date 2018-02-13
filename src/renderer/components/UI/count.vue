@@ -9,7 +9,7 @@
             @input="change($event.target.value)"
         >
         <button @click.prevent="change(count - 1)">-</button>
-        <span>шт.</span>
+        <span v-text="$locale('units.count')"></span>
     </div>
 </template>
 <script>

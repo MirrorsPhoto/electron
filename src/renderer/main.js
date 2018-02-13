@@ -3,7 +3,7 @@ import VueElectron from 'vue-electron'
 import Online from 'online-js'
 import axios from './plugins/axios'
 import store from './plugins/store'
-import locale from './plugins/locale'
+import locale from './locales'
 import config from './config'
 
 Vue.use(VueElectron)

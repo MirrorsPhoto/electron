@@ -1,5 +1,7 @@
+const availableLocales = require('fs').readdirSync('./src/renderer/locales').map(fileName => fileName.split('.')[0])
 const currentLanguage = navigator.language.substr(0, 2)
-const locale = require('../locales/' + currentLanguage)
+const language = availableLocales.includes(currentLanguage) ? currentLanguage : 'en'
+const locale = require('./' + language)
 
 export default (phrase, variables) => {
   let result = eval('locale.' + phrase)

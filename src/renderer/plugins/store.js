@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import locale from '../locales'
+
 Vue.use(Vuex)
 
 //  Состояние, которое должно обнуляться при авторизации
@@ -8,19 +10,19 @@ const initialState = {
   clients: 0,
   stats: {
     photo: {
-      name: 'Фотография',
+      name: locale('services.photo'),
       cash: 0
     },
     good: {
-      name: 'Продажа',
+      name: locale('services.good'),
       cash: 0
     },
     copy: {
-      name: 'Ксерокопия',
+      name: locale('services.copy'),
       cash: 0
     },
     lamination: {
-      name: 'Ламинация',
+      name: locale('services.lamin'),
       cash: 0
     }
   }

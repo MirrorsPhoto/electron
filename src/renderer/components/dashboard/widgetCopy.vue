@@ -9,7 +9,7 @@
     <div class="fields_wrap">
 
       <field-input
-        label="Размер"
+        :label="$locale('menu.dashboard.widget_copy.field_label')"
         width="120px"
         :value="size"
         disabled
@@ -26,7 +26,7 @@
 export default {
   data() {
     return {
-      title: 'Ксерокопия',
+      title: this.$locale('services.copy'),
       type: 'copy',
       size : 'A4',
       copies: 1,

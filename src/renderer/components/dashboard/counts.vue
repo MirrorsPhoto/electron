@@ -24,7 +24,7 @@
         <!-- Заглушка, если нет интернета -->
         <td v-else>
           <icon v-if="!online" name="disconnected" size="45"></icon>
-          <p>Нет соединения...</p>
+          <p v-text="$locale('menu.dashboard.counts.no_connection')"></p>
         </td>
       </tr>
 
@@ -32,7 +32,7 @@
         <!-- Касса -->
         <td>
           <h2><count-upper :value="counts.money"></count-upper>₽</h2>
-          <p>касса сегодня</p>
+          <p v-text="$locale('menu.dashboard.counts.cash_today')"></p>
         </td>
 
         <!-- Кол-во клиентов -->
@@ -87,8 +87,8 @@ export default {
       const
         date = new Date(),
         day = date.getDate(),
-        weekDay = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"][date.getDay()],
-        month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"][date.getMonth()]
+        weekDay = this.$locale('units.week')[date.getDay()],
+        month = this.$locale('units.months')[date.getMonth()]
 
       return `${day} ${month}, ${weekDay}`
     },
@@ -96,7 +96,7 @@ export default {
     clientsWord() {
       const
         n = this.counts.clients,
-        words = ["клиент", "клиента", "клиентов"],
+        words = this.$locale('units.clients'),
         cases = [2, 0, 1, 1, 1, 2]
 
       return words[n % 100 > 4 && n % 100 < 20 ? 2 : cases[n % 10 < 5 ? n % 10 : 5]]
@@ -114,7 +114,7 @@ export default {
       this.time = { hours, minutes }
     },
     async updateWeather() {
-      const { data } = await axios.get("http://api.openweathermap.org/data/2.5/weather?id=713504&lang=ru&units=metric&APPID=3408cd554acba183a966bd9cfa69b9d2")
+      const { data } = await axios.get("http://api.openweathermap.org/data/2.5/weather?id=713504&units=metric&APPID=3408cd554acba183a966bd9cfa69b9d2&lang=" + navigator.language.substr(0, 2))
       const { sunrise, sunset } = data.sys
       const time = Math.round(new Date().getTime() / 1000)
       this.weather = {

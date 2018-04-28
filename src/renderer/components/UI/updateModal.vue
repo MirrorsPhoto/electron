@@ -4,20 +4,28 @@
       <div class="modal">
 
         <header>
-          <h2>Новая версия приложения!</h2>
+          <h2 v-text="$locale('ui.update_modal.title')"></h2>
           <button @click.prevent="open = false" class="close">+</button>
         </header>
 
         <div class="release_info">
           <div v-for="(r, i) in releaseNotes" :key="i">
-            <h2 v-text="'Версия ' + r.version"></h2>
+            <h2 v-text="getVersionText(r.version)"></h2>
             <div v-html="r.note"></div>
           </div>
         </div>
 
         <footer>
-          <button @click.prevent="open = false" class="cancel">Позже</button>
-          <button @click.prevent="confirm()" class="confirm">Загрузить и обновить</button>
+          <button
+            class="cancel"
+            v-text="$locale('ui.update_modal.cancel_button')"
+            @click.prevent="open = false"
+          ></button>
+          <button
+            class="confirm"
+            v-text="$locale('ui.update_modal.confirm_button')"
+            @click.prevent="confirm"
+          ></button>
         </footer>
       </div>
     </transition>
@@ -36,6 +44,9 @@ export default {
     confirm() {
       this.$electron.ipcRenderer.send('au-download-confirm')
       this.open = false
+    },
+    getVersionText(version) {
+      return this.$locale('ui.update_modal.version', { version })
     }
   },
   created() {

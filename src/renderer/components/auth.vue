@@ -1,18 +1,18 @@
 <template>
-  <form :class="{ error: errorMessages.length }" @submit.prevent="auth">
+  <form :class="{ error: errorMessages.length > 0 }" @submit.prevent="auth()">
 
     <window-buttons></window-buttons>
 
     <logo class="logo"></logo>
 
     <field-input
-      :label="$locale('auth.login.name')"
+      label="Логин"
       v-model="user.login"
       autofocus
     ></field-input>
 
     <field-input
-      :label="$locale('auth.password.name')"
+      label="Пароль"
       type="password"
       v-model="user.password"
     ></field-input>
@@ -58,11 +58,10 @@ export default {
           localStorage.setItem('token', token)
           this.$emit('logIn', token)
         } catch(err) {
-          const errors = JSON.parse(err.request.responseText).message
-          this.errorMessages = errors.map(this.$locale)
+          this.errorMessages = JSON.parse(err.request.responseText).message
         }
       } else {
-        this.errorMessages.splice(0, 1, this.$locale('auth.empty_login_or_pass'))
+        this.errorMessages.splice(0, 1, 'Заполните все поля формы')
       }
     }
   },

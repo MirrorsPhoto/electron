@@ -32,7 +32,7 @@
         @mouseover="setFocusOption(i, $event)"
         @mousedown="select(option)"
       ></li>
-      <li v-if="options.length && !filteredOptions.length" v-text="$locale('ui.select_not_found')"></li>
+      <li v-if="options.length && !filteredOptions.length">Не найдено...</li>
     </ul>
 
   </field-input>

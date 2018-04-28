@@ -4,9 +4,9 @@
       <thead>
         <tr>
           <td>#</td>
-          <td v-text="$locale('menu.dashboard.check.table.head.title')"></td>
-          <td v-text="$locale('menu.dashboard.check.table.head.count')"></td>
-          <td v-text="$locale('menu.dashboard.check.table.head.price')"></td>
+          <td>Наименование</td>
+          <td>Кол-во</td>
+          <td>Цена</td>
         </tr>
       </thead>
 
@@ -27,13 +27,9 @@
       <tfoot>
         <tr>
           <td align="left">
-            <span v-if="total" class="total" v-text="$locale('menu.dashboard.check.table.total', { total })"></span>
+            <span v-if="total" class="total">Итого: {{ total }}₽</span>
           </td>
-          <td align="right"><input
-              type="submit"
-              :value="$locale('menu.dashboard.check.send_button')"
-              :disabled="disableButton || !rows.length"
-          ></td>
+          <td align="right"><input type="submit" value="Оплачено" :disabled="disableButton || !rows.length"></td>
         </tr>
       </tfoot>
     </table>

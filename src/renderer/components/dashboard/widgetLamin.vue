@@ -9,7 +9,7 @@
     <div class="fields_wrap">
 
       <field-select
-        :label="$locale('menu.dashboard.widget_lamin.field_label')"
+        label="Размер"
         width="120px"
         :options="formats"
         autoSelect
@@ -27,7 +27,7 @@
 export default {
   data() {
     return {
-      title: this.$locale('services.lamin'),
+      title: 'Ламинация',
       type: 'lamination',
       variations: [],
       selectedFormat: '',

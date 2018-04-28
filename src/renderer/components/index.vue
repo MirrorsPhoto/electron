@@ -14,7 +14,7 @@
           </div>
         </div>
         <h4>{{ user.first_name + ' ' + user.last_name }}</h4>
-        <p>{{ $locale(user.role_phrase) }}</p>
+        <p>{{ user.role_name }}</p>
 
         <nav>
           <a
@@ -29,7 +29,7 @@
         </nav>
 
         <a href="#" class="link_logout" @click.prevent="$emit('logOut')">
-          <icon name="logout"></icon>{{ $locale('menu.logout_button') }}
+          <icon name="logout"></icon>Выйти
         </a>
       </aside>
     </transition>
@@ -56,22 +56,22 @@ export default {
       page: '',
       menu: [
         {
-          title: this.$locale('menu.dashboard.name'),
+          title: 'Главный экран',
           component: 'dashboard',
           icon: 'dashboard'
         },
         {
-          title: this.$locale('menu.storehouse.name'),
+          title: 'Товары',
           component: 'storehouse',
           icon: 'bag'
         },
         {
-          title: this.$locale('menu.statistic.name'),
+          title: 'Статистика',
           component: 'statistic',
           icon: 'chart'
         },
         {
-          title: this.$locale('menu.settings.name'),
+          title: 'Настройки',
           component: 'settings',
           icon: 'settings'
         }

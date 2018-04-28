@@ -11,11 +11,11 @@
       <!-- Индикатор подключения к Photoshop -->
       <span
         :class="['indicator', { active: isConnectPS }]"
-        :title="(isConnectPS ? 'Есть соединение' : 'Нет соединения') + ' с Photoshop'"
+        :title="$locale(`menu.dashboard.widget_photo.photoshop_connection.${isConnectPS ? 'yes' : 'no'}`)"
       ></span>
 
       <field-select
-        label="Размер"
+        :label="$locale('menu.dashboard.widget_photo.size_field_label')"
         width="120px"
         :options="sizes"
         autoSelect
@@ -23,7 +23,7 @@
       ></field-select>
 
       <field-select
-        label="Кол-во"
+        :label="$locale('menu.dashboard.widget_photo.count_field_label')"
         width="120px"
         :options="counts"
         autoSelect
@@ -40,7 +40,7 @@
 export default {
   data() {
     return {
-      title: 'Фотография',
+      title: this.$locale('services.photo'),
       type: 'photo',
       photoData: [],
       size: '',
@@ -92,7 +92,7 @@ export default {
         price,
         count,
         copies: 1,
-        value: `${size} (${count} шт.)`
+        value: `${size} (${count} ${this.$locale('units.count')})`
       })
     }
   },

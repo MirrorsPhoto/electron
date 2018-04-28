@@ -74,7 +74,7 @@ module.exports = {
     count: 'pcs.',
     week: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     months: ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'],
-    clients: ['clent', 'clents', 'clents']
+    clients: ['client', 'clients', 'clients']
   },
   ui: {
     select_not_found: 'Not found...',
@@ -86,9 +86,9 @@ module.exports = {
     }
   },
   services: {
-    photo: 'Фотографияss',
-    good: 'Продажа',
-    copy: 'Ксерокопия',
-    lamin: 'Ламинация'
+    photo: 'Photo',
+    good: 'Good',
+    copy: 'Copy',
+    lamin: 'Lamination'
   }
 }

@@ -49,9 +49,6 @@ export default {
     }
   },
   computed: {
-    id() {
-       return this.photo.id || null
-     },
     // Размеры фотографий строками для передачи в компонент field
     sizes() {
       return this.photoData.map(this.sizeToString)
@@ -70,9 +67,6 @@ export default {
         .map(({ count }) => String(count))
         .sort((a, b) => a - b)
     },
-    price() {
-      return this.photo.price || 0
-    },
     photo() {
       return this.selectedSizeData.variations.find(({ count }) => count === this.count)
     }
@@ -83,13 +77,16 @@ export default {
     },
     submit() {
       const {
-        id,
         title,
         type,
         size,
+      } = this
+
+      const {
+        id,
         price,
         count
-      } = this
+      } = this.photo
 
       this.$emit('add', {
         id,

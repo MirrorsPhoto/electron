@@ -74,7 +74,7 @@ export default {
       return this.photo.price || 0
     },
     photo() {
-      return this.selectedSizeData.variations.find(({ count }) => count == this.count)
+      return this.selectedSizeData.variations.find(({ count }) => count === this.count)
     }
   },
   methods: {

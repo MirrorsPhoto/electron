@@ -82,7 +82,8 @@ export default {
     // Отправление чека на сервер
     submit() {
       this.disableButton = true
-      this.$http.post('/sale/batch', { items: this.rows })
+      const data = this.rows.map( ({ id, type, copies }) => ({id, type, copies}) )
+      this.$http.post('/sale/batch', { items: data })
         .then(() => this.rows = [])
         .catch(err => console.error(err))
         .then(() => this.disableButton = false)

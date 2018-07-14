@@ -1,6 +1,6 @@
 <template>
   <div class="count_wrap">
-    <button @click.prevent="change(count + 1)">+</button>
+    <button @click.prevent="change(count - 1)">-</button>
     <input
       type="number"
       step="1"
@@ -8,10 +8,11 @@
       :value="count"
       @input="change($event.target.value)"
     >
-    <button @click.prevent="change(count - 1)">-</button>
+    <button @click.prevent="change(count + 1)">+</button>
     <span>шт.</span>
   </div>
 </template>
+
 <script>
 export default {
   props: {
@@ -26,6 +27,7 @@ export default {
   }
 };
 </script>
+
 <style lang="sass" scoped>
 @import '../../config/colors'
 

@@ -136,7 +136,7 @@ export default {
   created() {
     this.updateTime()
     if (this.online) this.updatingWeather('start')
-    this.timer = setInterval(this.updateTime, 1000 * 60)
+    this.timer = setInterval(this.updateTime, 1000)
   },
   destroyed() {
     clearInterval(this.timer)

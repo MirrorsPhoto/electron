@@ -15,9 +15,9 @@
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
           <td>
-            <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
-            <span class="count">{{ row.copies }}</span>
             <button class="displayOnHover" @click.prevent="setCount('dec', index)">-</button>
+            <span class="count">{{ row.copies }}</span>
+            <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
           </td>
           <td>{{ row.copies * row.price }}₽</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>

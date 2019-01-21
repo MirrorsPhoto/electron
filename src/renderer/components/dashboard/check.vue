@@ -11,7 +11,7 @@
       </thead>
 
       <transition-group name="check" tag="tbody">
-        <tr v-for="(row, index) in rows" :key="index">
+        <tr v-for="(row, index) in rows" :key="index + 1">
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
           <td>

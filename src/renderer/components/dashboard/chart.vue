@@ -11,7 +11,7 @@
         <transition-group tag="g" name="circle" appear>
           <circle
             ref="circle"
-            v-for="(circle, i) in circles" :key="i"
+            v-for="(circle, i) in circles" :key="i + 1"
             :r="radius"
             :stroke="colors[i]"
             :stroke-dasharray="circle.dashArray"

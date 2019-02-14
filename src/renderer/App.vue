@@ -8,9 +8,7 @@
         @logOut="logOut()"
       ></component>
     </transition>
-
-    <update-modal></update-modal>
-
+    
   </div>
 </template>
 
@@ -54,8 +52,7 @@ export default {
   },
   components: {
     auth : require('./components/auth'),
-    index: require('./components/index'),
-    updateModal: require('./components/UI/updateModal')
+    index: require('./components/index')
   }
 }
 </script>

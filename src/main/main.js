@@ -1,19 +1,17 @@
 import { app, BrowserWindow, Menu } from 'electron'
-import autoUpdater from './plugins/autoUpdater'
 import socket from './plugins/socket'
 
 const isDev = process.env.NODE_ENV === 'development'
 const appPath = `${app.getAppPath()}/dist`
 
 app.on('ready', async () => {
-  let updater
-
   let mainWindow = new BrowserWindow({
     minWidth: 1280,
     minHeight: 720,
     frame: false,
     center: true,
-    devTools: isDev
+    devTools: isDev,
+    nodeIntegration: false
   })
 
   mainWindow.maximize()
@@ -26,12 +24,6 @@ app.on('ready', async () => {
         label: app.getName(),
         submenu: [
           { role: 'about' },
-          { type: 'separator' },
-          {
-            label: 'Проверить наличие обновлений',
-            role: 'update',
-            click: () => !isDev && updater.checkForUpdates()
-          },
           { type: 'separator' },
           { role: 'quit' }
         ]
@@ -58,9 +50,6 @@ app.on('ready', async () => {
 
     // При пересборке файлов обновлям страницу
     require('fs').watch(appPath, () => mainWindow.webContents.reload())
-  } else {
-    updater = autoUpdater(mainWindow)
-    updater.checkForUpdates()
   }
 
   // Подключение по веб-сокету к Photoshop

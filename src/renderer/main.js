@@ -18,9 +18,6 @@ new Vue({
     App: require('./App')
   },
   beforeCreate() {
-    // Запрет на зум
-    this.$electron.webFrame.setZoomLevelLimits(1, 1)
-
     Vue.prototype.$http = axios(this, config.url.api)
   }
 })

@@ -3,12 +3,6 @@
     <g class="bg" transform="skewY(-5)">
       <polygon
         points="0 157, 1800 157, 1800 1000, 0 1000"
-        :fill-opacity="(percent > 0) ? '0.7' : '1'"
-      />
-      <polygon
-        class="progress-bar"
-        points="0 157, 1800 157, 1800 1000, 0 1000"
-        :style="'transform: scaleX(' + percent / 100 + ')'"
       />
     </g>
     <g class="label">
@@ -21,14 +15,7 @@
 <script>
 export default {
   data() {
-    return {
-      percent: 0
-    }
-  },
-  mounted() {
-    this.$electron.ipcRenderer.on('au-download-progress', (data, listener) => {
-      this.percent = listener.percent
-    })
+    return {}
   }
 }
 </script>

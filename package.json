@@ -1,5 +1,5 @@
 {
-  "name": "Mirrors",
+  "name": "MirrorsPhoto",
   "version": "0.9.0",
   "author": "jonkofee <jonkofee@icloud.com>, klimash <andrey.klimash@gmail.com>",
   "description": "Vue.js SPA for Mirror's Photo",
@@ -12,27 +12,39 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack",
     "build": "rimraf ./dist && webpack && build",
-    "release": "rimraf ./dist && webpack && build -p always"
+    "release": "bash build/sign.sh"
   },
   "build": {
-    "productName": "Mirror's Photo",
-    "appId": "org.mirrors-photo.electron-vue",
+    "productName": "Mirrors Photo",
+    "appId": "com.mirrors.mac",
     "directories": {
       "output": "app"
     },
+    "target": [
+      "mas"
+    ],
     "files": [
-      "dist/**/*"
+      "dist/**/*",
+      "embedded.provisionprofile",
+      "package.json"
     ],
     "mac": {
-      "category": "public.app-category.business",
-      "icon": "src/icons/icon.icns"
+      "category": "public.app-category.graphics-design",
+      "target": [
+        "pkg",
+        "dmg",
+        "zip",
+        "mas"
+      ],
+      "entitlements": "build/entitlements.mac.plist",
+      "identity": "M85FTR22CA",
+      "type": "distribution",
+      "icon": "build/iconbuilder.iconset"
     },
-    "dmg": {
-      "window": {
-        "width": 540,
-        "height": 380
-      },
-      "icon": "src/icons/icon.icns"
+    "mas": {
+      "entitlements": "build/entitlements.mas.plist",
+      "type": "distribution",
+      "category": "public.app-category.bussiness"
     }
   },
   "dependencies": {

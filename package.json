@@ -1,6 +1,6 @@
 {
   "name": "MirrorsPhoto",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "author": "jonkofee <jonkofee@icloud.com>, klimash <andrey.klimash@gmail.com>",
   "description": "Vue.js SPA for Mirror's Photo",
   "license": null,
@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack",
     "build": "rimraf ./dist && webpack && build",
-    "release": "bash build/sign.sh"
+    "release": "rimraf ./app && bash build/sign.sh"
   },
   "build": {
     "productName": "Mirrors Photo",
@@ -39,7 +39,7 @@
       "entitlements": "build/entitlements.mac.plist",
       "identity": "M85FTR22CA",
       "type": "distribution",
-      "icon": "build/iconbuilder.iconset"
+      "icon": "build/icon.icns"
     },
     "mas": {
       "entitlements": "build/entitlements.mas.plist",

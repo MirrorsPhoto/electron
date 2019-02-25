@@ -123,6 +123,7 @@ tbody td
   text-overflow: ellipsis
 
 thead, tbody, tfoot
+  width: 100%
   padding: 15px 30px
 
 thead td:nth-child(1), tbody td:nth-child(1)
@@ -158,19 +159,6 @@ tbody
   overflow-y: auto
   overflow-x: hidden
   position: relative
-
-  &::-webkit-scrollbar
-      width: 0
-
-  &:after
-    content: ''
-    position: absolute
-    display: block
-    width: 100%
-    height: 50px
-    bottom: 0
-    left: 0
-    background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))
 
   & tr
     margin: 0 -30px

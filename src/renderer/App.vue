@@ -1,15 +1,11 @@
 <template>
-  <div class="bg">
-
-    <transition name="scale" mode="out-in" appear>
-      <component
-        :is="page"
-        @logIn="logIn($event)"
-        @logOut="logOut()"
-      ></component>
-    </transition>
-    
-  </div>
+  <transition name="scale" mode="out-in" appear>
+    <component
+      :is="page"
+      @logIn="logIn($event)"
+      @logOut="logOut()"
+    ></component>
+  </transition>
 </template>
 
 <script>

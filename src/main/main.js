@@ -14,7 +14,8 @@ app.on('ready', async () => {
     frame: false,
     devTools: isDev,
     nodeIntegration: false,
-    resizable: false
+    resizable: false,
+    show: false
   })
 
   mainWindow.once('ready-to-show', () => {

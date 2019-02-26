@@ -9,13 +9,16 @@ app.on('ready', async () => {
   let height = 720
 
   let mainWindow = new BrowserWindow({
-    width: width,
-    height: height,
+    width: 0,
+    height: 0,
     frame: false,
-    center: true,
     devTools: isDev,
     nodeIntegration: false,
     resizable: false
+  })
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
   })
 
   mainWindow.loadURL(`file://${appPath}/index.html`)
@@ -25,6 +28,7 @@ app.on('ready', async () => {
     const { width, height } = data
     
     mainWindow.setSize(width, height)
+    mainWindow.center()
   })
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(

@@ -61,6 +61,7 @@ export default {
 *, *:after, *:before
   -webkit-font-smoothing: antialiased
   -webkit-user-select: none
+  -webkit-user-drag: none
   font-family: 'SF'
   margin: 0
   padding: 0
@@ -97,4 +98,6 @@ h4
   & > *
     opacity: 0
 
+input, button, a
+  -webkit-app-region: no-drag
 </style>

@@ -1,22 +1,31 @@
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import socket from './plugins/socket'
 
 const isDev = process.env.NODE_ENV === 'development'
 const appPath = `${app.getAppPath()}/dist`
 
 app.on('ready', async () => {
+  let width = 1280
+  let height = 720
+
   let mainWindow = new BrowserWindow({
-    minWidth: 1280,
-    minHeight: 720,
+    width: width,
+    height: height,
     frame: false,
     center: true,
     devTools: isDev,
-    nodeIntegration: false
+    nodeIntegration: false,
+    resizable: false
   })
 
-  mainWindow.maximize()
   mainWindow.loadURL(`file://${appPath}/index.html`)
   mainWindow.on('closed', app.quit)
+
+  ipcMain.on('setWindowSize', (e, data) => {
+    const { width, height } = data
+    
+    mainWindow.setSize(width, height)
+  })
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(
     [

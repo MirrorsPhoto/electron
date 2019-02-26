@@ -65,6 +65,12 @@ export default {
       }
     }
   },
+  created() {
+    this.$electron.ipcRenderer.send('setWindowSize', {
+      width: 300,
+      height: 400
+    })
+  },
   components: {
     fieldInput: require('./UI/fieldInput'),
     logo: require('./UI/logo'),

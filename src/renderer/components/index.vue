@@ -85,6 +85,11 @@ export default {
   },
   created() {
     this.page = this.menu[0].component
+
+    this.$electron.ipcRenderer.send('setWindowSize', {
+      width: 1280,
+      height: 720
+    })
   },
   destroyed() {
     this.$electron.ipcRenderer.removeAllListeners('photoshop-connect, photoshop-message')

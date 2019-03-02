@@ -53,7 +53,7 @@ export default {
 
 
 <style lang="sass">
-@import './assets/SF_font/FontFace.css'
+@import './assets/font.css'
 @import './config/colors'
 
 *, *:after, *:before

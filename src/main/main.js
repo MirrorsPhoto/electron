@@ -5,9 +5,6 @@ const isDev = process.env.NODE_ENV === 'development'
 const appPath = `${app.getAppPath()}/dist`
 
 app.on('ready', async () => {
-  let width = 1280
-  let height = 720
-
   let mainWindow = new BrowserWindow({
     width: 0,
     height: 0,

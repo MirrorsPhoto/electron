@@ -36,7 +36,12 @@
       "entitlements": "build/entitlements.mac.plist",
       "identity": "M85FTR22CA",
       "type": "distribution",
-      "icon": "build/icon.icns"
+      "icon": "build/icon.icns",
+      "extendInfo": {
+        "CFBundleLocalizations": [
+          "ru"
+        ]
+      }
     },
     "mas": {
       "entitlements": "build/entitlements.mas.plist",

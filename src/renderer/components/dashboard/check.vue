@@ -10,7 +10,7 @@
         </tr>
       </thead>
 
-      <transition-group name="check" tag="tbody">
+      <tbody>
         <tr v-for="(row, index) in rows" :key="index + 1">
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
@@ -22,7 +22,7 @@
           <td>{{ row.copies * row.price }}₽</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
-      </transition-group>
+      </tbody>
 
       <tfoot>
         <tr>
@@ -99,14 +99,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '../../config/colors'
-
-.check-enter, .check-leave-to
-  opacity: 0
-  transform: translateY(20px)
-
-.check-leave-active, .check-enter-active
-  transition: all .3s
-  position: absolute
 
 .widget_wrap
   padding: 70px 0

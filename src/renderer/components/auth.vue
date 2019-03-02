@@ -65,7 +65,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.$electron.ipcRenderer.send('setWindowSize', {
       width: 300,
       height: 400

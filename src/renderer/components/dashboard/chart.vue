@@ -8,7 +8,7 @@
       </transition>
 
       <svg class="donut">
-        <transition-group tag="g" name="circle" appear>
+        <g>
           <circle
             ref="circle"
             v-for="(circle, i) in circles" :key="i + 1"
@@ -19,7 +19,7 @@
             @mouseover="hoverOnChart(i, true)"
             @mouseout="hoverOnChart(i, false)"
           ></circle>
-        </transition-group>
+        </g>
       </svg>
     </div>
 
@@ -118,10 +118,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-
-.circle-enter
-  stroke-dasharray: 0 500px
-  stroke-dashoffset: 0
 
 .tooltip
   &-enter-active, &-leave-active

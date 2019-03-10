@@ -15,7 +15,7 @@
     "release": "rimraf ./app && bash build/sign.sh"
   },
   "build": {
-    "productName": "Mirrors Photo",
+    "productName": "Mirror's Photo",
     "appId": "com.mirrors.mac",
     "directories": {
       "output": "app"

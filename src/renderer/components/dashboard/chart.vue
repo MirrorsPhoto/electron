@@ -59,10 +59,10 @@ export default {
   computed: {
     // Данные для отображения
     stats() {
-      const stats = Object.values(this.$store.state.stats)
+      const stats = Object.values(this.$store.state.cash.today)
       return {
         names: stats.map(({ name }) => name),
-        summs: stats.map(({ cash }) => cash)
+        summs: stats.map(({ val }) => val)
       }
     },
     // Процентное соотношение всех сумм к общей

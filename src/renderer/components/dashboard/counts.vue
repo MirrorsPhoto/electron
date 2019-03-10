@@ -32,7 +32,7 @@
         <!-- Касса -->
         <td>
           <h2><count-upper :value="counts.money"></count-upper>₽</h2>
-          <p>касса сегодня</p>
+          <p v-if="counts.weekPercent">на {{ Math.abs(counts.weekPercent) }}% {{ counts.weekPercent > 0 ? '>': '<' }} прошлого месяца</p>
         </td>
 
         <!-- Кол-во клиентов -->
@@ -79,8 +79,9 @@ export default {
     // Счетчики клиентов и кассы
     counts() {
       return {
-        clients: this.$store.state.clients,
-        money: this.$store.getters.moneySumm
+        clients: this.$store.state.clients.today,
+        money: this.$store.getters.moneySumm,
+        weekPercent: this.$store.getters.weekPercent,
       }
     },
     date() {

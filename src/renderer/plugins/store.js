@@ -42,12 +42,13 @@ export default new Vuex.Store({
     },
     initUser: (state, data) => state.user = data,
     addSale: (state, data) => {
-      for (let type in data.cash) {
+      
+      for (let type in data.cash.today) {
         if (state.stats.hasOwnProperty(type)) {
-          state.stats[type].cash = data.cash[type]
+          state.stats[type].cash = data.cash.today[type]
         }
       }
-      state.clients = data.client_count
+      state.clients = data.client.today
     }
   }
 })

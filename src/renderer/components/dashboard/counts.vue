@@ -53,9 +53,18 @@ import utils from '../../utils.js';
 
 const PERCENT_DIFF_INTERVAL = 15 * 1000
 const PERCENT_DIFF_PERIOD_PHRASES = {
-  week: 'На {percent}% {compareSymbol} чем на прошлой неделе',
-  month: 'На {percent}% {compareSymbol} чем в прошлом месяце',
-  year: 'На {percent}% {compareSymbol} чем в прошлом году'
+  week: {
+    hasDiff: 'На {percent}% {compareSymbol} чем на прошлой неделе',
+    noDiff: 'Как и на прошлой неделе'
+  },
+  month: {
+    hasDiff: 'На {percent}% {compareSymbol} чем в прошлом месяце',
+    noDiff: 'Как и в прошлом месяце'
+  },
+  year: {
+    hasDiff: 'На {percent}% {compareSymbol} чем в прошлом году',
+    noDiff: 'Как и в прошлом году'
+  }
 }
 
 export default {
@@ -145,7 +154,8 @@ export default {
       const compareSymbol = percent >= 0 ? '>' : '<'
 
       if (percent !== undefined) {
-        this.percentDiff = PERCENT_DIFF_PERIOD_PHRASES[period]
+        const phraseKey = percent === 0 ? 'noDiff' : 'hasDiff'
+        this.percentDiff = PERCENT_DIFF_PERIOD_PHRASES[period][phraseKey]
           .replace('{percent}', Math.abs(percent))
           .replace('{compareSymbol}', compareSymbol)
       } else {
@@ -158,11 +168,19 @@ export default {
     this.updatingWeather(this.online)
     this.timer = setInterval(this.updateTime, 1000)
     this.percentDiffTimer = setInterval(this.updatePercentDiff, PERCENT_DIFF_INTERVAL)
-  },
-  beforeDestroy() {
-    clearInterval(this.timer)
-    clearInterval(this.percentDiffTimer)
-    this.updatingWeather(false)
+
+    const unsubscribeStore = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'addSale') {
+        this.updatePercentDiff()
+      }
+    })
+
+    this.$once('hook:beforeDestroy', () => {
+      clearInterval(this.timer)
+      clearInterval(this.percentDiffTimer)
+      this.updatingWeather(false)
+      unsubscribeStore()
+    })
   },
   components: {
     icon: require('../UI/icon'),

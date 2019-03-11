@@ -42,13 +42,12 @@ export default new Vuex.Store({
   },
   getters: {
     moneySumm: ({ cash }) => Object.keys(cash.today).reduce((sum, key) => sum += cash.today[key].val, 0),
-    weekPercent: ({ cash }, getters) => {
-      if (cash.week === 0) {
-        return undefined
-      }
-
-      return parseInt(getters.moneySumm * 100 / cash.week - 100)
-    }
+    getPercent: ({ cash }, getters) => (period) => {
+      return cash[period]
+        ? Math.floor(getters.moneySumm * 100 / cash[period] - 100)
+        : undefined
+    },
+    isDefinedDiffCash: ({ cash }) => (cash.week + cash.month + cash.year) > 0
   },
   mutations: {
     setConnectStatus: (state, status) => state.online = status,

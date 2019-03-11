@@ -32,7 +32,8 @@
         <!-- Касса -->
         <td>
           <h2><count-upper :value="counts.money"></count-upper>₽</h2>
-          <p v-if="counts.weekPercent">на {{ Math.abs(counts.weekPercent) }}% {{ counts.weekPercent > 0 ? '>': '<' }} прошлого месяца</p>
+          <p v-if="isDefinedDiffCash">{{ percentDiff }}</p>
+          <p v-else>Касса сегодня</p>
         </td>
 
         <!-- Кол-во клиентов -->
@@ -48,6 +49,14 @@
 
 <script>
 import axios from 'axios';
+import utils from '../../utils.js';
+
+const PERCENT_DIFF_INTERVAL = 15 * 1000
+const PERCENT_DIFF_PERIOD_PHRASES = {
+  week: 'На {percent}% {compareSymbol} чем на прошлой неделе',
+  month: 'На {percent}% {compareSymbol} чем в прошлом месяце',
+  year: 'На {percent}% {compareSymbol} чем в прошлом году'
+}
 
 export default {
   data() {
@@ -56,42 +65,38 @@ export default {
         hours: '',
         minutes: ''
       },
+      date: new Date().toLocaleString('ru', { weekday: 'short', day: 'numeric', month: 'long' }),
       weather: {
         temp: 0,
         desc: '',
         code: 0,
         timeOfDay: ''
       },
+      percentDiff: '',
+
       timer: null,
-      weatherTimer: null
+      weatherTimer: null,
+      percentDiffTimer: null,
+
+      periodsLoop: utils.arrLoop(Object.keys(PERCENT_DIFF_PERIOD_PHRASES))
     }
   },
   watch: {
-    // При изменение статуса 'Онлайн' запускаем/останавливаем обновление погоды
-    online(online) {
-      this.updatingWeather(online ? 'start' : 'stop')
-    }
+    online: 'updatingWeather'
   },
   computed: {
     online() {
       return this.$store.state.online
     },
+    isDefinedDiffCash() {
+      return this.$store.getters.isDefinedDiffCash
+    },
     // Счетчики клиентов и кассы
     counts() {
       return {
         clients: this.$store.state.clients.today,
-        money: this.$store.getters.moneySumm,
-        weekPercent: this.$store.getters.weekPercent,
+        money: this.$store.getters.moneySumm
       }
-    },
-    date() {
-      const
-        date = new Date(),
-        day = date.getDate(),
-        weekDay = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"][date.getDay()],
-        month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"][date.getMonth()]
-
-      return `${day} ${month}, ${weekDay}`
     },
     // Склонения слова 'клиентов', зависящее от кол-ва
     clientsWord() {
@@ -125,23 +130,39 @@ export default {
         timeOfDay: (time >= sunrise && time < sunset) ? 'day' : 'night'
       }
     },
-    updatingWeather(param) {
-      if (param === 'start') {
+    updatingWeather(isUpdate) {
+      if (isUpdate) {
         this.updateWeather()
         this.weatherTimer = setInterval(this.updateWeather, 1000 * 60 * 60) // Обновление погоды каждый час
-      } else if (param === 'stop' && this.weatherTimer !== null) {
+      } else if (this.weatherTimer !== null) {
         clearInterval(this.weatherTimer)
+      }
+    },
+    updatePercentDiff () {
+      if (!this.isDefinedDiffCash) return
+      const period = this.periodsLoop.next().value
+      const percent = this.$store.getters.getPercent(period)
+      const compareSymbol = percent >= 0 ? '>' : '<'
+
+      if (percent !== undefined) {
+        this.percentDiff = PERCENT_DIFF_PERIOD_PHRASES[period]
+          .replace('{percent}', Math.abs(percent))
+          .replace('{compareSymbol}', compareSymbol)
+      } else {
+        this.updatePercentDiff()
       }
     }
   },
   created() {
     this.updateTime()
-    if (this.online) this.updatingWeather('start')
+    this.updatingWeather(this.online)
     this.timer = setInterval(this.updateTime, 1000)
+    this.percentDiffTimer = setInterval(this.updatePercentDiff, PERCENT_DIFF_INTERVAL)
   },
-  destroyed() {
+  beforeDestroy() {
     clearInterval(this.timer)
-    this.updatingWeather('stop')
+    clearInterval(this.percentDiffTimer)
+    this.updatingWeather(false)
   },
   components: {
     icon: require('../UI/icon'),

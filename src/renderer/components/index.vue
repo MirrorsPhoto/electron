@@ -79,7 +79,7 @@ export default {
   mounted() {
     this.$electron.ipcRenderer.send('setWindowSize', {
       width: 1280,
-      height: 720
+      height: 800
     })
   },
   destroyed() {
@@ -103,7 +103,7 @@ export default {
 
 .wrap
   width: 1280px
-  height: 720px
+  height: 800px
   background: #f6f6f6
   box-shadow: 1px 5px 10px rgba(0, 0, 0, .2)
   display: grid
@@ -114,14 +114,14 @@ export default {
   & aside
     background: #fff
     width: 230px
-    padding: 30px 0
+    padding: 33px 0
     box-shadow: 5px 5px 32px rgba(0, 0, 0, .2)
 
     & .logo
       display: block
       height: 143px
       width: 100%
-      margin-bottom: 20px
+      margin-bottom: 30px
 
     & .user_photo_wrap
       width: 125px
@@ -169,7 +169,7 @@ export default {
         fill: $red
 
     & nav
-      margin: 30px auto
+      margin: 40px auto 30px
 
       & a
         padding: 15px 0
@@ -189,6 +189,7 @@ export default {
     .link_logout
       color: $hard
       transition: all .3s ease
+      padding-top: 75px
 
       & .icon
         fill: $hard

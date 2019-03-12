@@ -10,19 +10,19 @@
         </tr>
       </thead>
 
-      <transition-group name="check" tag="tbody">
-        <tr v-for="(row, index) in rows" :key="index">
+      <tbody>
+        <tr v-for="(row, index) in rows" :key="index + 1">
           <td>{{ index + 1 }}.</td>
           <td>{{ row.title }}, {{ row.value }}</td>
           <td>
-            <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
-            <span class="count">{{ row.copies }}</span>
             <button class="displayOnHover" @click.prevent="setCount('dec', index)">-</button>
+            <span class="count">{{ row.copies }}</span>
+            <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
           </td>
           <td>{{ row.copies * row.price | currency }}</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
-      </transition-group>
+      </tbody>
 
       <tfoot>
         <tr>
@@ -95,7 +95,8 @@ export default {
     // Отправление чека на сервер
     submit() {
       this.disableButton = true
-      this.$http.post('/sale/batch', { items: this.rows })
+      const items = this.rows.map(({ id, type, copies }) => ({ id, type, copies }))
+      this.$http.post('/sale/batch', { items })
         .then(() => this.rows = [])
         .catch(err => console.error(err))
         .then(() => this.disableButton = false)
@@ -115,14 +116,6 @@ export default {
 <style lang="sass" scoped>
 @import '../../config/colors'
 
-.check-enter, .check-leave-to
-  opacity: 0
-  transform: translateY(10px)
-
-.check-leave-active, .check-enter-active
-  transition: all .3s
-  position: absolute
-
 .widget_wrap
   padding: 70px 0
   position: relative
@@ -138,6 +131,7 @@ tbody td
   text-overflow: ellipsis
 
 thead, tbody, tfoot
+  width: 100%
   padding: 15px 30px
 
 thead td:nth-child(1), tbody td:nth-child(1)
@@ -173,9 +167,6 @@ tbody
   overflow-y: auto
   overflow-x: hidden
   position: relative
-
-  &::-webkit-scrollbar
-      width: 0
 
   & tr
     margin: 0 -30px

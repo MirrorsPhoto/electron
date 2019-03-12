@@ -1,6 +1,6 @@
 {
-  "name": "Mirrors",
-  "version": "v0.7.1",
+  "name": "MirrorsPhoto",
+  "version": "0.9.4",
   "author": "jonkofee <jonkofee@icloud.com>, klimash <andrey.klimash@gmail.com>",
   "description": "Vue.js SPA for Mirror's Photo",
   "license": null,
@@ -11,34 +11,47 @@
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack",
-    "build": "rimraf ./dist && webpack && electron-builder",
-    "release": "rimraf ./dist && webpack && electron-builder -p always"
+    "build": "rimraf ./dist && webpack && build",
+    "release": "rimraf ./app && bash build/sign.sh"
   },
   "build": {
     "productName": "Mirror's Photo",
-    "appId": "org.mirrors-photo.electron-vue",
+    "appId": "com.mirrors.mac",
     "directories": {
       "output": "app"
     },
+    "target": [
+      "mas"
+    ],
     "files": [
-      "dist/**/*"
+      "dist/**/*",
+      "embedded.provisionprofile",
+      "package.json"
     ],
     "mac": {
-      "category": "public.app-category.business",
-      "icon": "src/icons/icon.icns"
+      "category": "public.app-category.graphics-design",
+      "target": [
+        "mas"
+      ],
+      "entitlements": "build/entitlements.mac.plist",
+      "identity": "M85FTR22CA",
+      "type": "distribution",
+      "icon": "build/icon.icns",
+      "extendInfo": {
+        "CFBundleLocalizations": [
+          "ru"
+        ]
+      }
     },
-    "dmg": {
-      "window": {
-        "width": 540,
-        "height": 380
-      },
-      "icon": "src/icons/icon.icns"
+    "mas": {
+      "entitlements": "build/entitlements.mas.plist",
+      "type": "distribution",
+      "category": "public.app-category.bussiness"
     }
   },
   "dependencies": {
     "axios": "^0.17.0",
     "countup.js": "^1.9.2",
-    "electron-updater": "^2.13.0",
     "jwt-decode": "^2.2.0",
     "online-js": "^1.0.2",
     "vue": "^2.5.3",
@@ -53,8 +66,8 @@
     "babili-webpack-plugin": "^0.1.2",
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
-    "electron": "^1.7.9",
-    "electron-builder": "^19.45.0",
+    "electron": "4.0.1",
+    "electron-builder": "^20.38.5",
     "electron-devtools-installer": "^2.2.1",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.30.1",

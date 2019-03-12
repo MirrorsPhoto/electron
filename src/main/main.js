@@ -1,36 +1,45 @@
-import { app, BrowserWindow, Menu } from 'electron'
-import autoUpdater from './plugins/autoUpdater'
+import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import socket from './plugins/socket'
 
 const isDev = process.env.NODE_ENV === 'development'
 const appPath = `${app.getAppPath()}/dist`
 
 app.on('ready', async () => {
-  let updater
-
   let mainWindow = new BrowserWindow({
-    minWidth: 1280,
-    minHeight: 720,
+    width: 0,
+    height: 0,
     frame: false,
-    center: true,
-    devTools: isDev
+    devTools: isDev,
+    nodeIntegration: false,
+    resizable: false,
+    show: false
   })
 
-  mainWindow.maximize()
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
+
   mainWindow.loadURL(`file://${appPath}/index.html`)
   mainWindow.on('closed', app.quit)
 
+  ipcMain.on('setWindowSize', (e, data) => {
+    const { width, height } = data
+    
+    mainWindow.setSize(width, height)
+    mainWindow.center()
+  })
+
   Menu.setApplicationMenu(Menu.buildFromTemplate(
-    [{
-      label: app.getName(),
-      submenu: [{ role: 'about' }, { type: 'separator' },
-        {
-          label: 'Проверить наличие обновлений',
-          role: 'update',
-          click: () => !isDev && updater.checkForUpdates()
-        },
-        { type: 'separator' }, { role: 'quit' }]
-    }]
+    [
+      {
+        label: app.getName(),
+        submenu: [
+          { role: 'about' },
+          { type: 'separator' },
+          { role: 'quit' }
+        ]
+      }
+    ]
   ))
 
   if (isDev) {
@@ -45,9 +54,6 @@ app.on('ready', async () => {
 
     // При пересборке файлов обновлям страницу
     require('fs').watch(appPath, () => mainWindow.webContents.reload())
-  } else {
-    updater = autoUpdater(mainWindow)
-    updater.checkForUpdates()
   }
 
   // Подключение по веб-сокету к Photoshop

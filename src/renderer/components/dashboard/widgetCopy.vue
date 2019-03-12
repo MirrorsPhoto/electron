@@ -56,7 +56,7 @@ export default {
   },
   created() {
     // Получаем цену ксерокопии
-    this.$http.get('copy/price')
+    this.$http.get('copy/price/1')
       .then(({ data }) => this.price = data.response)
       .catch(err => console.error(err))
   },

@@ -15,5 +15,6 @@ export default mainWindow => {
     wc.send('photoshop-connect', true)
     ws.on('message', message => wc.send('photoshop-message', JSON.parse(message)))
     ws.on('close', () => wc.send('photoshop-connect', false))
+    ws.on('error', () => wc.send('photoshop-connect', false))
   })
 }

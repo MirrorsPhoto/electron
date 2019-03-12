@@ -49,9 +49,6 @@ export default {
     }
   },
   computed: {
-    id() {
-       return this.selectedSizeData.id || null
-     },
     // Размеры фотографий строками для передачи в компонент field
     sizes() {
       return this.photoData.map(this.sizeToString)
@@ -65,10 +62,13 @@ export default {
     },
     // Возможные кол-ва выбранного размера
     counts() {
-      return Object.keys(this.selectedSizeData.variations || {}).sort((a, b) => a - b)
+      return Object
+        .values(this.selectedSizeData.variations || {})
+        .map(({ count }) => String(count))
+        .sort((a, b) => a - b)
     },
-    price() {
-      return this.selectedSizeData.variations[this.count] || 0
+    photo() {
+      return this.selectedSizeData.variations.find(({ count }) => count === this.count)
     }
   },
   methods: {
@@ -77,13 +77,16 @@ export default {
     },
     submit() {
       const {
-        id,
         title,
         type,
         size,
+      } = this
+
+      const {
+        id,
         price,
         count
-      } = this
+      } = this.photo
 
       this.$emit('add', {
         id,

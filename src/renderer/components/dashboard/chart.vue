@@ -10,10 +10,10 @@
       </transition>
 
       <svg class="donut">
-        <transition-group tag="g" name="circle" appear>
+        <g>
           <circle
             ref="circle"
-            v-for="(circle, i) in circles" :key="i"
+            v-for="(circle, i) in circles" :key="i + 1"
             :r="radius"
             :stroke="colors[i]"
             :stroke-dasharray="circle.dashArray"
@@ -21,7 +21,7 @@
             @mouseover="hoverOnChart(i, true)"
             @mouseout="hoverOnChart(i, false)"
           ></circle>
-        </transition-group>
+        </g>
       </svg>
     </div>
 
@@ -61,10 +61,10 @@ export default {
   computed: {
     // Данные для отображения
     stats() {
-      const stats = Object.values(this.$store.state.stats)
+      const stats = Object.values(this.$store.state.cash.today)
       return {
         names: stats.map(({ name }) => name),
-        summs: stats.map(({ cash }) => cash)
+        summs: stats.map(({ val }) => val)
       }
     },
     // Процентное соотношение всех сумм к общей
@@ -120,10 +120,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-
-.circle-enter
-  stroke-dasharray: 0 500px
-  stroke-dashoffset: 0
 
 .tooltip
   &-enter-active, &-leave-active

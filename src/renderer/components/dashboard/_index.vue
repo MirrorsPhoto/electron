@@ -6,6 +6,7 @@
       <widget-photo></widget-photo>
       <widget-good></widget-good>
       <widget-copy></widget-copy>
+      <widget-service></widget-service>
       <widget-lamin></widget-lamin>
     </div>
     <check></check>
@@ -21,7 +22,8 @@ export default {
     widgetPhoto: require('./widgetPhoto'),
     widgetGood : require('./widgetGood'),
     widgetCopy : require('./widgetCopy'),
-    widgetLamin: require('./widgetLamin')
+    widgetLamin: require('./widgetLamin'),
+    widgetService: require('./widgetService')
   }
 }
 </script>

@@ -25,6 +25,10 @@ const initialState = {
         name: 'Ксерокопия',
         val: 0
       },
+      service: {
+        name: 'Услуга',
+        val: 0
+      },
       lamination: {
         name: 'Ламинация',
         val: 0

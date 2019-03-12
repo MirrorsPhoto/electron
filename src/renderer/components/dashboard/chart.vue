@@ -46,11 +46,12 @@
 export default {
   data() {
     return {
-      colors: ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db'],
+      colors: ['#e74c3c', '#f1c40f', '#2ecc71', '#8860d0', '#3498db'],
       icons: {
         'Фотография': 'photo',
         'Продажа'   : 'bag',
         'Ксерокопия': 'copy',
+        'Услуга'    : 'service',
         'Ламинация' : 'lamination'
       },
       radius: 80,
@@ -73,7 +74,7 @@ export default {
       const total = summs.reduce((res, s) => res += s, 0)
       return total
         ? summs.map(s => (s * 100 / total) || 0)
-        : [25, 25, 25, 25]  // Если общая сумма == 0, то рисуем график с одинаковыми отрезками
+        : [20, 20, 20, 20, 20]  // Если общая сумма == 0, то рисуем график с одинаковыми отрезками
     },
     // Размеры и отступы отрезков графика
     circles() {

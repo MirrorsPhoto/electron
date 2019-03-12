@@ -22,6 +22,8 @@ export default {
   },
   methods: {
     change(value) {
+      value = parseInt(value)
+      
       this.$emit('update:count', value > 1 ? value : 1);
     }
   }

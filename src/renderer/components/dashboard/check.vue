@@ -163,7 +163,7 @@ thead
 
 tbody
   display: block
-  height: 200px
+  height: 280px
   overflow-y: auto
   overflow-x: hidden
   position: relative

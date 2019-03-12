@@ -70,6 +70,7 @@ export default {
       width: 300,
       height: 400
     })
+    this.$electron.ipcRenderer.send('setBadgeCount', 0)
   },
   components: {
     fieldInput: require('./UI/fieldInput'),

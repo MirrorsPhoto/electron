@@ -75,6 +75,16 @@ export default {
   },
   created() {
     this.page = this.menu[0].component
+
+    const unsubscribeStore = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'addSale') {
+        this.$electron.ipcRenderer.send('setBadgeCount', this.$store.getters.moneySumm)
+      }
+    })
+
+    this.$once('hook:beforeDestroy', () => {
+      unsubscribeStore()
+    })
   },
   mounted() {
     this.$electron.ipcRenderer.send('setWindowSize', {

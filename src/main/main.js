@@ -29,8 +29,6 @@ app.on('ready', async () => {
     mainWindow.center()
   })
 
-  ipcMain.on('setBadgeCount', (e, count) => app.setBadgeCount(count))
-
   Menu.setApplicationMenu(Menu.buildFromTemplate(
     [
       {

@@ -39,7 +39,7 @@
         <!-- Кол-во клиентов -->
         <td>
           <h2><count-upper :value="counts.clients"></count-upper></h2>
-          <p>{{ clientsWord }}</p>
+          <p>{{ counts.clients | decline(['клиент', 'клиента', 'клиентов'], false) }}</p>
         </td>
       </tr>
 

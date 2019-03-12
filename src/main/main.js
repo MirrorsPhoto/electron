@@ -44,8 +44,13 @@ app.on('ready', async () => {
 
   if (isDev) {
     const { default: installExtension, VUEJS_DEVTOOLS } = require('electron-devtools-installer')
+    const { globalShortcut } = require('electron')
     await installExtension(VUEJS_DEVTOOLS)
-    mainWindow.webContents.openDevTools()
+
+    // Открытие devtools при нажатии CMD + D
+    globalShortcut.register('Command+D', () => {
+      mainWindow.webContents.openDevTools()
+    })
 
     // При пересборке файлов обновлям страницу
     require('fs').watch(appPath, () => mainWindow.webContents.reload())

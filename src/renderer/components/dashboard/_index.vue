@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="dashboard_wrap">
     <chart></chart>
     <counts></counts>
     <div class="widgets_bar">
@@ -29,7 +29,7 @@ export default {
 <style lang="sass">
 @import '../../config/colors'
 
-.content
+.dashboard_wrap
   margin: 40px
   display: grid
   grid-template-columns: 1fr 1fr

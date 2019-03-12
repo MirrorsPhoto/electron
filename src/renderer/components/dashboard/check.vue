@@ -1,5 +1,5 @@
 <template>
-  <form class="widget_wrap" @submit.prevent="submit()">
+  <form class="widget_wrap" @submit.prevent="submit">
     <table>
       <thead>
         <tr>
@@ -19,7 +19,7 @@
             <span class="count">{{ row.copies }}</span>
             <button class="displayOnHover" @click.prevent="setCount('inc', index)">+</button>
           </td>
-          <td>{{ row.copies * row.price }}₽</td>
+          <td>{{ row.copies * row.price | currency }}</td>
           <a href="#" class="displayOnHover" @click.prevent="removeRow(index)">+</a>
         </tr>
       </tbody>
@@ -27,9 +27,15 @@
       <tfoot>
         <tr>
           <td align="left">
-            <span v-if="total" class="total">Итого: {{ total }}₽</span>
+            <span v-if="total" class="total">Итого: {{ total | currency }}</span>
           </td>
-          <td align="right"><input type="submit" value="Оплачено" :disabled="disableButton || !rows.length"></td>
+          <td align="right">
+            <btn
+              text="Оплачено"
+              :disabled="disableButton || !rows.length"
+              @click="submit"
+            />
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -57,6 +63,13 @@ export default {
       // Если в чеке нет такой позиции, то добавляем ее. Иначе суммируем кол-во
       if (i === -1) {
         this.rows.push(data)
+
+        // Прокручиваем список вниз
+        this.$nextTick(() => {
+          const list = this.$el.querySelector('tbody')
+          list.scrollTop += list.children[0].clientHeight
+        })
+
         return
       }
 
@@ -94,6 +107,9 @@ export default {
     this.$parent.$children
       .filter(({ $refs }) => $refs.widget)
       .forEach(widget => widget.$on('add', this.addRow))
+  },
+  components: {
+    btn: require('../UI/btn')
   }
 }
 </script>
@@ -156,7 +172,7 @@ tbody
     margin: 0 -30px
     padding: 0 30px
     position: relative
-    transition: all 1s ease
+    transition: all .3s ease
 
     & td
       padding: 9px 0
@@ -191,7 +207,7 @@ tbody
 
     & .count
       display: inline-block
-      margin 0 5px
+      margin: 0 5px
       width: 30px
       text-align: center
 
@@ -206,22 +222,5 @@ tfoot
 
     & .total
       color: $hard
-
-    & [type="submit"]
-      height: 40px
-      padding: 0 30px
-      background: $red
-      color: #fff
-      border: none
-      outline: none
-      margin: 0
-      transition: all .3s ease
-
-      &:hover
-        background: darken($red, 15%)
-
-      &:disabled
-        background: $light
-        color: $hard
 
 </style>

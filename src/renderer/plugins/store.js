@@ -34,6 +34,7 @@ const initialState = {
         val: 0
       }
     },
+    yesterday: 0,
     week: 0,
     month: 0,
     year: 0

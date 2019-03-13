@@ -53,6 +53,10 @@ import utils from '../../utils.js';
 
 const PERCENT_DIFF_INTERVAL = 15 * 1000
 const PERCENT_DIFF_PERIOD_PHRASES = {
+  yesterday: {
+    hasDiff: 'На {percent}% {compareSymbol} чем вчера',
+    noDiff: 'Как и вчера'
+  },
   week: {
     hasDiff: 'На {percent}% {compareSymbol} чем на прошлой неделе',
     noDiff: 'Как и на прошлой неделе'

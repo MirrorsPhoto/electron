@@ -100,19 +100,10 @@ export default {
       const percent = Math.round(this.percents[i])
       this.dataToShow  = `${percent}% • ${summ}`
       this.showTooltip = isHover
-      this.$refs.circle[i].style.stroke = isHover
-        ? this.switchColor(this.colors[i], -25)
-        : this.colors[i]
-    },
-    // Затемнение/осветление цвета
-    switchColor(color, amount) {
-      const num = parseInt(color.slice(1), 16)
-      const [r, g, b] = [
-        (num >> 16) + amount,
-        (num & 0x0000FF) + amount,
-        ((num >> 8) & 0x00FF) + amount
-      ].map(c => c > 255 ? 255 : c < 0 ? 0 : c)
-      return '#' + (g | (b << 8) | (r << 16)).toString(16)
+
+      for (let index in this.$refs.circle) {
+        this.$refs.circle[index].style.opacity = isHover ? index == i ? 1 : 0.5 : 1
+      }
     }
   },
   components: {

@@ -32,7 +32,7 @@
         <!-- Касса -->
         <td>
           <h2><count-upper :value="counts.money"></count-upper>₽</h2>
-          <p v-if="isDefinedDiffCash">{{ percentDiff }}</p>
+          <p v-if="isDefinedDiffCash" @click="nextDiffCash" class="diff_cash">{{ percentDiff }}</p>
           <p v-else>Касса сегодня</p>
         </td>
 
@@ -161,13 +161,24 @@ export default {
       } else {
         this.updatePercentDiff()
       }
+    },
+    nextDiffCash() {
+      this.stopCashDiffInterval()
+      this.updatePercentDiff()
+      this.startCashDiffInterval()
+    },
+    startCashDiffInterval() {
+      this.percentDiffTimer = setInterval(this.updatePercentDiff, PERCENT_DIFF_INTERVAL)
+    },
+    stopCashDiffInterval() {
+      clearInterval(this.percentDiffTimer)
     }
   },
   created() {
     this.updateTime()
     this.updatingWeather(this.online)
     this.timer = setInterval(this.updateTime, 1000)
-    this.percentDiffTimer = setInterval(this.updatePercentDiff, PERCENT_DIFF_INTERVAL)
+    this.startCashDiffInterval()
 
     const unsubscribeStore = this.$store.subscribe((mutation) => {
       if (mutation.type === 'addSale') {
@@ -177,7 +188,7 @@ export default {
 
     this.$once('hook:beforeDestroy', () => {
       clearInterval(this.timer)
-      clearInterval(this.percentDiffTimer)
+      this.stopCashDiffInterval()
       this.updatingWeather(false)
       unsubscribeStore()
     })
@@ -229,6 +240,9 @@ export default {
 
     & p
       color: $hard
+
+      &.diff_cash
+        cursor: pointer
 
       &:first-letter
         text-transform: uppercase

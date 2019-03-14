@@ -24,7 +24,7 @@
     ></span>
 
     <!-- Dropdown -->
-    <ul ref="list" v-if="showList">
+    <ul ref="list" v-show="showList" :class="{ fixed: isListFixed }">
       <li
         v-for="(option, i) in filteredOptions" :key="i"
         v-text="option"
@@ -73,7 +73,8 @@ export default {
       search: '',
       selected: '',
       showList: false,
-      focusIndex: 0
+      focusIndex: 0,
+      isListFixed: false
     }
   },
 
@@ -135,11 +136,23 @@ export default {
       this.showList = true
       this.focusIndex = 0
       this.setSearch('')  // При открытии очищаем поле
+      this.$nextTick(() => {
+        const { width, height, top, x } = this.$refs.list.getBoundingClientRect()
+        const isListOverflowed = (top + height) > document.documentElement.clientHeight
+
+        if (isListOverflowed) {
+          const html = document.querySelector('html')
+          this.isListFixed = true
+          html.style.setProperty('--list-width', `${width}px`)
+          html.style.setProperty('--list-left', `${x}px`)
+        }
+      })
     },
 
     closeList() {
       this.showList = false
       this.setSearch(this.selected)  // Если при закрытии опция не выбрана - вставляем в поле предыдущее выбранное значение
+      this.isListFixed = false
     },
 
     // При нажатиях клавиш down/up и наведении мыши выделяем опцию и прокручиваем список
@@ -193,6 +206,13 @@ ul
   left: 0
   overflow-y: auto
   z-index: 3
+  &.fixed
+    position: fixed
+    top: inherit
+    bottom: 10px
+    left: var(--list-left)
+    min-width: inherit
+    width: var(--list-width)
 
   & li
     padding: 0 10px 0 15px

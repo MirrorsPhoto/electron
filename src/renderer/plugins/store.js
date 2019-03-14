@@ -34,6 +34,7 @@ const initialState = {
         val: 0
       }
     },
+    yesterday: 0,
     week: 0,
     month: 0,
     year: 0
@@ -51,7 +52,7 @@ export default new Vuex.Store({
         ? Math.floor(getters.moneySumm * 100 / cash[period] - 100)
         : undefined
     },
-    isDefinedDiffCash: ({ cash }) => (cash.week + cash.month + cash.year) > 0
+    isDefinedDiffCash: ({ cash }) => (cash.week + cash.month + cash.year + cash.yesterday) > 0
   },
   mutations: {
     setConnectStatus: (state, status) => state.online = status,

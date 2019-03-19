@@ -4,8 +4,11 @@ import socket from './plugins/socket'
 const isDev = process.env.NODE_ENV === 'development'
 const appPath = `${app.getAppPath()}/dist`
 
+let mainWindow = null
+let isReadyToShow = false
+
 app.on('ready', async () => {
-  let mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 0,
     height: 0,
     frame: false,
@@ -16,6 +19,8 @@ app.on('ready', async () => {
   })
 
   mainWindow.once('ready-to-show', () => {
+    isReadyToShow = true
+
     mainWindow.show()
   })
 
@@ -70,4 +75,10 @@ app.on('ready', async () => {
 
   // Подключение по веб-сокету к Photoshop
   socket(mainWindow)
+})
+
+app.on('activate', () => {
+  if (isReadyToShow) {
+    mainWindow.show()
+  }
 })

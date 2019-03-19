@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a class="close" @click.prevent="w.close()"></a>
+    <a class="close" @click.prevent="w.hide()"></a>
     <a class="min"   @click.prevent="w.minimize()"></a>
     <a class="max"   @click.prevent="w[w.isMaximized() ? 'unmaximize' : 'maximize']()"></a>
   </div>

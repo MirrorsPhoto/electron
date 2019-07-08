@@ -38,7 +38,7 @@ const initialState = {
     week: 0,
     month: 0,
     year: 0
-  } 
+  }
 }
 
 export default new Vuex.Store({
@@ -63,7 +63,6 @@ export default new Vuex.Store({
     },
     initUser: (state, data) => state.user = data,
     addSale: (state, data) => {
-      console.log(data)
       for (let type in data.cash.today) {
         if (state.cash.today.hasOwnProperty(type)) {
           state.cash.today[type].val = data.cash.today[type]

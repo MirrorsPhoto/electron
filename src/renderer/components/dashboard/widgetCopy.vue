@@ -44,6 +44,7 @@ export default {
       } = this
 
       this.$emit('add', {
+        id: 1,
         title,
         type,
         copies,

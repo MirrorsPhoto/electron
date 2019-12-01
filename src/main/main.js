@@ -13,7 +13,9 @@ app.on('ready', async () => {
     height: 0,
     frame: false,
     devTools: isDev,
-    nodeIntegration: false,
+    webPreferences: {
+      nodeIntegration: true
+    },
     resizable: false,
     show: false
   })

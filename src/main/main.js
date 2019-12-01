@@ -37,7 +37,7 @@ app.on('ready', async () => {
   Menu.setApplicationMenu(Menu.buildFromTemplate(
     [
       {
-        label: app.getName(),
+        label: app.name,
         submenu: [
           { role: 'about' },
           { type: 'separator' },

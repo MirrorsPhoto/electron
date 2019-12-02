@@ -33,7 +33,6 @@
       "target": [
         "mas"
       ],
-      "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
       "identity": "M85FTR22CA",
       "type": "distribution",
@@ -45,7 +44,6 @@
       }
     },
     "mas": {
-      "entitlements": "build/entitlements.mas.plist",
       "entitlementsInherit": "build/entitlements.mas.plist",
       "type": "distribution",
       "category": "public.app-category.business"

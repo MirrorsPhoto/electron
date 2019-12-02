@@ -5,7 +5,7 @@
 <key>com.apple.security.app-sandbox</key>
 <true/>
 <key>com.apple.security.application-groups</key>
-<string>M85FTR22CA.com.mirrors.mac</string>
+<string>M85FTR22CA.com.mirrors.mac.new</string>
 <key>com.apple.security.network.server</key>
 <true/>
 <key>com.apple.security.network.client</key>

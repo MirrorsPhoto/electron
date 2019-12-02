@@ -4,7 +4,7 @@
 # See: https://github.com/electron-userland/electron-builder/wiki/Code-Signing
 
 # Check that the .p12 file is in the correct location.
-CERT_PATH=~/.certs/mirrors.p12
+CERT_PATH=$PWD/build/Certificates.p12
 if [ ! -f $CERT_PATH ]; then
   echo "Can't find the .p12 file at $CERT_PATH"
 fi

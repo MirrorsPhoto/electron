@@ -212,9 +212,13 @@ export default {
 
     & + tr
       border-top: 1px solid $light
+      @media (prefers-color-scheme: dark)
+        border-color: rgba(255, 255, 255, 0.25)
 
     & td:first-child
       border-right: 1px solid $light
+      @media (prefers-color-scheme: dark)
+        border-color: rgba(255, 255, 255, 0.25)
 
   & td
     width: 50%
@@ -236,7 +240,7 @@ export default {
         animation: separator 2s linear infinite
 
     & p
-      color: $hard
+      color: $hard !important
 
       &.cash-diff
         cursor: pointer

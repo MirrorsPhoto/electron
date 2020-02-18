@@ -42,6 +42,11 @@ export default {
     background: #fff
     box-shadow: 2px 2px 5px rgba(0, 0, 0, .2)
 
+    @media (prefers-color-scheme: dark)
+      background: #212121
+      & *:not(button)
+        color: white !important
+
   .widgets_bar .widget_wrap
     height: 70px
     display: flex
@@ -63,6 +68,9 @@ export default {
       position: relative
       overflow: hidden
 
+      @media (prefers-color-scheme: dark)
+        color: white
+
       & .icon
         fill: $red
 
@@ -82,6 +90,9 @@ export default {
       background: $light
       padding: 0 10px
       transition: all .3s ease
+
+      @media (prefers-color-scheme: dark)
+        border-color: rgba(255, 255, 255, 0.25)
 
       & .icon
         transform: rotate(90deg)

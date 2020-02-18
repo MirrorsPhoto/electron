@@ -149,6 +149,9 @@ export default {
       margin: 20px auto 5px
       font-size: 18px
 
+      @media (prefers-color-scheme: dark)
+        color: white
+
     & p
       text-align: center
       color: $hard
@@ -175,8 +178,14 @@ export default {
         padding: 15px 0
         border-top: 1px solid $light
 
+        @media (prefers-color-scheme: dark)
+          border-color: rgba(255, 255, 255, 0.25)
+
       & a:last-child
         border-bottom: 1px solid $light
+
+        @media (prefers-color-scheme: dark)
+          border-color: rgba(255, 255, 255, 0.25)
 
       & a.active
         border-left: 3px solid $red
@@ -200,5 +209,18 @@ export default {
 
         & .icon
           fill: $red
+
+@media (prefers-color-scheme: dark)
+  .wrap
+    background-color: #333
+
+    & aside
+      background-color: #212121
+
+      & a
+        color: white
+
+        &.active
+          background: rgba(255, 255, 255, 0.25) !important
 
 </style>

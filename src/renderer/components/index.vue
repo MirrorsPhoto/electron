@@ -42,6 +42,8 @@
 <script>
 export default {
   data() {
+    const { user } = this.$store.state
+
     return {
       page: '',
       menu: [
@@ -55,13 +57,13 @@ export default {
           title: 'Товары',
           component: 'storehouse',
           icon: 'bag',
-          hasPermission: () => this.user.allowed_types.includes('good')
+          hasPermission: () => user.allowed_types.includes('good')
         },
         {
           title: 'Статистика',
           component: 'statistic',
           icon: 'chart',
-          hasPermission: () => this.user.role_id === 1
+          hasPermission: () => user.role_id === 1
         },
         {
           title: 'Настройки',
@@ -69,7 +71,7 @@ export default {
           icon: 'settings',
           hasPermission: () => true
         }
-      ].filter(Boolean)
+      ].filter(item => item.hasPermission())
     }
   },
   computed: {

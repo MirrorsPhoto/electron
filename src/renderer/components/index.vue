@@ -42,30 +42,36 @@
 <script>
 export default {
   data() {
+    const { user } = this.$store.state
+
     return {
       page: '',
       menu: [
         {
           title: 'Главный экран',
           component: 'dashboard',
-          icon: 'dashboard'
+          icon: 'dashboard',
+          hasPermission: () => true
         },
         {
           title: 'Товары',
           component: 'storehouse',
-          icon: 'bag'
+          icon: 'bag',
+          hasPermission: () => user.allowed_types.includes('good')
         },
         {
           title: 'Статистика',
           component: 'statistic',
-          icon: 'chart'
+          icon: 'chart',
+          hasPermission: () => user.role_id === 1
         },
         {
           title: 'Настройки',
           component: 'settings',
-          icon: 'settings'
+          icon: 'settings',
+          hasPermission: () => true
         }
-      ]
+      ].filter(item => item.hasPermission())
     }
   },
   computed: {

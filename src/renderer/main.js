@@ -15,7 +15,7 @@ for (const filter in filters) {
 
 Vue.config.productionTip = false
 Vue.config.performance = true
-Vue.prototype.$online = process.env.NODE_ENV !== 'development' && Online({ url: 'https://google.com' })
+Vue.prototype.$online = process.env.NODE_ENV !== 'development' && Online({ url: 'https://www.google.com' })
 
 new Vue({
   el: '#app',

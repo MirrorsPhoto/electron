@@ -15,23 +15,33 @@ const initialState = {
     today: {
       photo: {
         name: 'Фотография',
-        val: 0
+        val: 0,
+        icon: 'photo',
+        color: '#e74c3c'
       },
       good: {
         name: 'Продажа',
-        val: 0
+        val: 0,
+        icon: 'bag',
+        color: '#f1c40f'
       },
       copy: {
         name: 'Ксерокопия',
-        val: 0
+        val: 0,
+        icon: 'copy',
+        color: '#2ecc71'
       },
       service: {
         name: 'Услуга',
-        val: 0
+        val: 0,
+        icon: 'service',
+        color: '#8860d0'
       },
       lamination: {
         name: 'Ламинация',
-        val: 0
+        val: 0,
+        icon: 'lamination',
+        color: '#3498db'
       }
     },
     yesterday: 0,

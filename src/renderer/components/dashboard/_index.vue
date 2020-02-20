@@ -3,11 +3,11 @@
     <chart></chart>
     <counts></counts>
     <div class="widgets_bar">
-      <widget-photo></widget-photo>
-      <widget-good></widget-good>
-      <widget-copy></widget-copy>
-      <widget-service></widget-service>
-      <widget-lamin></widget-lamin>
+      <widget-photo v-if="permissions.includes('photo')" />
+      <widget-good v-if="permissions.includes('good')" />
+      <widget-copy v-if="permissions.includes('copy')" />
+      <widget-service v-if="permissions.includes('service')" />
+      <widget-lamin v-if="permissions.includes('lamination')" />
     </div>
     <check></check>
   </div>
@@ -15,6 +15,11 @@
 
 <script>
 export default {
+  computed: {
+    permissions() {
+      return this.$store.state.user.allowed_types;
+    }
+  },
   components: {
     chart : require('./chart'),
     counts: require('./counts'),

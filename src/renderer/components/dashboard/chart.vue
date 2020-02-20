@@ -15,7 +15,7 @@
             ref="circle"
             v-for="(circle, i) in circles" :key="i + 1"
             :r="radius"
-            :stroke="colors[i]"
+            :stroke="stats.colors[i]"
             :stroke-dasharray="circle.dashArray"
             :stroke-dashoffset="circle.dashOffset"
             @mouseover="hoverOnChart(i, true)"
@@ -32,8 +32,8 @@
         @mouseout="hoverOnChart(i, false)"
       >
         <icon
-          :name="icons[name]"
-          :style="{ fill: colors[i] }"
+          :name="stats.icons[i]"
+          :style="{ fill: stats.colors[i] }"
           size="30"
         ></icon>
         <span>{{ name }}</span>
@@ -46,26 +46,27 @@
 export default {
   data() {
     return {
-      colors: ['#e74c3c', '#f1c40f', '#2ecc71', '#8860d0', '#3498db'],
-      icons: {
-        'Фотография': 'photo',
-        'Продажа'   : 'bag',
-        'Ксерокопия': 'copy',
-        'Услуга'    : 'service',
-        'Ламинация' : 'lamination'
-      },
       radius: 80,
       dataToShow: '', // Данные внутри графика
       showTooltip: false
     }
   },
   computed: {
+    permissions() {
+      return this.$store.state.user.allowed_types
+    },
     // Данные для отображения
     stats() {
-      const stats = Object.values(this.$store.state.cash.today)
+      const stats = Object
+        .keys(this.$store.state.cash.today)
+        .filter(type => this.permissions.includes(type))
+        .map(type => this.$store.state.cash.today[type])
+
       return {
         names: stats.map(({ name }) => name),
-        summs: stats.map(({ val }) => val)
+        summs: stats.map(({ val }) => val),
+        icons: stats.map(({ icon }) => icon),
+        colors: stats.map(({ color }) => color)
       }
     },
     // Процентное соотношение всех сумм к общей

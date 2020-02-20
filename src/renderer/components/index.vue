@@ -48,24 +48,28 @@ export default {
         {
           title: 'Главный экран',
           component: 'dashboard',
-          icon: 'dashboard'
+          icon: 'dashboard',
+          hasPermission: () => true
         },
         {
           title: 'Товары',
           component: 'storehouse',
-          icon: 'bag'
+          icon: 'bag',
+          hasPermission: () => this.user.allowed_types.includes('good')
         },
         {
           title: 'Статистика',
           component: 'statistic',
-          icon: 'chart'
+          icon: 'chart',
+          hasPermission: () => this.user.role_id === 1
         },
         {
           title: 'Настройки',
           component: 'settings',
-          icon: 'settings'
+          icon: 'settings',
+          hasPermission: () => true
         }
-      ]
+      ].filter(Boolean)
     }
   },
   computed: {

@@ -75,7 +75,7 @@ export default {
       const total = summs.reduce((res, s) => res += s, 0)
       return total
         ? summs.map(s => (s * 100 / total) || 0)
-        : [20, 20, 20, 20, 20]  // Если общая сумма == 0, то рисуем график с одинаковыми отрезками
+        : Array(summs.length).fill(100 / summs.length)  // Если общая сумма == 0, то рисуем график с одинаковыми отрезками
     },
     // Размеры и отступы отрезков графика
     circles() {

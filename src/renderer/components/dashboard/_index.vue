@@ -7,8 +7,8 @@
       <widget-good v-if="permissions.includes('good')"/>
       <widget-copy v-if="permissions.includes('copy')"/>
       <widget-service v-if="permissions.includes('service')"/>
-      <widget-document v-if="permissions.includes('document')"/>
       <widget-lamin v-if="permissions.includes('lamination')"/>
+      <widget-document v-if="permissions.includes('document')"/>
     </div>
     <check></check>
   </div>

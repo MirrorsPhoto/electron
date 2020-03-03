@@ -34,7 +34,7 @@
         <icon
           :name="stats.icons[i]"
           :style="{ fill: stats.colors[i] }"
-          size="30"
+          size="24"
         ></icon>
         <span>{{ name }}</span>
       </div>

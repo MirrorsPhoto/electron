@@ -3,11 +3,12 @@
     <chart></chart>
     <counts></counts>
     <div class="widgets_bar">
-      <widget-photo v-if="permissions.includes('photo')" />
-      <widget-good v-if="permissions.includes('good')" />
-      <widget-copy v-if="permissions.includes('copy')" />
-      <widget-service v-if="permissions.includes('service')" />
-      <widget-lamin v-if="permissions.includes('lamination')" />
+      <widget-photo v-if="permissions.includes('photo')"/>
+      <widget-good v-if="permissions.includes('good')"/>
+      <widget-copy v-if="permissions.includes('copy')"/>
+      <widget-service v-if="permissions.includes('service')"/>
+      <widget-document v-if="permissions.includes('document')"/>
+      <widget-lamin v-if="permissions.includes('lamination')"/>
     </div>
     <check></check>
   </div>
@@ -21,15 +22,16 @@ export default {
     }
   },
   components: {
-    chart : require('./chart'),
+    chart: require('./chart'),
     counts: require('./counts'),
-    check : require('./check'),
+    check: require('./check'),
     widgetPhoto: require('./widgetPhoto'),
-    widgetGood : require('./widgetGood'),
-    widgetCopy : require('./widgetCopy'),
+    widgetGood: require('./widgetGood'),
+    widgetCopy: require('./widgetCopy'),
     widgetLamin: require('./widgetLamin'),
-    widgetService: require('./widgetService')
-  }
+    widgetService: require('./widgetService'),
+    widgetDocument: require('./widgetDocument'),
+  },
 }
 </script>
 
@@ -54,10 +56,10 @@ export default {
     position: relative
 
     & + .widget_wrap
-        margin-top: 20px
+      margin-top: 20px
 
     & > *
-        height: 100%
+      height: 100%
 
     & .name
       padding: 15px 0
@@ -98,5 +100,11 @@ export default {
 
         & .icon
           fill: #fff
+
+.widgets_bar
+  overflow-y: auto
+  height: 450px
+  padding: 10px
+  margin: -10px
 
 </style>

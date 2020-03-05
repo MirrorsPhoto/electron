@@ -32,7 +32,7 @@
 
     </div>
 
-    <button type="submit"><icon name="chevron"></icon></button>
+    <button type="submit" :disabled="!photoData.length"><icon name="chevron"></icon></button>
   </form>
 </template>
 

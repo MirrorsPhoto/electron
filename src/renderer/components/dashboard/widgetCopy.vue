@@ -19,7 +19,7 @@
 
     </div>
 
-    <button type="submit"><icon name="chevron"></icon></button>
+    <button type="submit" :disabled="!price"><icon name="chevron"></icon></button>
   </form>
 </template>
 <script>

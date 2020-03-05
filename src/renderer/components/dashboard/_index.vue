@@ -93,7 +93,10 @@ export default {
         fill: $hard
         cursor: pointer
 
-      &:hover
+      &:disabled .icon
+        cursor: not-allowed
+
+      &:hover:not(:disabled)
         background: $red
 
         & .icon

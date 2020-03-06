@@ -37,6 +37,12 @@ const initialState = {
         icon: 'service',
         color: '#8860d0'
       },
+      document: {
+        name: 'Документ',
+        val: 0,
+        icon: 'passport',
+        color: '#EC407A'
+      },
       lamination: {
         name: 'Ламинация',
         val: 0,

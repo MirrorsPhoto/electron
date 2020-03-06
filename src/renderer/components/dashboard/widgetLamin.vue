@@ -1,5 +1,5 @@
 <template>
-  <form ref="widget" class="widget_wrap" :class="{ 'widget_wrap--disabled': true }" @submit.prevent="submit()">
+  <form ref="widget" class="widget_wrap" :class="{ 'widget_wrap--disabled': !variations.length }" @submit.prevent="submit()">
 
     <div class="name">
       <icon name="lamination"></icon>

@@ -1,5 +1,5 @@
 <template>
-  <form ref="widget" class="widget_wrap" @submit.prevent="submit()">
+  <form ref="widget" class="widget_wrap" :class="{ 'widget_wrap--disabled': !price }" @submit.prevent="submit()">
 
     <div class="name">
       <icon name="copy"></icon>
@@ -19,7 +19,7 @@
 
     </div>
 
-    <button type="submit" :disabled="!price"><icon name="chevron"></icon></button>
+    <button type="submit"><icon name="chevron"></icon></button>
   </form>
 </template>
 <script>

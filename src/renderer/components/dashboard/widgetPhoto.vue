@@ -1,5 +1,5 @@
 <template>
-  <form ref="widget" class="widget_wrap" @submit.prevent="submit()">
+  <form ref="widget" class="widget_wrap" :class="{ 'widget_wrap--disabled': !photoData.length }" @submit.prevent="submit()">
 
     <div class="name">
       <icon name="photo"></icon>
@@ -32,7 +32,7 @@
 
     </div>
 
-    <button type="submit" :disabled="!photoData.length"><icon name="chevron"></icon></button>
+    <button type="submit"><icon name="chevron"></icon></button>
   </form>
 </template>
 

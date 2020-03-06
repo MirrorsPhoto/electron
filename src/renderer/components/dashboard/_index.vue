@@ -53,6 +53,16 @@ export default {
     justify-content: space-between
     position: relative
 
+    &.widget_wrap--disabled:before
+      content: ''
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      bottom: 0
+      cursor: not-allowed
+      z-index: 2
+
     & + .widget_wrap
         margin-top: 20px
 
@@ -93,10 +103,7 @@ export default {
         fill: $hard
         cursor: pointer
 
-      &:disabled .icon
-        cursor: not-allowed
-
-      &:hover:not(:disabled)
+      &:hover
         background: $red
 
         & .icon

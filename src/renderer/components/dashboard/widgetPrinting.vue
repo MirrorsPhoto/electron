@@ -1,5 +1,5 @@
 <template>
-  <form ref="widget" class="widget_wrap" :class="{ 'widget_wrap--disabled': !variations.length }" @submit.prevent="submit()">
+  <form ref="widget" class="widget_wrap" @submit.prevent="submit()">
 
     <div class="name">
       <icon name="lamination"></icon>
@@ -16,7 +16,9 @@
         v-model="selectedFormat"
       ></field-select>
 
-      <count :count.sync="copies"></count>
+      <input type="checkbox" v-model="color">Цвет
+      <input type="checkbox" v-model="photo">Фото
+      <input type="checkbox" v-model="ext">Внешне
 
     </div>
 
@@ -27,11 +29,14 @@
 export default {
   data() {
     return {
-      title: 'Ламинация',
-      type: 'lamination',
+      title: 'Печать',
+      type: 'printing',
       variations: [],
       selectedFormat: '',
-      copies: 1
+      copies: 1,
+      color: false,
+      photo: false,
+      ext: false
     }
   },
   computed: {
@@ -64,7 +69,7 @@ export default {
   },
   created() {
     // Получаем форматы ламинации и их цены
-    this.$http.get('lamination/size')
+    this.$http.get('printing')
       .then(({ data }) => this.variations = data.response)
       .catch(err => console.error(err))
   },

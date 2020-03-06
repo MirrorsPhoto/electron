@@ -14,26 +14,43 @@ export default {
   data() {
     return {
       page: '',
-      socket: null
+      socket: null,
+      token: null
     }
   },
   methods: {
     logIn(token) {
+      this.token = token
       this.$store.commit('initState')
       this.$store.commit('initUser', jwtDecode(token))
       this.page = 'index'
+      this.connectWS()
 
-      // Обновляем суммы позиций и кол-во клиетов
-      this.socket = new WebSocket(`${config.url.socket}?token=${token}`)
-      this.socket.onopen = () => this.$http.get('/socket/update')
-      this.socket.onmessage = ({ data }) => this.$store.commit('addSale', JSON.parse(data))
-      this.socket.onerror = err => console.error(err)
+      window.addEventListener('online',  this.connectWS)
+      window.addEventListener('offline', this.disconnectWS)
     },
     logOut() {
       localStorage.removeItem('token')
+      this.token = null
       this.page = 'auth'
-      if (this.socket !== null) this.socket.close()
-    }
+      this.disconnectWS()
+      window.removeEventListener('online',  this.connectWS)
+      window.removeEventListener('offline', this.disconnectWS)
+    },
+    connectWS() {
+      if (!this.socket) {
+        this.socket = new WebSocket(`${config.url.socket}?token=${this.token}`)
+        this.socket.onopen = () => this.$http.get('/socket/update')
+        this.socket.onmessage = ({ data }) => this.$store.commit('addSale', JSON.parse(data))
+        this.socket.onerror = console.error
+      }
+    },
+    disconnectWS() {
+      if (this.socket) {
+        this.socket.close()
+        this.socket = null
+      }
+    },
   },
   created() {
 

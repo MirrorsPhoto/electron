@@ -50,7 +50,7 @@
     }
   },
   "dependencies": {
-    "axios": "0.17.0",
+    "axios": "0.18.1",
     "countup.js": "^1.9.2",
     "jwt-decode": "^2.2.0",
     "online-js": "^1.0.2",

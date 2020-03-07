@@ -15,10 +15,14 @@ jobs:
         with:
           node-version: 12
 
+      - name: Configure app
+        run: cp ./src/renderer/config/example.js ./src/renderer/config/index.js
+
       - name: Prepare for app notarization (macOS)
         run: |
           mkdir -p ~/private_keys/
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+          
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:

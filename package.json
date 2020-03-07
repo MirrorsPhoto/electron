@@ -1,6 +1,6 @@
 {
   "name": "MirrorsPhoto",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "author": "jonkofee <jonkofee@icloud.com>, klimash <andrey.klimash@gmail.com>",
   "description": "Vue.js SPA for Mirror's Photo",
   "license": null,
@@ -53,6 +53,9 @@
       "entitlementsInherit": "build/entitlements.mas.plist",
       "type": "distribution",
       "category": "public.app-category.business"
+    },
+    "publish": {
+      "releaseType": "release"
     }
   },
   "dependencies": {

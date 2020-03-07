@@ -22,10 +22,6 @@ jobs:
       - name: Configure app
         run: cp ./src/renderer/config/example.js ./src/renderer/config/index.js
 
-      - name: test altool
-        if: startsWith(matrix.os, 'macos')
-        run: xcrun altool
-
       - name: Prepare for app notarization (macOS)
         if: startsWith(matrix.os, 'macos')
         # Import Apple API key for app notarization on macOS
@@ -51,3 +47,7 @@ jobs:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+
+      - name: test
+        if: startsWith(matrix.os, 'macos')
+        run: ls app/mas

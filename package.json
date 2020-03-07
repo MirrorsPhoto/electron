@@ -1,6 +1,6 @@
 {
   "name": "MirrorsPhoto",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "author": "jonkofee <jonkofee@icloud.com>, klimash <andrey.klimash@gmail.com>",
   "description": "Vue.js SPA for Mirror's Photo",
   "license": null,
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack",
-    "build": "rimraf ./dist && webpack && electron-builder",
+    "build": "rimraf ./dist && webpack",
     "release": "rimraf ./app && bash build/sign.sh"
   },
   "build": {

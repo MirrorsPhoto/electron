@@ -16,6 +16,7 @@
   },
   "build": {
     "productName": "Mirrors Photo",
+    "artifactName": "${name}.${ext}",
     "afterSign": "electron-builder-notarize",
     "appId": "com.mirrors.mac.new",
     "directories": {

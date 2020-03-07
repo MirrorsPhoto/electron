@@ -1,6 +1,6 @@
 export default {
   url: {
-    api: 'http://api.mirrors-photo.local:420',
-    socket: 'ws://api.mirrors-photo.local:8888'
+    api: 'http://api.mirrors-photo.ru',
+    socket: 'ws://api.mirrors-photo.ru:8000'
   }
 }

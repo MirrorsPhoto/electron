@@ -55,6 +55,7 @@
       "category": "public.app-category.business"
     },
     "publish": {
+      "provider": "github",
       "releaseType": "release"
     }
   },

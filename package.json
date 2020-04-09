@@ -23,8 +23,7 @@
       "output": "app"
     },
     "target": [
-      "mas",
-      "mac"
+      "mas"
     ],
     "files": [
       "dist/**/*",
